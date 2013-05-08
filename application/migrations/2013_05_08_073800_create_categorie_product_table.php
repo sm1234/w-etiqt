@@ -9,12 +9,12 @@ class Create_Categorie_Product_Table {
 	 */
 	public function up()
 	{
-		Schema::table('categorie_product', function($table)
+		Schema::table('category_product', function($table)
 			{
 				$table->create();
 				$table->increments('id');
 				$table->integer('product_id')->unsigned();			
-				$table->integer('categorie_id')->unsigned();			
+				$table->integer('category_id')->unsigned();			
 				$table->timestamps();
 			});
 	}
@@ -26,7 +26,7 @@ class Create_Categorie_Product_Table {
 	 */
 	public function down()
 	{
-		Schema::drop('categorie_product');
+		Schema::drop('category_product');
 	}
 
 }

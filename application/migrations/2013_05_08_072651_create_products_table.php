@@ -14,10 +14,10 @@ class Create_Products_Table {
 				$table->create();
 				$table->increments('id');
 				$table->string('name');
-				$table->text('tagline');
-				$table->text('description');
-				$table->string('location');
-				$table->float('price');
+				$table->text('tagline')->nullable();
+				$table->text('description')->nullable();
+				$table->string('location')->nullable();
+				$table->float('price')->nullable();
 				$table->timestamps();
 			});
 	}

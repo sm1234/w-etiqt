@@ -9,5 +9,9 @@ public function stores()
 {
 	return $this->has_many_and_belongs_to('Store');
 }
+public function tags()
+{
+	return $this->has_many_and_belongs_to('Tag');
+}
 }
 ?>

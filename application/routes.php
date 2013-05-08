@@ -31,6 +31,56 @@
 |		});
 |
 */
+Route::get('createUser', function()
+{
+	$user=new User();
+	$user->email='sm@em.com';
+	$user->password='smem';
+
+
+	$user->save();
+
+
+	return "new user created";
+});
+
+
+Route::get('createStore', function()
+{
+	$store=new Store();
+
+	$store->name = 'Santa';
+	
+	$user=User::find(1);
+	$store->user_id = $user->id;
+	$store->save();
+	
+
+	return "new Store created";
+});
+
+
+Route::get('createTag', function()
+{
+	$tag=new Tag();
+
+	$tag->description = 'First Tag';
+
+	$tag->save();
+
+	return "new Tag created";
+});
+
+Route::get('createCategory', function()
+{
+	$cat=new Category();
+
+	$cat->description = 'First Category';
+
+	$cat->save();
+
+	return "new Category created";
+});
 
 Route::get('createProduct', function()
 {
@@ -44,7 +94,9 @@ Route::get('createProduct', function()
 	
 	$prod->categories()->attach($category->id);
 	
-	$category->save();
+	$tag = Tag::find(1);
+	
+	$prod->tags()->attach($tag->id);
 	
 	
 	

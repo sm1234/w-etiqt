@@ -15,10 +15,10 @@ class Create_Stores_Table {
 				$table->increments('id');
 				$table->integer('user_id')->unsigned();
 				$table->string('name');
-				$table->text('tagline');
-				$table->text('description');
-				$table->string('location');
-				$table->boolean('status');
+				$table->text('tagline')->nullable();
+				$table->text('description')->nullable();
+				$table->string('location')->nullable();
+				$table->boolean('status')->default(true);
 				$table->timestamps();
 			});
 	}

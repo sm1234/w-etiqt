@@ -1,7 +1,5 @@
 <?php
 
-use Laravel\Database\Schema;
-
 class Create_Product_Tag_Table {
 
 	/**

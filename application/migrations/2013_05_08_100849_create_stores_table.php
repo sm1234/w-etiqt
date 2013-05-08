@@ -18,7 +18,7 @@ class Create_Stores_Table {
 				$table->text('tagline');
 				$table->text('description');
 				$table->string('location');
-				$table->string('status',50);
+				$table->boolean('status');
 				$table->timestamps();
 			});
 	}

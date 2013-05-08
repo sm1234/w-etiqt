@@ -13,7 +13,7 @@ class Create_User_Types_Table {
 		{
 			$table->create();
 			$table->increments('id');
-			$tabe->string('description',100);
+			$table->string('description',100);
 			$table->timestamps();
 		});
 	}

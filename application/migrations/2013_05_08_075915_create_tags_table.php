@@ -1,6 +1,6 @@
 <?php
 
-class Create_Tags {
+class Create_Tags_Table {
 
 	/*Create the tags table*/
 	public function up()

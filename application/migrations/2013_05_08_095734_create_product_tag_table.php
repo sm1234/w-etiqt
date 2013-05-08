@@ -11,7 +11,7 @@ class Create_Product_Tag_Table {
 	 */
 	public function up()
 	{
-		Schema::create('product_tag', function($table){
+		Schema::table('product_tag', function($table){
 			$table->create();
 			$table->increments('id');
 			$table->integer('product_id')->unsigned();

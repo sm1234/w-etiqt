@@ -3,7 +3,7 @@
 class Create_Users_Table {
 
 	/**
-	 * Make changes to the database.
+	 * Create a new table: Users
 	 *
 	 * @return void
 	 */

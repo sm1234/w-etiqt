@@ -32,6 +32,26 @@
 |
 */
 
+Route::get('createProduct', function()
+{
+	$prod = new Product();
+	
+	$prod->name = 'desi ghee';
+	
+	$prod->save();
+	
+	$category = Category::find(1); 
+	
+	$prod->categories()->attach($category->id);
+	
+	$category->save();
+	
+	
+	
+	return "new Product and category created";
+});
+
+
 Route::get('/', function()
 {
 	return View::make('home.index');

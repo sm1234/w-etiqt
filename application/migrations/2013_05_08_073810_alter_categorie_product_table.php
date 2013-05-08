@@ -9,10 +9,10 @@ class Alter_Categorie_Product_Table {
 	 */
 	public function up()
 	{
-		Schema::table('categorie_product', function($table)
+		Schema::table('category_product', function($table)
 			{
 				$table->foreign('product_id')->references('id')->on('products');			
-				$table->foreign('categorie_id')->references('id')->on('categories');			
+				$table->foreign('category_id')->references('id')->on('categories');			
 			});
 	}
 
@@ -23,10 +23,10 @@ class Alter_Categorie_Product_Table {
 	 */
 	public function down()
 	{
-		Schema::table('categorie_product', function($table)
+		Schema::table('category_product', function($table)
 		{
-			$table->drop_foreign('categorie_product_product_id_foreign');
-			$table->drop_foreign('categorie_product_categorie_id_foreign');
+			$table->drop_foreign('category_product_product_id_foreign');
+			$table->drop_foreign('category_product_category_id_foreign');
 		});
 	}
 

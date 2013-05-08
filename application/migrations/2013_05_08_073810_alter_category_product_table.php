@@ -1,6 +1,6 @@
 <?php
 
-class Alter_Categorie_Product_Table {
+class Alter_Category_Product_Table {
 
 	/**
 	 * Make changes to the database.

@@ -139,7 +139,10 @@ Route::get('createPromotion',function()
 	$proSto=Productstore::find(1);
 	$prom->product_stores()->attach($proSto->id,array('promotion_value'=>50));
 	
-	return "New promotion created and linked to STORE PRODUCT";
+	$eventPro=Productevent::find(1);
+	$prom->event_products()->attach($eventPro->id,array('promotion_value'=>70));
+	
+	return "New promotion created and linked to STORE PRODUCT and EVENT PRODUCT";
 });
 /*****************************Above this Jayant**************************/
 /*Test the creation of new image*/

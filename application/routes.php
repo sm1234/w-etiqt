@@ -100,9 +100,11 @@ Route::get('createProduct', function()
 	
 	$prod->tags()->attach($tag->id);
 	
+	$store=Store::find(1);
+	$prod->stores()->attach($store->id);
 	
 	
-	return "new Product and category created";
+	return "new Product created";
 });
 
 Route::get('createUserType',function()
@@ -114,6 +116,31 @@ Route::get('createUserType',function()
 	return "new user type created";
 });
 
+Route::get('createEvent',function()
+{
+	$event= new Event();
+	$event->name='The Event';
+	
+	$store=Store::find(1);
+	$event->store_id=$store->id;
+	$event->save();
+	
+	$prod=Product::find(1);
+	$event->products()->attach($prod->id);
+	
+	return "new user type created";
+});
+
+Route::get('createPromotion',function()
+{
+	$prom = new Promotion();
+	$prom->description = 'SALE';
+	$prom->save();
+	$proSto=Productstore::find(1);
+	$prom->product_stores()->attach($proSto->id,array('promotion_value'=>50));
+	
+	return "New promotion created and linked to STORE PRODUCT";
+});
 /*****************************Above this Jayant**************************/
 
 

@@ -265,6 +265,14 @@ Route::get('associateProductWithEvent',function(){
 		
 		
 	});
+	
+		Route::get('getProductStorePromotionPivot',function(){
+			
+		return Store::find(1)->products()->pivot()->first()->id;
+		
+		
+		
+		});
 
 /*****************************Above this Saurabh**************************/
 

@@ -266,10 +266,24 @@ Route::get('associateProductWithEvent',function(){
 		Route::get('getProductStorePromotionPivot',function(){
 			
 		return Store::find(1)->products()->pivot()->first()->id;
-		
-		
-		
+			
 		});
+		
+		Route::get('createNewUser',function(){
+					
+				User::create(array('name'=>'champu','email'=>'champu@sampu.com','user_type_id'=>'1'));
+				return "created a new user";
+					
+		});		
+		
+			Route::get('updateChampuData',function(){
+					
+				$userData = User::where('name','=','champu')->first();
+				$userData->email = 'abc1@def.com';
+				$userData->save();
+				return "updated champu";
+					
+			});
 
 /*****************************Above this Saurabh**************************/
 

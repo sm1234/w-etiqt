@@ -118,17 +118,17 @@ Route::get('createUserType',function()
 
 Route::get('createEvent',function()
 {
-	$event= new Event();
+	$event= new Tblevent();
 	$event->name='The Event';
 	
-	$store=Store::find(1);
-	$event->store_id=$store->id;
+	$user=User::find(1);
+	$event->user_id=$user->id;
 	$event->save();
 	
 	$prod=Product::find(1);
 	$event->products()->attach($prod->id);
 	
-	return "new user type created";
+	return "new Event created";
 });
 
 Route::get('createPromotion',function()
@@ -200,7 +200,7 @@ Route::get('associateUserWithUserType',function(){
 		return "user associated with userType";
 	});
 
-	Route::get('createUserType',function(){
+/*	Route::get('createUserType',function(){
 		
 		$usertype=new User_type();
 		$usertype->description="member";
@@ -211,7 +211,7 @@ Route::get('associateUserWithUserType',function(){
 		return "user associated with userType";
 	});
 
-
+*/
 	/*test the association of user and event*/
 
 Route::get('associateUserWithEvent',function(){

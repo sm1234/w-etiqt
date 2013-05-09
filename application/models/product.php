@@ -23,7 +23,7 @@ public function images()
 }
 public function event()
 {
-	return $this->has_many_and_belongs_to('Event');
+	return $this->has_many_and_belongs_to('Tblevent','event_product','event_id','product_id');
 
 }
 }

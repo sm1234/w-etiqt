@@ -13,12 +13,18 @@ public function tags()
 {
 	return $this->has_many_and_belongs_to('Tag');
 }
+
 /*
  * A product can have multiple images and thus has a has_many relation with ImageProduct
  * */
 public function images()
 {
 	return $this->has_many_and_belongs_to('Image');
+}
+public function event()
+{
+	return $this->has_many_and_belongs_to('Event');
+
 }
 }
 ?>

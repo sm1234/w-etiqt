@@ -11,7 +11,8 @@ class Alter_Event_Product_Table {
 	{
 		Schema::table('event_product', function($table)
 			{
-				$table->foreign('product_id')->references('id')->on('products');			
+				$table->foreign('product_id')->references('id')->on('products');
+				$table->foreign('event_id')->references('id')->on('events');			
 			});
 	}
 
@@ -25,6 +26,7 @@ class Alter_Event_Product_Table {
 		Schema::table('event_product', function($table)
 			{
 				$table->drop_foreign('event_product_product_id_foreign');			
+				$table->drop_foreign('event_product_event_id_foreign');
 			});
 	}
 

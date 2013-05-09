@@ -4,9 +4,9 @@
  * */
 class User extends Eloquent
 {
-	public function user_type()
+	public function usertype()
 	{
-		return $this->has_many_and_belongs_to('Usertype');
+		return $this->belongs_to('Usertype');
 	}
 	
 	/*returns the images associated with the user

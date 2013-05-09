@@ -28,7 +28,7 @@ class User extends Eloquent
 	
 	public function Events()
 	{
-		return $this->has_many('Tblevent');
+		return $this->has_many('Tblevent','user_id');
 	}
 }
 ?>

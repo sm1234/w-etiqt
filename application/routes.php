@@ -215,8 +215,8 @@ Route::get('associateUserWithUserType',function(){
 	/*test the association of user and event*/
 
 Route::get('associateUserWithEvent',function(){
-	$user=User::find(1);
-	$event = new Tblevent();
+	$user=User::find(2);
+	$event = Tblevent::find(1);
 	$event->name="champ elysee";
 	$event->user_id=$user->id;
 	$event->save();
@@ -227,7 +227,7 @@ Route::get('associateUserWithEvent',function(){
 });
 
 Route::get('associateUserWithEvent_2',function(){
-		$user=User::find(1);
+		$user=User::find(2);
 		$event = new Tblevent();
 		$event->name="champ elysee2";
 		
@@ -240,10 +240,28 @@ Route::get('associateUserWithEvent_2',function(){
 
 Route::get('associateProductWithEvent',function(){
 	$prod = Product::find(1);
+	$prod2 = Product::find(2);
+	$prod3 = Product::find(3);
+	$prod4 = Product::find(4);
 	$event = Tblevent::find(1);
 	$event->Products()->attach($prod);
+	$event->Products()->attach($prod2);
+	$event->Products()->attach($prod3);
+	$event->Products()->attach($prod4);
 	
+	return "Added";
 });
+
+	Route::get('associatePromotionWithEventProducts',function(){
+//fetch the products associated with an event
+		$eventProduct = Productevent::where('event_id','=',1)->first();
+		$Promotion = Promotion::where('description','=','sale')->first();
+
+		$eventProductPromotion = $eventProduct->Promotion()->attach($Promotion,array('promotion_value'=>50));
+		
+		
+		
+	});
 
 /*****************************Above this Saurabh**************************/
 

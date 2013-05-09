@@ -12,7 +12,7 @@ public function User()
 
 public function Products()
 {
-	return $this->has_many_and_belongs_to('Product','event_product');
+	return $this->has_many_and_belongs_to('Product','event_product','event_id','product_id');
 }
 
 }

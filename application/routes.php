@@ -37,9 +37,11 @@ Route::get('createUser', function()
 	$user->email='sm@em.com';
 	$user->password='smem';
 
-
+	
+	$type=Usertype::find(1);
+	$user->user_type_id = $type->id;
+	
 	$user->save();
-
 
 	return "new user created";
 });
@@ -101,6 +103,15 @@ Route::get('createProduct', function()
 	
 	
 	return "new Product and category created";
+});
+
+Route::get('createUserType',function()
+{
+	$type= new Usertype();
+	$type->description='ADMIN';
+	$type->save();
+	
+	return "new user type created";
 });
 
 /*****************************Above this Jayant**************************/

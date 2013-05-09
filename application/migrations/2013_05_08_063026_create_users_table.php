@@ -16,6 +16,7 @@ class Create_Users_Table {
 				$table->string('name',100)->nullable();
 				$table->string('email',100)->unique();
 				$table->string('password');
+				$table->integer('user_type_id')->unsigned();
 				$table->boolean('status')->default(true);
 				$table->timestamps();
 			});

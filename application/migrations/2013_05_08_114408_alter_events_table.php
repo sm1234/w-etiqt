@@ -11,7 +11,7 @@ class Alter_Events_Table {
 	{
 		Schema::table('events', function($table)
 		{
-				$table->foreign('store_id')->references('id')->on('stores');						
+				$table->foreign('user_id')->references('id')->on('users');						
 		});
 	}
 
@@ -24,7 +24,7 @@ class Alter_Events_Table {
 	{
 		Schema::table('events', function($table)
 		{
-			$table->drop_foreign('events_store_id_foreign');
+			$table->drop_foreign('events_user_id_foreign');
 		});
 		
 	}

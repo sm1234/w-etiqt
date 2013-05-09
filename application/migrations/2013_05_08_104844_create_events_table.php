@@ -15,9 +15,11 @@ class Create_Events_Table {
 			$table->create();
 			$table->increments('id');
 			$table->string('name');
-			$table->integer('store_id')->unsigned();
+			$table->string('tagline')->nullable();
+			$table->string('description')->nullable();						
+			$table->integer('user_id')->unsigned();
 			$table->string('location')->nullable();
-			$table->boolean('status');
+			$table->boolean('status')->default(true);
 			$table->timestamp('start_date')->nullable();
 			$table->timestamp('end_date')->nullable();
 			$table->timestamps();

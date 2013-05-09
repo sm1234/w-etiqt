@@ -104,7 +104,108 @@ Route::get('createProduct', function()
 });
 
 /*****************************Above this Jayant**************************/
+/*Test the creation of new image*/
+Route::get('createImage',function(){
+	$image = new Image();
+	
+	$image->url="AWS S3 address";
+	$image->save();
+	return "new image created and saved";
+});
 
+	/*Test the creation of new user image*/
+Route::get('associateUserWithImage',function(){
+	$user = User::find(1);
+	$image = Image::find(1);
+	
+	$user->images()->attach($image->id);
+		
+	return "user 1 associated with image 1";
+});
+
+Route::get('fetchUserImage',function(){
+	$User=User::find(1);
+	return $User->images()->first()->url;
+});
+
+	/*Test the creation of new user image*/
+Route::get('associateProductWithImage',function(){
+		$prod = Product::find(1);
+		$image = Image::find(1);
+	
+		$prod->images()->attach($image->id);
+	
+		return "prod 1 associated with image 1";
+	});
+
+/*test the association of user and product*/
+Route::get('associateUserWithProduct',function(){
+	$user=User::find(1);
+	$prod=Product::find(1);
+	$prod2=Product::find(2);
+	
+	$user->products()->attach($prod->id);
+	$user->products()->attach($prod2->id);
+	
+	return "seller with id 1 associated with two products";
+});
+
+	/*test the association of user and product*/
+Route::get('associateUserWithUserType',function(){
+		$user=User::find(1);
+		$usertype=Usertype::find(1);
+		
+	
+		$user->user_type()->attach($usertype->id);
+		
+	
+		return "user associated with userType";
+	});
+
+	Route::get('createUserType',function(){
+		
+		$usertype=new User_type();
+		$usertype->description="member";
+	
+		$usertype->save();
+	
+	
+		return "user associated with userType";
+	});
+
+
+	/*test the association of user and event*/
+
+Route::get('associateUserWithEvent',function(){
+	$user=User::find(1);
+	$event = new Tblevent();
+	$event->name="champ elysee";
+	$event->user_id=$user->id;
+	$event->save();
+	
+	return "created a new event with user 1";
+	
+	
+});
+
+Route::get('associateUserWithEvent_2',function(){
+		$user=User::find(1);
+		$event = new Tblevent();
+		$event->name="champ elysee2";
+		
+		$user->Events()->insert($event);
+		
+		return "created a new event with user 1";
+	
+	
+	});
+
+Route::get('associateProductWithEvent',function(){
+	$prod = Product::find(1);
+	$event = Tblevent::find(1);
+	$event->Products()->attach($prod);
+	
+});
 
 /*****************************Above this Saurabh**************************/
 

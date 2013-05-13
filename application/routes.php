@@ -306,7 +306,7 @@ Route::get('associatePromotionWithEventProducts',function(){
 			
 	Route::get('addProduct', function()
 	{
-		return View::make('home.addProduct');
+		return View::make('admin.default')->with('title','etiqt homepage');
 	});			
 
 /*****************************Above this Saurabh**************************/
@@ -314,7 +314,7 @@ Route::get('associatePromotionWithEventProducts',function(){
 
 Route::get('/', function()
 {
-	return View::make('home.root');
+	return View::make('home.default')->with('title','etiqt homepage');
 });
 
 

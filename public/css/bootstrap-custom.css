@@ -127,6 +127,25 @@
 	color: rgb(255, 255, 255);
 }
 
+#aAddProduct
+{
+	color: #888;
+}
+
+#aAddProduct:hover
+{
+	color: rgb(180, 26, 28);
+	text-decoration: none;
+	cursor: pointer;
+}
+
+
+div.fieldline
+{	
+	margin-bottom:10px;	
+}
+
+
 @media screen and (min-width:960px)
 {
 	

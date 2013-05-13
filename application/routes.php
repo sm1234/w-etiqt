@@ -303,6 +303,11 @@ Route::get('associatePromotionWithEventProducts',function(){
 					
 			});
 
+			
+	Route::get('addProduct', function()
+	{
+		return View::make('home.addProduct');
+	});			
 
 /*****************************Above this Saurabh**************************/
 

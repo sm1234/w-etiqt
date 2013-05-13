@@ -23,9 +23,9 @@ public function images()
 {
 	return $this->has_many_and_belongs_to('Image');
 }
-public function event()
+public function events()
 {
-	return $this->has_many_and_belongs_to('Tblevent','event_product','event_id','product_id');
+	return $this->has_many_and_belongs_to('Tblevent','event_product','product_id','event_id');
 
 }
 }

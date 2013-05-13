@@ -119,14 +119,15 @@ Route::get('createUserType',function()
 Route::get('createEvent',function()
 {
 	$event= new Tblevent();
-	$event->name='The Event';
+	$event->name='The Event3';
 	
 	$user=User::find(1);
 	$event->user_id=$user->id;
 	$event->save();
 	
 	$prod=Product::find(1);
-	$event->products()->attach($prod->id);
+	//$event->products()->attach($prod->id);
+	$prod->events()->attach($event->id);
 	
 	return "new Event created";
 });

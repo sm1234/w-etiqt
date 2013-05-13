@@ -147,6 +147,12 @@ Route::get('createPromotion',function()
 	
 	return "New promotion created and linked to STORE PRODUCT and EVENT PRODUCT";
 });
+
+Route::get('productTile', function()
+{
+	return View::make('home.productTile');
+});
+
 /*****************************Above this Jayant**************************/
 /*Test the creation of new image*/
 Route::get('createImage',function(){
@@ -305,6 +311,7 @@ Route::get('/', function()
 {
 	return View::make('home.root');
 });
+
 
 /*
 |--------------------------------------------------------------------------

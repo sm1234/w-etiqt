@@ -10,14 +10,14 @@ public static $table="event_product";
  * */
 public function event()
 {
-	return $this->belongs_to('Tblevent','events','event_id');
+	return $this->belongs_to('Tblevent','event_id');
 }
 /*
  * This fetches the information related to the product
 * */
 public function product()
 {
-	return $this->belongs_to('Product','products','product_id');
+	return $this->belongs_to('Product','product_id');
 }
 /*
  * This fetches the information related to any promotion associated with this product at this event

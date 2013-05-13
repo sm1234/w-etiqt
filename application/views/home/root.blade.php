@@ -54,8 +54,13 @@
               <div class="vertical-divider"></div>              
             </ul>
             <ul class="nav pull-right">
+            <div class="vertical-divider"></div>
             <li>
-            <a href="#" class="navbar-anchor"><i class="icon-group icon-2x"></i>About Us</a>
+            <a href="#" class="navbar-anchor" style="padding: 20px 15px !important">Login</a>
+            </li>
+            <div class="vertical-divider"></div>
+            <li>
+            <a href="#" class="navbar-anchor" style="padding: 20px 15px !important">Sign up</a>
             </li>              
             </ul>            
           </div><!--/.nav-collapse -->

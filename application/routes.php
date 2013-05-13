@@ -257,7 +257,13 @@ Route::get('associateProductWithEvent',function(){
 	return "Added";
 });
 
-	Route::get('associatePromotionWithEventProducts',function(){
+Route::get('fetchProductStoreRelation',function(){
+	
+	$storeInfo =  Productstore::find(1)->product()->get();
+	return count($storeInfo);
+});
+
+Route::get('associatePromotionWithEventProducts',function(){
 //fetch the products associated with an event
 		$eventProduct = Productevent::where('event_id','=',1)->first();
 		$Promotion = Promotion::where('description','=','sale')->first();

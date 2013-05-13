@@ -11,7 +11,7 @@ class Tag extends Eloquent
 	/*
 	 * A tag can be associated with many products
 	 */	
-		return $this->has_many('Product','tag_id');
+		return $this->has_many_and_belongs_to('Product','product_tag','tag_id','product_id');
 	}
 }
 ?>

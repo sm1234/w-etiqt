@@ -11,14 +11,14 @@ class Productstore extends Eloquent
 	* */
 	public function store()
 	{
-		return $this->belongs_to('Store','stores','store_id');
+		return $this->belongs_to('Store','store_id');
 	}
 	/*
 	 * This fetches the information related to the product
 	* */
 	public function product()
 	{
-		return $this->belongs_to('Product','products','product_id');
+		return $this->belongs_to('Product','product_id');
 	}	
 	
 	/*

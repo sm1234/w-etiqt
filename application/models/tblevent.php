@@ -12,7 +12,7 @@ public function user()
 	 * Event is created by a user, so it belongs to some user
 	 * TODO : How to define the foriegn key explicitly in this case?
 	 */
-	return $this->belongs_to('User');
+	return $this->belongs_to('User','user_id');
 }
 
 public function products()

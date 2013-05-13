@@ -134,13 +134,15 @@ Route::get('createEvent',function()
 Route::get('createPromotion',function()
 {
 	$prom = new Promotion();
-	$prom->description = 'SALE';
+	$prom->description = 'Buy0Get1';
 	$prom->save();
 	$proSto=Productstore::find(1);
-	$prom->product_stores()->attach($proSto->id,array('promotion_value'=>50));
+	//$prom->productStores()->attach($proSto->id,array('promotion_value'=>100));
+	$proSto->promotion()->attach($prom->id,array('promotion_value'=>45));			
 	
 	$eventPro=Productevent::find(1);
-	$prom->event_products()->attach($eventPro->id,array('promotion_value'=>70));
+	//$prom->productEvents()->attach($eventPro->id,array('promotion_value'=>70));
+	$eventPro->promotion()->attach($prom->id,array('promotion_value'=>54));
 	
 	return "New promotion created and linked to STORE PRODUCT and EVENT PRODUCT";
 });
@@ -193,12 +195,13 @@ Route::get('associateUserWithProduct',function(){
 
 	/*test the association of user and product*/
 Route::get('associateUserWithUserType',function(){
-		$user=User::find(1);
-		$usertype=Usertype::find(1);
+		$user=User::find(4);
+		$usertype=Usertype::find(3);
 		
 	
-		$user->user_type()->attach($usertype->id);
+		$user->user_type_id = $usertype->id;
 		
+		$user->save();
 	
 		return "user associated with userType";
 	});
@@ -234,7 +237,7 @@ Route::get('associateUserWithEvent_2',function(){
 		$event = new Tblevent();
 		$event->name="champ elysee2";
 		
-		$user->Events()->insert($event);
+		$user->events()->insert($event);
 		
 		return "created a new event with user 1";
 	
@@ -245,12 +248,10 @@ Route::get('associateProductWithEvent',function(){
 	$prod = Product::find(1);
 	$prod2 = Product::find(2);
 	$prod3 = Product::find(3);
-	$prod4 = Product::find(4);
 	$event = Tblevent::find(1);
-	$event->Products()->attach($prod);
-	$event->Products()->attach($prod2);
-	$event->Products()->attach($prod3);
-	$event->Products()->attach($prod4);
+	$event->products()->attach($prod);
+	$event->products()->attach($prod2);
+	$event->products()->attach($prod3);
 	
 	return "Added";
 });
@@ -260,17 +261,15 @@ Route::get('associateProductWithEvent',function(){
 		$eventProduct = Productevent::where('event_id','=',1)->first();
 		$Promotion = Promotion::where('description','=','sale')->first();
 
-		$eventProductPromotion = $eventProduct->Promotion()->attach($Promotion,array('promotion_value'=>50));
+		$eventProductPromotion = $eventProduct->promotion()->attach($Promotion,array('promotion_value'=>50));
 		
 		
 		
 	});
 	
-		Route::get('getProductStorePromotionPivot',function(){
+	Route::get('getProductStorePromotionPivot',function(){
 			
-		return Store::find(1)->products()->pivot()->first()->id;
-		
-		
+		return Store::find(1)->products()->pivot()->first()->product_store_id;
 		
 		});
 

@@ -4,6 +4,8 @@
  * */
 class User extends Eloquent
 {
+	public static $table = 'users';
+	
 	public function usertype()
 	{
 		return $this->belongs_to('Usertype');
@@ -12,7 +14,7 @@ class User extends Eloquent
 	/*returns the images associated with the user
 	 * A user can have multiple images and hence return has_many relation
 	 * */
-	public function Images()
+	public function images()
 	{		
 		return $this->has_many_and_belongs_to('Image');
 	}
@@ -21,12 +23,12 @@ class User extends Eloquent
 	/*returns products associated with the user
 	 * A user can have multiple products and hence return has_many relation
 	* */	
-	public function Products()
+	public function products()
 	{
 		return $this->has_many_and_belongs_to('Product');
 	}
 	
-	public function Events()
+	public function events()
 	{
 		return $this->has_many('Tblevent','user_id');
 	}

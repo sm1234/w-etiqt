@@ -1,0 +1,153 @@
+.header-anchor
+{
+	color:red;
+}
+
+.navbar-anchor
+{
+	color:rgb(46,178,231) !important;
+	font-size:14px;
+	padding: 15px !important;
+}	
+
+.navbar-anchor:hover
+{
+	background: none repeat scroll 0% 0% rgba(0, 0, 0, 0.01);
+	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.07) inset;
+}	
+
+.c-overlay {
+	z-index: 10;
+	position: absolute;
+	background-color: rgba(0,0,0,0.3);
+	left: 50%;
+	top: 25%;
+}
+
+.c-home-container {
+	padding: 0px;
+	margin-top: 60px;
+}
+
+.productInfo
+{
+		padding-top:13px;
+		padding-bottom:12px;
+		font-size:12px;
+		display:block;
+		position:relative;
+		border-bottom:1px solid #f0f0f0;	
+}
+.boxes
+{
+	position:relative;	
+	overflow:hidden;
+	margin-bottom: 10px;
+}
+.promotionInfo
+{
+	bottom: 0px;
+	width:100%;
+	position:absolute;
+	background-color:rgba(0,0,0,0.5);			
+	color:#fff;			
+}
+
+.promotionInfo .wrapper
+{
+	padding:12px 15px 10px 13px;
+}
+
+.promotionInfo .wrapper .date
+{
+	float:right;
+}
+
+.promotionInfo .wrapper .title
+{	
+	float:left;
+	text-align:left;
+}
+
+.discount
+{
+		background-color:#c72a2a;
+		color:#fff;
+		padding:8px 38px 6px 38px;
+		font-size:14px;
+		font-weight:bold;
+		position:absolute;
+		top:13px;
+		left:-35px;
+		text-align:center;
+	
+}
+.rotate-45
+{
+ 
+		-moz-transform: rotate(-45deg);
+		-webkit-transform: rotate(-45deg);
+		-o-transform: rotate(-45deg);
+		-ms-transform: rotate(-45deg);
+		transform: rotate(-45deg);
+	
+}
+
+.c-thumbnail {
+	margin-bottom: 10px;
+	width: 100%;
+	text-align: center;
+	position: relative;
+	overflow: hidden;	
+}
+
+.c-buttons {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -50px;
+	margin-left: -35px;
+	border-radius: 3px 3px 3px 3px;
+	background-color: rgba(0,0,0,0.25);
+	
+}
+
+.c-buttons a {
+	width: 60px;
+	height: 45px;
+	line-height: 48px;
+	font-size: 22px;
+	display: inline-block;
+	color: rgb(240, 240, 240);
+	border-radius: 3px 3px 3px 3px;
+}
+.c-buttons a:hover {
+	text-decoration: none;
+	background-color: rgba(0, 0, 0, 0.75);
+	color: rgb(255, 255, 255);
+}
+
+@media screen and (min-width:960px)
+{
+	
+.vertical-divider
+{
+	float:left;
+	position:relative;
+	height:60px;
+	line-height:60px;
+	border-left:1px solid #e3e6ea;
+	-webkit-box-shadow:1px 0 0 rgba(255,255,255,0.1) inset;
+	-moz-box-shadow:1px 0 0 rgba(255,255,255,0.1) inset;
+	box-shadow:1px 0 0 rgba(255,255,255,0.1) inset;
+	font-weight:500
+}
+
+}
+
+@media screen and (max-width:480px)
+{
+.c-home-container {
+	display:none;
+}
+}

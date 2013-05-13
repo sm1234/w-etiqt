@@ -297,7 +297,7 @@ Route::get('associateProductWithEvent',function(){
 
 Route::get('/', function()
 {
-	return View::make('home.index');
+	return View::make('home.root');
 });
 
 /*

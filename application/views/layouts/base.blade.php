@@ -77,7 +77,7 @@
     @section('footer_script')    
     	{{ HTML::script('js/vendor/jquery-1.9.0.min.js') }}
     	{{ HTML::script('js/plugins.js') }}
-    	{{ HTML::script('main.js') }}
+    	{{ HTML::script('js/main.js') }}
     	{{ HTML::script('js/vendor/bootstrap.min.js') }}
 	@yield_section    	        
 	</body>

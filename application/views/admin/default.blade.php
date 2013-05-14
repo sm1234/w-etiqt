@@ -97,7 +97,7 @@
 			</div>																		
 			</div>
 			<div class="modal-footer">
-			<button class="btn btn-primary">Add product to etiqt</button>
+			<button class="btn btn-primary" id="btnAddProduct">Add product to etiqt</button>
 			</div>
 		</div>			
 			</div>
@@ -217,4 +217,8 @@
 		
 		
     </div>           
+@endsection
+@section('footer_script')
+@parent
+{{ HTML::script('js/admin_default.js') }}
 @endsection

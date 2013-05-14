@@ -346,7 +346,7 @@ Route::get('associatePromotionWithEventProducts',function(){
 	});
 
 
-Route::get('/products/(:any?)',array('as'=>'product_index','uses'=>'products@index'));
+Route::get('/products/(:any?)',array('uses'=>'products@index'));
 
 Route::controller('products');
 

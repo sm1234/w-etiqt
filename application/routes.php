@@ -153,6 +153,42 @@ Route::get('productTile', function()
 	return View::make('home.productTile');
 });
 
+//Creating new sections
+
+Route::get('createSections',function()
+{
+	$section = new Tblsection();
+	$section->description = "Upcoming Events";
+	$section->save();
+	$section = new Tblsection();
+	$section->description = "Featured Products";
+	$section->save();
+	
+	return "New Sections Created";
+});
+
+//Associate Products with Sections 
+Route::get('associateProductWithSection',function()
+{
+	$prod=Product::find(1);
+	$section=Tblsection::find(2);
+	
+	$prod->sections()->attach($section->id);
+	
+	return "Product Associated with a section";
+});
+
+//Associate Events with Sections
+Route::get('associateEventWithSection',function()
+{
+	$event=Tblevent::find(1);
+	$section=Tblsection::find(1);
+	
+	$event->sections()->attach($section->id);
+	
+	return "Event Associated with a section";
+});
+
 /*****************************Above this Jayant**************************/
 /*Test the creation of new image*/
 Route::get('createImage',function(){

@@ -28,5 +28,14 @@ public function products()
 	return $this->has_many_and_belongs_to('Product','event_product','event_id','product_id');
 }
 
+
+public function sections()
+{
+	/*
+ 	* An Event can belong to multiple sections and hence the need for a pivot table event_section
+	* */
+	return $this->has_many_and_belongs_to('Tblsection','event_section','event_id','section_id');
+}
+
 }
 ?>

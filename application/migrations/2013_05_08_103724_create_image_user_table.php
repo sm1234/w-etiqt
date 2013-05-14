@@ -14,6 +14,7 @@ class Create_Image_User_Table {
 			$table->increments('id');
 			$table->integer('image_id')->unsigned();
 			$table->integer('user_id')->unsigned();
+			$table->boolean('status')->default(true);
 			$table->timestamps();
 		});
 	}

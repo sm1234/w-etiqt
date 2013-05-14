@@ -16,6 +16,7 @@ class Create_Event_Product_Table {
 			$table->increments('id');
 			$table->integer('product_id')->unsigned();
 			$table->integer('event_id')->unsigned();
+			$table->boolean('status')->default(true);
 			$table->timestamps();
 		});
 	}

@@ -15,6 +15,7 @@ class Create_Event_Product_Promotion_Table {
 			$table->integer('event_product_id')->unsigned();
 			$table->integer('promotion_id')->unsigned();
 			$table->string('promotion_value',200);
+			$table->boolean('status')->default(true);
 			$table->timestamps();
 		});
 	}

@@ -33,9 +33,50 @@ class Products_Controller extends Base_Controller {
 		return "create a new product";
 	}
 
-	public function delete_index($id=null)
+/*
+ * This function Deletes a product and returns the Id of the deleted product
+ */
+	public function delete_index()
 	{
-		return "delete a given product";
+		/*
+		 * TODO:1.Use JSON data
+		 * 		2.Update status in the 'event_store_promotion' and 'product_store_promotion'
+		 */
+		try
+		{
+			$delId = Input::get('id');
+			$prod = Product::where_id($delId)->first();
+			$prod->status = 0;
+			
+			foreach($prod->events()->get() as $event)
+			{
+				$event->pivot->status = 0;
+				$event->pivot->save();
+			}
+			foreach($prod->stores()->get() as $store)
+			{
+				$store->pivot->status = 0;
+				$store->pivot->save();
+			}
+			foreach($prod->sections()->get() as $section)
+			{
+				$section->pivot->status = 0;
+				$section->pivot->save();
+			}
+			foreach($prod->users()->get() as $user)
+			{
+				$user->pivot->status = 0;
+				$user->pivot->save();
+			}
+			
+			$prod->save();
+			
+			return $delId;
+		}
+		catch(Exception $e)
+		{
+			return $e->getMessage();
+		}
 	}
 
 }

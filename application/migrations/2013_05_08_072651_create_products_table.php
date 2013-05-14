@@ -18,6 +18,7 @@ class Create_Products_Table {
 				$table->text('description')->nullable();
 				$table->string('location')->nullable();
 				$table->float('price')->nullable();
+				$table->boolean('status')->default(true);
 				$table->timestamps();
 			});
 	}

@@ -16,6 +16,7 @@ class Create_Product_Store_Promotion_Table {
 				$table->integer('product_store_id')->unsigned();
 				$table->integer('promotion_id')->unsigned();
 				$table->string('promotion_value');
+				$table->boolean('status')->default(true);
 				$table->timestamps();
 			});
 	}

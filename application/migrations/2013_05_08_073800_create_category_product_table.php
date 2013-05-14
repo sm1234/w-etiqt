@@ -14,7 +14,8 @@ class Create_Category_Product_Table {
 				$table->create();
 				$table->increments('id');
 				$table->integer('product_id')->unsigned();			
-				$table->integer('category_id')->unsigned();			
+				$table->integer('category_id')->unsigned();
+				$table->boolean('status')->default(true);			
 				$table->timestamps();
 			});
 	}

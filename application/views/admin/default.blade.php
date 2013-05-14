@@ -127,7 +127,7 @@
 								<a class="btn btn-info pull-right"><i class="icon-edit icon-large"></i>Edit</a>
 							</div>
 							<div class="span2" style="margin-left: 0">
-								<a class="btn btn-danger pull-right"><i class="icon-trash icon-large"></i>Remove</a>
+								<a class="btn btn-danger pull-right" id="btnRemoveProduct"><i class="icon-trash icon-large"></i>Remove</a>
 							</div>
 						</div>
 						</div>

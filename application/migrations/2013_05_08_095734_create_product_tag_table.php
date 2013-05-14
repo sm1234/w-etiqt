@@ -14,6 +14,7 @@ class Create_Product_Tag_Table {
 			$table->increments('id');
 			$table->integer('product_id')->unsigned();
 			$table->integer('tag_id')->unsigned();
+			$table->boolean('status')->default(true);
 			$table->timestamps();
 		});
 	}

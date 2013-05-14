@@ -14,6 +14,7 @@ class Create_Product_Section_Table {
 			$table->increments('id');
 			$table->integer('product_id')->unsigned();
 			$table->integer('section_id')->unsigned();
+			$table->boolean('status')->default(true);
 			$table->timestamps();
 			});
 	}

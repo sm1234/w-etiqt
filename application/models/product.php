@@ -51,5 +51,13 @@ public function sections()
 	return $this->has_many_and_belongs_to('Tblsection','product_section','product_id','section_id');
 }
 
+/*
+ * A product can belong to multiple users and hence the need for a pivot table product_user
+* */
+public function users()
+{
+	return $this->has_many_and_belongs_to('User','product_user','product_id','user_id');
+}
+
 }
 ?>

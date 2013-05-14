@@ -14,6 +14,7 @@ class Create_Event_Section_Table {
 			$table->increments('id');
 			$table->integer('event_id')->unsigned();
 			$table->integer('section_id')->unsigned();
+			$table->boolean('status')->default(true);
 			$table->timestamps();
 			});
 	}

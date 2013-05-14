@@ -343,7 +343,12 @@ Route::get('associatePromotionWithEventProducts',function(){
 	Route::get('addProduct', function()
 	{
 		return View::make('admin.default')->with('title','etiqt homepage');
-	});			
+	});
+
+
+Route::get('/products/(:any?)',array('as'=>'product_index','uses'=>'products@index'));
+
+Route::controller('products');
 
 /*****************************Above this Saurabh**************************/
 

@@ -1,5 +1,7 @@
 <?php
 
+use Laravel\Database\Eloquent\Model;
+
 class Products_Controller extends Base_Controller {
 
 	public function get_index($id = null)
@@ -15,22 +17,34 @@ class Products_Controller extends Base_Controller {
 
 		
 	}
-	
-	public function get_someInfo($name=null)
-	{
-		if(is_null($name)){return "someInfo";}
-		else {return $name;}
-		
-	} 
+
 	
 	public function put_index($id=null)
 	{
 		return "update a given product";
 	}
 	
+	/*this function is used for creating a new product and saving that in the DB*/
 	public function post_index()
 	{
-		return "create a new product";
+		$retVal=array("status"=>0,"message"=>"");
+		try
+		{
+			$input = Input::all();
+			$addProdStatus = json_decode(Product::addProduct($input));
+			
+			if($addProdStatus->{"status"}="-1")
+			{
+				throw new Exception($addProdStatus->{"message"});
+			}
+			
+		}
+		catch(Exception $ex)
+		{
+			$retVal["status"]=-1;
+			$retVal["message"]=$ex->getMessage();
+		}
+		return json_encode($retVal);
 	}
 
 /*

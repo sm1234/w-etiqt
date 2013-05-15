@@ -2,7 +2,42 @@ $(document).ready(
 function()
 {
 	$('#btnAddProduct').click(function(){
-		/*TODO:Complete the */
+		/*TODO:Complete the client side validation for all the mandatory fields*/
+		/*TODO: Complete the error handling here*/
+		/*TODO: invoke the POST method on controller Products to create a new product*/
+		try{
+			to_url = BASE+"/products";
+			
+			var _reqParams = {"name":"lekin main",
+					"categoryId":"4",
+					"description":"product description",
+					"tagline":"product tagline",
+					"location":"product location",
+					"price":"12.4",					
+					"ImageIds":"1~2~3"
+					};
+
+			var postReq = $.ajax({
+								url:to_url,
+								type:'POST',
+								data:_reqParams
+			});
+			
+			postReq.success(function(data){
+				resp = JSON.parse(data);
+				alert(resp.message);
+			});
+			
+			postReq.fail(function(data){
+				resp = JSON.parse(data);
+				alert(resp.message);
+			});			
+		}
+		catch(e)
+		{
+			throw e;
+		}
+
 	});
 	
 

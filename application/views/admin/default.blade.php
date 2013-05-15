@@ -220,5 +220,11 @@
 @endsection
 @section('footer_script')
 @parent
+<!-- 
+/*TODO: Check if this is the best way to refer to JS variable?*/
+-->
+<script>
+var BASE = "<?php echo URL::base(); ?>";/*Define the BASE URL*/
+</script>
 {{ HTML::script('js/admin_default.js') }}
 @endsection

@@ -45,31 +45,58 @@ class Products_Controller extends Base_Controller {
 		try
 		{
 			$delId = Input::get('id');
-			$prod = Product::where_id($delId)->first();
-			$prod->status = 0;
 			
-			foreach($prod->events()->get() as $event)
+			DB::transaction(function() use ($delId)
 			{
-				$event->pivot->status = 0;
-				$event->pivot->save();
-			}
-			foreach($prod->stores()->get() as $store)
-			{
-				$store->pivot->status = 0;
-				$store->pivot->save();
-			}
-			foreach($prod->sections()->get() as $section)
-			{
-				$section->pivot->status = 0;
-				$section->pivot->save();
-			}
-			foreach($prod->users()->get() as $user)
-			{
-				$user->pivot->status = 0;
-				$user->pivot->save();
-			}
-			
-			$prod->save();
+				$prod = Product::where_id($delId)->first();
+				$prod->status = 0;
+				
+				/*
+				 * Update the additional 'status' field in the 'event_product' pivot table
+				 */
+				foreach($prod->events()->get() as $eventProduct)
+				{
+					$eventProduct->pivot->status = 0;
+					$eventProduct->pivot->save();
+					
+					//Update the 'status' field in the 'event_product_promotion'
+					$eventProductId = $eventProduct->pivot->id; 
+					
+					$eventProducts = Productevent::where_id($eventProductId)->first();					
+					foreach($eventProducts->promotion()->get() as $eventProductPromotion)
+					{
+						$eventProductPromotion->pivot->status = 0;
+						$eventProductPromotion->pivot->save();
+					}
+				}
+				foreach($prod->stores()->get() as $storeProduct)
+				{
+					$storeProduct->pivot->status = 0;
+					$storeProduct->pivot->save();
+					
+					//Update the 'status' field in the 'product_store_promotion'
+					$storeProductId = $storeProduct->pivot->id; 
+					
+					$storeProducts = Productstore::where_id($storeProductId)->first();					
+					foreach($storeProducts->promotion()->get() as $storeProductPromotion)
+					{
+						$storeProductPromotion->pivot->status = 0;
+						$storeProductPromotion->pivot->save();
+					}
+				}
+				foreach($prod->sections()->get() as $sectionProduct)
+				{
+					$sectionProduct->pivot->status = 0;
+					$sectionProduct->pivot->save();
+				}
+				foreach($prod->users()->get() as $userProduct)
+				{
+					$userProduct->pivot->status = 0;
+					$userProduct->pivot->save();
+				}
+				
+				$prod->save();
+			});
 			
 			return $delId;
 		}

@@ -51,20 +51,28 @@ function()
 
 	$('#btnRemoveProduct').click(function(){
 		/*
-		 * TODO:1.Validation on client as well as server side
-		 * 		2.AJAXify the removal of the product tile.
-		 * 		3.Use JSON data
+		 * TODO:1.Validation on client side
+		 * 		2.AJAXify the removal of the product tile.		 
 		 */
 		try
 		{
-		$.ajax({
-		    url: 'http://w-etiqt/products/',
-		    type: 'DELETE',
-		    data: {"id": 1},
-		    success: function(result) {
-		        alert("Deleted Product with Id : "+result);
-		    }
-		});
+			to_url = BASE+"/products";
+			
+			var postReq = $.ajax({
+			    url: to_url,
+			    type: 'DELETE',
+			    data: {"id": 1}
+			});
+			
+			postReq.success(function(data){
+				resp = JSON.parse(data);
+				alert("Deleted Product with Id : "+resp.message);
+			});
+			
+			postReq.fail(function(data){
+				resp = JSON.parse(data);
+				alert(resp.message);
+			});
 		}
 		catch(er)
 		{

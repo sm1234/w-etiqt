@@ -115,8 +115,75 @@ public static function addProduct($input)
 	return json_encode($retVal);
 }
 
-
-
+/*
+ * Function for deleting a product(making its status 0) from the 'products' table and also deleting all the related data from that product
+ */
+public static function deleteProduct($delId)
+{
+	$retVal=array("status"=>0,"message"=>"");
+	try
+	{
+			DB::transaction(function() use ($delId, $retVal)
+			{
+				$prod = Product::where_id($delId)->first();
+				$prod->status = 0;
+				
+				/*
+				 * Update the additional 'status' field in the 'event_product' pivot table
+				 */
+				foreach($prod->events()->get() as $eventProduct)
+				{
+					$eventProduct->pivot->status = 0;
+					$eventProduct->pivot->save();
+					
+					//Update the 'status' field in the 'event_product_promotion'
+					$eventProductId = $eventProduct->pivot->id; 
+					
+					$eventProducts = Productevent::where_id($eventProductId)->first();					
+					foreach($eventProducts->promotion()->get() as $eventProductPromotion)
+					{
+						$eventProductPromotion->pivot->status = 0;
+						$eventProductPromotion->pivot->save();
+					}
+				}
+				foreach($prod->stores()->get() as $storeProduct)
+				{
+					$storeProduct->pivot->status = 0;
+					$storeProduct->pivot->save();
+					
+					//Update the 'status' field in the 'product_store_promotion'
+					$storeProductId = $storeProduct->pivot->id; 
+					
+					$storeProducts = Productstore::where_id($storeProductId)->first();					
+					foreach($storeProducts->promotion()->get() as $storeProductPromotion)
+					{
+						$storeProductPromotion->pivot->status = 0;
+						$storeProductPromotion->pivot->save();
+					}
+				}
+				foreach($prod->sections()->get() as $sectionProduct)
+				{
+					$sectionProduct->pivot->status = 0;
+					$sectionProduct->pivot->save();
+				}
+				foreach($prod->users()->get() as $userProduct)
+				{
+					$userProduct->pivot->status = 0;
+					$userProduct->pivot->save();
+				}
+				
+				$prod->save();
+				$retVal["message"]="Hello";
+			});
+	}
+	catch(Exception $ex)
+	{
+		$retVal["status"]=-1;
+		$retVal["message"]=$ex->getMessage();
+	}
+	
+	return json_encode($retVal);
+}
 
 }
 

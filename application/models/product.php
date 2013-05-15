@@ -2,9 +2,13 @@
 /*
  * This class holds Product information. 
  * */
-class Product extends Eloquent
+class Product extends BaseModel
 {
 	public static $table="products";
+	public static $rules = array(
+			'name'=>'Required',
+			'categoryId'=>'Required'
+	);
 /*
  * A product belongs to a category
  * TODO: Change this relation from pivot to single as a product can belong to only one category
@@ -74,7 +78,11 @@ public static function addProduct($input)
 		$prodPrice = $input['price'];
 		$prodImgIds = $input['ImageIds'];
 		$prodCatId = $input['categoryId'];
-			
+		
+		if(!self::validate(static::$rules, $input))
+		{
+			$messages = self::$validationMessages;
+		}
 		
 		/*TODO: How to write messages to web browser console*/
 		/*TODO: Is there any exists function in Laravel Model for verifying the presense of the record
@@ -108,7 +116,7 @@ public static function addProduct($input)
 	}
 	catch(Exception $ex)
 	{		
-		$retVal["status"]=-1;
+		$retVal["status"]="-1";
 		$retVal["message"]=$ex->getMessage();		
 	}
 	

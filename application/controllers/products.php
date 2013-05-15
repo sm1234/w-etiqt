@@ -33,7 +33,7 @@ class Products_Controller extends Base_Controller {
 			$input = Input::all();
 			$addProdStatus = json_decode(Product::addProduct($input));
 			
-			if($addProdStatus->{"status"}="-1")
+			if($addProdStatus->{"status"}=="-1")
 			{
 				throw new Exception($addProdStatus->{"message"});
 			}
@@ -41,7 +41,7 @@ class Products_Controller extends Base_Controller {
 		}
 		catch(Exception $ex)
 		{
-			$retVal["status"]=-1;
+			$retVal["status"]="-1";
 			$retVal["message"]=$ex->getMessage();
 		}
 		return json_encode($retVal);

@@ -46,112 +46,31 @@
                 <br>
 				<small class="brand smalldontshow">By <a>eBoy</a></small>
                 <span class="price pull-right">&euro; {{$productsData[0]->price}}</span>
-    	</div>	
-
-
     	</div>
-    	<div class="span3 c-thumbnail">
-    		<img src="{{$productsData[1]->images[0]->url}}" />
-    	<div class="productInfo">
-				<a href="#" class="title">{{$productsData[1]->name}}</a>
-                <br>
-				<small class="brand smalldontshow">By <a>eBoy</a></small>
-                <span class="price pull-right">&euro; {{$productsData[1]->price}}</span>
-    	</div>	
-
     	</div>
-    	<div class="span3 c-thumbnail">
-
-    		<span class="c-buttons">
-    			<a href="#"><i class="icon-heart"></i></a>
-    		</span>
-
-    		<img src="{{$productsData[2]->images[0]->url}}" />
-
-    	<div class="productInfo">
-				<a href="#" class="title">{{$productsData[2]->name}}</a>
-                <br>
-				<small class="brand smalldontshow">By <a>eBoy</a></small>
-                <span class="price pull-right">&euro; {{$productsData[2]->price}}</span>
-    	</div>	
-
-    	</div>
-<div class="row">
-    	<div class="span3 c-thumbnail">
-    		<img src="{{$productsData[3]->images[0]->url}}" />
-    	<div class="productInfo">
-				<a href="#" class="title">{{$productsData[3]->name}}</a>
-                <br>
-				<small class="brand smalldontshow">By <a>eBoy</a></small>
-                <span class="price pull-right">&euro; {{$productsData[3]->price}}</span>
-    	</div>	
-
-    	</div>
-    	<div class="span3 c-thumbnail">
-    		<img src="{{$productsData[4]->images[0]->url}}" />
-    	<div class="productInfo">
-				<a href="#" class="title">{{$productsData[4]->name}}</a>
-                <br>
-				<small class="brand smalldontshow">By <a>eBoy</a></small>
-                <span class="price pull-right">&euro; {{$productsData[4]->price}}</span>
-    	</div>	
-
-    	</div>
- 
-
-    	</div>    	
-    </div>
-@if(count($productsData)>5)
-<div class="row">
-    	<div class="span3 c-thumbnail">
-    		<img src="https://playwho.com/uploads/products/000/000/000/657/medium/pw_657.jpg" />
-    	<div class="productInfo">
-				<a href="#" class="title">Rio Poster A2</a>
-                <br>
-				<small class="brand smalldontshow">By <a>eBoy</a></small>
-                <span class="price"></span>
-    	</div>	
-
-    	</div>
-    	<div class="span3 c-thumbnail">
-    		<img src="https://playwho.com/uploads/products/000/000/000/699/medium/pw_699.jpg" />
-    	<div class="productInfo">
-				<a href="#" class="title">Rio Poster A2</a>
-                <br>
-				<small class="brand smalldontshow">By <a>eBoy</a></small>
-                <span class="price"></span>
-    	</div>	
-
-    	</div>
-     	<div class="span3 c-thumbnail">
-    		<img src="https://playwho.com/uploads/products/000/000/000/657/medium/pw_657.jpg" />
-    	<div class="productInfo">
-				<a href="#" class="title">Rio Poster A2</a>
-                <br>
-				<small class="brand smalldontshow">By <a>eBoy</a></small>
-                <span class="price"></span>
-    	</div>	
-
-    	</div>
-    	<div class="span3 c-thumbnail">
-    		<img src="https://playwho.com/uploads/products/000/000/000/699/medium/pw_699.jpg" />
-    	<div class="productInfo">
-				<a href="#" class="title">Rio Poster A2</a>
-                <br>
-				<small class="brand smalldontshow">By <a>eBoy</a></small>
-                <span class="price"></span>
-    	</div>	
-
-    	</div>
-
-    	</div>  	
-@endif
     	
+    	<!-- Show this div only when there are more than 5 products -->
+		@if(count($productsData)>1)
+		<div class="row">
+			@for($i=1 ; $i<count($productsData) ; $i++)
+		    	<div class="span3 c-thumbnail">
+		    		<img src="{{$productsData[$i]->images[0]->url}}" />
+		    	<div class="productInfo">
+						<a href="#" class="title">{{$productsData[$i]->name}}</a>
+		                <br>
+						<small class="brand smalldontshow">By <a>eBoy</a></small>
+		                <span class="price pull-right">&euro; {{$productsData[$i]->price}}</span>
+		    	</div>	
+		
+		    	</div>
+		    @endfor
+		 
+		</div>  	
+		@endif
+   </div>
 @endif	    
-
-    </div>    
-    
-    </div>
+  </div>    
+   
     <div class="containerfull gray-gradient grayrow">
         <div class="container-fluid">
         <div class="row-fluid">

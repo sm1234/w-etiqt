@@ -12,7 +12,7 @@ class Seed_Image_Product_Table {
 		$timeStamp = new DateTime();
 		$timeStamp->setTimestamp(time());
 		
-		DB::table('images')->insert(
+		DB::table('image_product')->insert(
 		array(
 		array('image_id'=>'1','product_id'=>'1','status'=>'1','key'=>'0','created_at'=>$timeStamp,'updated_at'=>$timeStamp),
 		array('image_id'=>'2','product_id'=>'2','status'=>'1','key'=>'0','created_at'=>$timeStamp,'updated_at'=>$timeStamp),
@@ -40,7 +40,7 @@ class Seed_Image_Product_Table {
 	 */
 	public function down()
 	{
-		//
+		DB::table('image_product')->delete();
 	}
 
 }

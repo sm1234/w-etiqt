@@ -1,30 +1,33 @@
 <?php
-
-
-use Laravel\Validator;
-
-use Laravel\Input;
-
 class BaseModel extends Eloquent
 {
-	public static $validationMessages=null;
+	public static $validationMessages = null;
 	
-	public static function validate($rules, $input=null)
+	public static function validate($input, $rules, $messages=null)
 	{
 		$retVal=true;
+		$result=null;
 		
-		if(is_null($input))
+		if(is_null($messages))
 		{
-			$input=Input::all();
+			$result = Validator::make($input, $rules);
+		}
+		else
+		{
+			$result = Validator::make($input, $rules,$messages);
 		}
 		
-		
-		$results = Validator::make($input, $rules);
-		if($results->fails())
+		if($result->passes())
 		{
-			self::$validationMessages = $results->getMessages();
-			$retVal = false;
+			self::$validationMessages=null;
+			
 		}
+		else
+		{
+			$retVal=false;
+			self::$validationMessages = $result->errors->all();			
+		}
+		
 		return $retVal;
 	}
 }

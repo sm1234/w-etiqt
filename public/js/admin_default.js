@@ -8,8 +8,9 @@ function()
 		try{
 			to_url = BASE+"/products";
 			
-			var _reqParams = {"name":"lekin main bhi hu Part2",
-					"categoryId":"2",
+
+			var _reqParams = {"name":"",
+					"categoryId":"",
 					"description":"product description",
 					"tagline":"product tagline",
 					"location":"product location",

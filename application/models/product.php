@@ -1,14 +1,24 @@
 <?php
+
+
+use Laravel\Validator;
+
 /*
  * This class holds Product information. 
  * */
 class Product extends BaseModel
 {
 	public static $table="products";
+	
 	public static $rules = array(
-			'name'=>'Required',
-			'categoryId'=>'Required'
+			'name'=>'required',
+			'categoryId'=>'required'
 	);
+	public static $messages = array(
+			'name_required'=>'Product name cannot be empty',
+			'categoryId_required'=>'Product should belong to atleast one category'
+	);
+		
 /*
  * A product belongs to a category
  * TODO: Change this relation from pivot to single as a product can belong to only one category
@@ -64,11 +74,15 @@ public function users()
 	return $this->has_many_and_belongs_to('User','product_user','product_id','user_id');
 }
 
+
+
+
+
 public static function addProduct($input)
 {
 	/*TODO: Finish the server side validation*/
 	//for the validation, fetch the data from the post data
-	$retVal=array("status"=>0,"message"=>"");
+	$retVal=array("status"=>"10","message"=>"");
 	try
 	{
 		$prodName = $input['name'];
@@ -79,39 +93,54 @@ public static function addProduct($input)
 		$prodImgIds = $input['ImageIds'];
 		$prodCatId = $input['categoryId'];
 		
-		if(!self::validate(static::$rules, $input))
+		$mydata = array(
+				'name'=>$prodName,
+				'categoryId'=>$prodCatId
+		);		
+		
+		
+		$result = self::validate($mydata, self::$rules, self::$messages);
+		
+		if($result)
 		{
-			$messages = self::$validationMessages;
+			/*TODO: save new product, product image, product category information */
+			DB::transaction(function() use ($prodName, $prodTagline, $prodDesc, $prodLocation, $prodPrice, $prodCatId, $prodImgIds)
+			{
+				$prod = new Product();
+				$prod->name=$prodName;
+				$prod->tagline=$prodTagline;
+				$prod->description=$prodDesc;
+				$prod->location=$prodLocation;
+				$prod->price=$prodPrice;
+				$prod->save();
+			
+				//save product category
+				$prod->categories()->attach($prodCatId);
+			
+				//attach product to the image
+				//break the delimiter ~ and fetch individual imageIds
+				$ImageIds = explode("~",$prodImgIds);
+				foreach ($ImageIds as $imgId)
+				{
+					//save product image
+					$prod->images()->attach($imgId);
+				}
+			}
+			);
 		}
+		else
+		{$retVal["status"]="-1";
+		$retVal["message"]=implode("~",self::$validationMessages);
+		}
+		
 		
 		/*TODO: How to write messages to web browser console*/
 		/*TODO: Is there any exists function in Laravel Model for verifying the presense of the record
 		 in DB*/
-									 	
-		/*TODO: save new product, product image, product category information */
-		DB::transaction(function() use ($prodName, $prodTagline, $prodDesc, $prodLocation, $prodPrice, $prodCatId, $prodImgIds)
-		{
-			$prod = new Product();
-			$prod->name=$prodName;
-			$prod->tagline=$prodTagline;
-			$prod->description=$prodDesc;
-			$prod->location=$prodLocation;
-			$prod->price=$prodPrice;
-			$prod->save();
+
+				
 		
-			//save product category
-			$prod->categories()->attach($prodCatId);
-			
-			//attach product to the image
-			//break the delimiter ~ and fetch individual imageIds
-			$ImageIds = explode("~",$prodImgIds);
-			foreach ($ImageIds as $imgId)
-			{
-				//save product image
-				$prod->images()->attach($imgId);
-			}
-		}
-		);
+
 		/*TODO: Define the return type for all the calls */
 	}
 	catch(Exception $ex)

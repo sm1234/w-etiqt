@@ -350,6 +350,21 @@ Route::get('/products/(:any?)',array('uses'=>'products@index'));
 
 Route::controller('products');
 
+Route::get('testValidation',function(){
+	$input = array(
+			"name"=>""
+    );
+	
+	$rules = array(
+			"name"=>"required"
+			);
+	
+	$result = Validator::make($input, $rules);
+	return $result->fails();
+	 
+
+});
+
 /*****************************Above this Saurabh**************************/
 
 

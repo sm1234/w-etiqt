@@ -33,49 +33,36 @@
     </div>
     <br/>        
     <div class="container">
+<div class="row">
+    	<div class="span3 c-thumbnail">
+    		<img src="https://playwho.com/uploads/products/000/000/000/657/medium/pw_657.jpg" />
+    	<div class="productInfo">
+				<a href="#" class="title">Rio Poster A2</a>
+                <br>
+				<small class="brand smalldontshow">By <a>eBoy</a></small>
+                <span class="price"></span>
+    	</div>	
 
-    <div class="row-fluid">
-    	<div class="span6 boxes">
-    	<span class="discount rotate-45">20% OFF</span>
-<a><img src="img/products/rect3.png"/></a>    		
-<div class="promotionInfo">
-        <div class="wrapper">
-            <span class="date">
-                <strong>MON<span class="color-yellow">05/06</span></strong> AT <strong>11AM</strong> ET            </span>
-            <span class="title">
-                <p>Eco-friendly Organic Notebooks</p>
-            </span>
-        </div>    
-</div>    		
 
     	</div>
-
     	<div class="span3 c-thumbnail">
+    		<img src="https://playwho.com/uploads/products/000/000/000/699/medium/pw_699.jpg" />
+    	<div class="productInfo">
+				<a href="#" class="title">Rio Poster A2</a>
+                <br>
+				<small class="brand smalldontshow">By <a>eBoy</a></small>
+                <span class="price"></span>
+    	</div>	
+
+    	</div>
+    	<div class="span3 c-thumbnail">
+
     		<span class="c-buttons">
     			<a href="#"><i class="icon-heart"></i></a>
     		</span>
-    		<img src="img/products/s13.jpg" />
-    	<div class="productInfo">
-				<a href="#" class="title">Rio Poster A2</a>
-                <br>
-				<small class="brand smalldontshow">By <a>eBoy</a></small>
-                <span class="price"></span>
-    	</div>	
 
-    	</div>
-        <div class="span3 c-thumbnail">
-    		<img src="img/products/s2.jpg" />
-    	<div class="productInfo">
-				<a href="#" class="title">Rio Poster A2</a>
-                <br>
-				<small class="brand smalldontshow">By <a>eBoy</a></small>
-                <span class="price"></span>
-    	</div>    		
-    	</div>	
-    </div>
-    <div class="row-fluid">
-    	<div class="span3 c-thumbnail">
-    		<img src="img/products/s3.png" />
+    		<img src="https://playwho.com/uploads/products/000/000/000/686/medium/pw_686.jpg" />
+
     	<div class="productInfo">
 				<a href="#" class="title">Rio Poster A2</a>
                 <br>
@@ -85,27 +72,7 @@
 
     	</div>
     	<div class="span3 c-thumbnail">
-    		<img src="img/products/s8.jpg" />
-    	<div class="productInfo">
-				<a href="#" class="title">Rio Poster A2</a>
-                <br>
-				<small class="brand smalldontshow">By <a>eBoy</a></small>
-                <span class="price"></span>
-    	</div>	
-
-    	</div>
-    	<div class="span3 c-thumbnail">
-    		<img src="img/products/s12.jpg" />
-    	<div class="productInfo">
-				<a href="#" class="title">Rio Poster A2</a>
-                <br>
-				<small class="brand smalldontshow">By <a>eBoy</a></small>
-                <span class="price"></span>
-    	</div>	
-
-    	</div>
-    	<div class="span3 c-thumbnail">
-    		<img src="img/products/s14.jpg" />
+    		<img src="https://playwho.com/uploads/products/000/000/000/565/medium/pw_565.jpg" />
     	<div class="productInfo">
 				<a href="#" class="title">Rio Poster A2</a>
                 <br>
@@ -115,7 +82,49 @@
 
     	</div>
     </div>
-<br/><br/>    
+<div class="row">
+    	<div class="span3 c-thumbnail">
+    		<img src="https://playwho.com/uploads/products/000/000/000/657/medium/pw_657.jpg" />
+    	<div class="productInfo">
+				<a href="#" class="title">Rio Poster A2</a>
+                <br>
+				<small class="brand smalldontshow">By <a>eBoy</a></small>
+                <span class="price"></span>
+    	</div>	
+
+    	</div>
+    	<div class="span3 c-thumbnail">
+    		<img src="https://playwho.com/uploads/products/000/000/000/699/medium/pw_699.jpg" />
+    	<div class="productInfo">
+				<a href="#" class="title">Rio Poster A2</a>
+                <br>
+				<small class="brand smalldontshow">By <a>eBoy</a></small>
+                <span class="price"></span>
+    	</div>	
+
+    	</div>
+    	<div class="span3 c-thumbnail">
+    		<img src="https://playwho.com/uploads/products/000/000/000/686/medium/pw_686.jpg" />
+    	<div class="productInfo">
+				<a href="#" class="title">Rio Poster A2</a>
+                <br>
+				<small class="brand smalldontshow">By <a>eBoy</a></small>
+                <span class="price"></span>
+    	</div>	
+
+    	</div>
+    	<div class="span3 c-thumbnail">
+    		<img src="https://playwho.com/uploads/products/000/000/000/565/medium/pw_565.jpg" />
+    	<div class="productInfo">
+				<a href="#" class="title">Rio Poster A2</a>
+                <br>
+				<small class="brand smalldontshow">By <a>eBoy</a></small>
+                <span class="price"></span>
+    	</div>	
+
+    	</div>
+    </div>    
+    
     </div>
     <div class="containerfull gray-gradient grayrow">
         <div class="container-fluid">

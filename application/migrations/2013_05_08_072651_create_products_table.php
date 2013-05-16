@@ -19,6 +19,8 @@ class Create_Products_Table {
 				$table->string('location')->nullable();
 				$table->float('price')->nullable();
 				$table->boolean('status')->default(true);
+				$table->integer('row_num')->unsigned()->nullable();
+				$table->integer('col_num')->unsigned()->nullable();
 				$table->timestamps();
 			});
 	}

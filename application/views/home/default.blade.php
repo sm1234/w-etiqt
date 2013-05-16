@@ -18,7 +18,7 @@
 		    	<div class="c-overlay">
     				<h3 style="color: white; margin: 0 5px">Handpicked People, Amazing Services</h3>
     			</div>
-		    <div class="active item"><img src="img/products/slider1.jpg" /></div>
+		    <div class="active item"><img src="img/testImg1.jpg" /></div>
 		    <div class="item"><img src="img/products/slider1.jpg" /></div>
 		    <div class="item"><img src="img/products/slider2.jpg" /></div>
 		    </div>
@@ -32,12 +32,12 @@
 
     </div>
     <br/>        
-    <div class="container-fluid">
+    <div class="container">
 
     <div class="row-fluid">
     	<div class="span6 boxes">
     	<span class="discount rotate-45">20% OFF</span>
-<a><img src="img/testImg1.jpg" style="width:100%"/></a>    		
+<a><img src="img/pw1.jpg"/></a>    		
 <div class="promotionInfo">
         <div class="wrapper">
             <span class="date">
@@ -54,7 +54,7 @@
     		<span class="c-buttons">
     			<a href="#"><i class="icon-heart"></i></a>
     		</span>
-    		<img src="img/burger.jpg" />
+    		<img src="img/testImg.jpg" />
     	<div class="productInfo">
 				<a href="#" class="title">Rio Poster A2</a>
                 <br>
@@ -129,7 +129,7 @@
 			<div class="row-fluid">
     	<div class="span6 boxes">
     	<span class="discount rotate-45">20% OFF</span>
-<a><img src="img/products/rect2.png" style="width:100%"/></a>    		
+<a><img src="img/products/rect2.png"/></a>    		
 <div class="promotionInfo">
         <div class="wrapper">
             <span class="date">
@@ -143,7 +143,7 @@
     	</div>
     	<div class="span6 boxes">
     	<span class="discount rotate-45">20% OFF</span>
-<a><img src="img/products/rect3.png" style="width:100%"/></a>    		
+<a><img src="img/products/rect3.png"/></a>    		
 <div class="promotionInfo">
         <div class="wrapper">
             <span class="date">

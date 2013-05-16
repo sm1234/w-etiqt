@@ -90,8 +90,8 @@ function()
 		try{
 			to_url = BASE+"/products";
 			
-			var _reqParams = {"id":"6",
-					"name":"Updated name",
+			var _reqParams = {"id":"3",
+					"name":"Updated Name",
 					"categoryId":"4",
 					"description":"updated product description",
 					"tagline":"updated product tagline",

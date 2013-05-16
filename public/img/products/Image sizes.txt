@@ -1,5 +1,14 @@
-Initial images sizes
+Image sizes observations
 
-Slider - 1349 x 346
-Squares - 270 x 216
-Rect. - 638 x 313
+
+Slider - Max Width: 1349
+
+
+Squares - Max Width: 302
+
+
+Rect. - Max Width: 638
+
+NOTE :  All the image containers follow these properties : 
+	1.Automatically adjusts the height of the image if the image is wider than 1349px
+	2.Displays the image as it is if the width is equal to or less than 1349px

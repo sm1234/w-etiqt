@@ -239,35 +239,48 @@ public static function updateProduct($input)
 		$prodImgIds = $input['ImageIds'];
 		$prodCatId = $input['categoryId'];
 		
-		if(!self::validate(static::$rules, $input))
-		{
-			$messages = self::$validationMessages;
-		}
-									 
-		//Transaction is used for 'All Or Nothing'. If there is a problem with any of the database query, everything will be rolled back.
-		DB::transaction(function() use ($prodId, $prodName, $prodTagline, $prodDesc, $prodLocation, $prodPrice, $prodCatId, $prodImgIds)
-		{
-			$prod = Product::where_id($prodId)->first();
-			$prod->name=$prodName;
-			$prod->tagline=$prodTagline;
-			$prod->description=$prodDesc;
-			$prod->location=$prodLocation;
-			$prod->price=$prodPrice;
-			$prod->save();
+		/*
+		 * Validation Starts from here.
+		 * First the data to be validated is passed, along with the validation rules to the function 'validate' defined in the baseModel model.
+		 * If the data is valid, then only we proceed with the database actions.
+		 */ 
 		
-			//Update product category, if it is changed
-			$prod->categories()->sync($prodCatId);
-			
-			//attach product to the image
-			//break the delimiter ~ and fetch individual imageIds
-			$ImageIds = explode("~",$prodImgIds);
-			foreach ($ImageIds as $imgId)
+		$dataToBeValidated = array('name'=> $prodName,
+									'categoryId'=> $prodCatId);
+		
+		$result = self::validate($dataToBeValidated, self::$rules, self::$messages);
+		
+		if($result)	
+		{						 
+			//Transaction is used for 'All Or Nothing' approach. If there is a problem with any of the database query, everything will be rolled back.
+			DB::transaction(function() use ($prodId, $prodName, $prodTagline, $prodDesc, $prodLocation, $prodPrice, $prodCatId, $prodImgIds)
 			{
-				//save product image
-				$prod->images()->attach($imgId);
-			}
+				$prod = Product::where_id($prodId)->first();
+				$prod->name=$prodName;
+				$prod->tagline=$prodTagline;
+				$prod->description=$prodDesc;
+				$prod->location=$prodLocation;
+				$prod->price=$prodPrice;
+				$prod->save();
+			
+				//Update product category, if it is changed
+				$prod->categories()->sync($prodCatId);
+				
+				//attach product to the image
+				//break the delimiter ~ and fetch individual imageIds
+				$ImageIds = explode("~",$prodImgIds);
+				foreach ($ImageIds as $imgId)
+				{
+					//save product image
+					$prod->images()->attach($imgId);
+				}
+			});
 		}
-		);
+		else
+			{
+				$retVal["status"]="-1";
+				$retVal["message"]=implode("~",self::$validationMessages);
+			}
 		/*TODO: Define the return type for all the calls */
 	}
 	catch(Exception $ex)

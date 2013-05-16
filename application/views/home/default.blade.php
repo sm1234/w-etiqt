@@ -1,6 +1,8 @@
 @layout('layouts.base')
 @section('title')
+@if(isset($title))
 {{$title}}
+@endif
 @endsection
 @section('content')
     <div class="container-fluid c-home-container">
@@ -33,25 +35,28 @@
     </div>
     <br/>        
     <div class="container">
+@if(isset($productsData))
+
 <div class="row">
-    	<div class="span3 c-thumbnail">
-    		<img src="https://playwho.com/uploads/products/000/000/000/657/medium/pw_657.jpg" />
+    	<div class="span6">
+    	<img src="{{$productsData[0]->images[0]->url}}" />
+    		
     	<div class="productInfo">
-				<a href="#" class="title">Rio Poster A2</a>
+				<a href="#" class="title">{{$productsData[0]->name}}</a>
                 <br>
 				<small class="brand smalldontshow">By <a>eBoy</a></small>
-                <span class="price"></span>
+                <span class="price pull-right">&euro; {{$productsData[0]->price}}</span>
     	</div>	
 
 
     	</div>
     	<div class="span3 c-thumbnail">
-    		<img src="https://playwho.com/uploads/products/000/000/000/699/medium/pw_699.jpg" />
+    		<img src="{{$productsData[1]->images[0]->url}}" />
     	<div class="productInfo">
-				<a href="#" class="title">Rio Poster A2</a>
+				<a href="#" class="title">{{$productsData[1]->name}}</a>
                 <br>
 				<small class="brand smalldontshow">By <a>eBoy</a></small>
-                <span class="price"></span>
+                <span class="price pull-right">&euro; {{$productsData[1]->price}}</span>
     	</div>	
 
     	</div>
@@ -61,27 +66,42 @@
     			<a href="#"><i class="icon-heart"></i></a>
     		</span>
 
-    		<img src="https://playwho.com/uploads/products/000/000/000/686/medium/pw_686.jpg" />
+    		<img src="{{$productsData[2]->images[0]->url}}" />
 
     	<div class="productInfo">
-				<a href="#" class="title">Rio Poster A2</a>
+				<a href="#" class="title">{{$productsData[2]->name}}</a>
                 <br>
 				<small class="brand smalldontshow">By <a>eBoy</a></small>
-                <span class="price"></span>
+                <span class="price pull-right">&euro; {{$productsData[2]->price}}</span>
+    	</div>	
+
+    	</div>
+<div class="row">
+    	<div class="span3 c-thumbnail">
+    		<img src="{{$productsData[3]->images[0]->url}}" />
+    	<div class="productInfo">
+				<a href="#" class="title">{{$productsData[3]->name}}</a>
+                <br>
+				<small class="brand smalldontshow">By <a>eBoy</a></small>
+                <span class="price pull-right">&euro; {{$productsData[3]->price}}</span>
     	</div>	
 
     	</div>
     	<div class="span3 c-thumbnail">
-    		<img src="https://playwho.com/uploads/products/000/000/000/565/medium/pw_565.jpg" />
+    		<img src="{{$productsData[4]->images[0]->url}}" />
     	<div class="productInfo">
-				<a href="#" class="title">Rio Poster A2</a>
+				<a href="#" class="title">{{$productsData[4]->name}}</a>
                 <br>
 				<small class="brand smalldontshow">By <a>eBoy</a></small>
-                <span class="price"></span>
+                <span class="price pull-right">&euro; {{$productsData[4]->price}}</span>
     	</div>	
 
     	</div>
+ 
+
+    	</div>    	
     </div>
+@if(count($productsData)>5)
 <div class="row">
     	<div class="span3 c-thumbnail">
     		<img src="https://playwho.com/uploads/products/000/000/000/657/medium/pw_657.jpg" />
@@ -103,8 +123,8 @@
     	</div>	
 
     	</div>
-    	<div class="span3 c-thumbnail">
-    		<img src="https://playwho.com/uploads/products/000/000/000/686/medium/pw_686.jpg" />
+     	<div class="span3 c-thumbnail">
+    		<img src="https://playwho.com/uploads/products/000/000/000/657/medium/pw_657.jpg" />
     	<div class="productInfo">
 				<a href="#" class="title">Rio Poster A2</a>
                 <br>
@@ -114,7 +134,7 @@
 
     	</div>
     	<div class="span3 c-thumbnail">
-    		<img src="https://playwho.com/uploads/products/000/000/000/565/medium/pw_565.jpg" />
+    		<img src="https://playwho.com/uploads/products/000/000/000/699/medium/pw_699.jpg" />
     	<div class="productInfo">
 				<a href="#" class="title">Rio Poster A2</a>
                 <br>
@@ -123,6 +143,12 @@
     	</div>	
 
     	</div>
+
+    	</div>  	
+@endif
+    	
+@endif	    
+
     </div>    
     
     </div>

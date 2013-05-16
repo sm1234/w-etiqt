@@ -30,9 +30,10 @@ class Home_Controller extends Base_Controller {
 	|
 	*/
 
-	public function action_index()
+	public function get_index()
 	{
-		return View::make('home.index');
+		$allProducts = Product::with(array('images'=>function($query){$query->where_status('1')->where_key('1');}))->order_by('row_num','asc')->order_by('col_num','asc')->take(12)->get();
+		return View::make('home.default')->with('title','etiqt homepage')->with('productsData',$allProducts);
 	}
 
 }

@@ -349,6 +349,7 @@ Route::get('associatePromotionWithEventProducts',function(){
 Route::get('/products/(:any?)',array('uses'=>'products@index'));
 
 Route::controller('products');
+Route::controller('home');
 
 Route::get('testValidation',function(){
 	$input = array(
@@ -368,10 +369,6 @@ Route::get('testValidation',function(){
 /*****************************Above this Saurabh**************************/
 
 
-Route::get('/', function()
-{
-	return View::make('home.default')->with('title','etiqt homepage');
-});
 
 
 /*

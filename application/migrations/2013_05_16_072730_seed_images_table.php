@@ -14,7 +14,7 @@ class Seed_Images_Table {
 		
 		DB::table('images')->insert(
 		array(
-		array('url'=>'https://playwho.com/uploads/products/000/000/000/852/medium/pw_852.jpg','created_at'=>$timeStamp,'updated_at'=>$timeStamp),
+		array('url'=>'https://playwho.com/uploads/vendor/000/000/001/143/vendor_cover_large/pw_1143.jpg','created_at'=>$timeStamp,'updated_at'=>$timeStamp),
 		array('url'=>'https://playwho.com/uploads/products/000/000/000/869/medium/pw_869.jpg','created_at'=>$timeStamp,'updated_at'=>$timeStamp),
 		array('url'=>'https://playwho.com/uploads/products/000/000/000/990/medium/pw_990.jpg','created_at'=>$timeStamp,'updated_at'=>$timeStamp),
 		array('url'=>'https://playwho.com/uploads/products/000/000/000/921/medium/pw_921.jpg','created_at'=>$timeStamp,'updated_at'=>$timeStamp),

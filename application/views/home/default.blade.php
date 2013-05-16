@@ -18,9 +18,9 @@
 		    	<div class="c-overlay">
     				<h3 style="color: white; margin: 0 5px">Handpicked People, Amazing Services</h3>
     			</div>
-		    <div class="active item"><img src="img/testImg1.jpg" /></div>
-		    <div class="item"><img src="img/testImg1.jpg" /></div>
-		    <div class="item"><img src="img/testImg1.jpg" /></div>
+		    <div class="active item"><img src="img/products/slider1.jpg" /></div>
+		    <div class="item"><img src="img/products/slider1.jpg" /></div>
+		    <div class="item"><img src="img/products/slider2.jpg" /></div>
 		    </div>
 		    <!-- Carousel nav -->
 		    <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
@@ -37,7 +37,7 @@
     <div class="row-fluid">
     	<div class="span6 boxes">
     	<span class="discount rotate-45">20% OFF</span>
-<a><img src="img/notebook_long.jpg" style="width:100%"/></a>    		
+<a><img src="img/testImg1.jpg" style="width:100%"/></a>    		
 <div class="promotionInfo">
         <div class="wrapper">
             <span class="date">
@@ -54,7 +54,7 @@
     		<span class="c-buttons">
     			<a href="#"><i class="icon-heart"></i></a>
     		</span>
-    		<img src="img/pw1.jpg" />
+    		<img src="img/burger.jpg" />
     	<div class="productInfo">
 				<a href="#" class="title">Rio Poster A2</a>
                 <br>
@@ -64,7 +64,7 @@
 
     	</div>
         <div class="span3 c-thumbnail">
-    		<img src="img/pw2.jpg" />
+    		<img src="img/products/s2.jpg" />
     	<div class="productInfo">
 				<a href="#" class="title">Rio Poster A2</a>
                 <br>
@@ -75,7 +75,7 @@
     </div>
     <div class="row-fluid">
     	<div class="span3 c-thumbnail">
-    		<img src="img/pw3.jpg" />
+    		<img src="img/products/s3.png" />
     	<div class="productInfo">
 				<a href="#" class="title">Rio Poster A2</a>
                 <br>
@@ -85,7 +85,7 @@
 
     	</div>
     	<div class="span3 c-thumbnail">
-    		<img src="img/pw4.jpg" />
+    		<img src="img/products/s8.jpg" />
     	<div class="productInfo">
 				<a href="#" class="title">Rio Poster A2</a>
                 <br>
@@ -95,7 +95,7 @@
 
     	</div>
     	<div class="span3 c-thumbnail">
-    		<img src="img/pw5.jpg" />
+    		<img src="img/products/s12.jpg" />
     	<div class="productInfo">
 				<a href="#" class="title">Rio Poster A2</a>
                 <br>
@@ -105,7 +105,7 @@
 
     	</div>
     	<div class="span3 c-thumbnail">
-    		<img src="img/pw6.jpg" />
+    		<img src="img/products/s14.jpg" />
     	<div class="productInfo">
 				<a href="#" class="title">Rio Poster A2</a>
                 <br>
@@ -129,7 +129,7 @@
 			<div class="row-fluid">
     	<div class="span6 boxes">
     	<span class="discount rotate-45">20% OFF</span>
-<a><img src="img/notebook_long.jpg" style="width:100%"/></a>    		
+<a><img src="img/products/rect2.png" style="width:100%"/></a>    		
 <div class="promotionInfo">
         <div class="wrapper">
             <span class="date">
@@ -143,7 +143,7 @@
     	</div>
     	<div class="span6 boxes">
     	<span class="discount rotate-45">20% OFF</span>
-<a><img src="img/notebook_long.jpg" style="width:100%"/></a>    		
+<a><img src="img/products/rect3.png" style="width:100%"/></a>    		
 <div class="promotionInfo">
         <div class="wrapper">
             <span class="date">

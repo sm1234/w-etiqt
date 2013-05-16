@@ -97,7 +97,7 @@
 			</div>																		
 			</div>
 			<div class="modal-footer">
-			<button class="btn btn-primary" id="btnAddProduct">Add product to etiqt</button>
+			<button class="btn btn-primary" id="btnUpdateProduct">Add product to etiqt</button>
 			</div>
 		</div>			
 			</div>
@@ -124,7 +124,7 @@
 							</div>
 							<div class="span5"></div>
 							<div class="span2" style="margin-left: 0">
-								<a class="btn btn-info pull-right"><i class="icon-edit icon-large"></i>Edit</a>
+								<a class="btn btn-info pull-right" data-toggle="modal" href="#myModal" id="btnEditProduct"><i class="icon-edit icon-large"></i>Edit</a>
 							</div>
 							<div class="span2" style="margin-left: 0">
 								<a class="btn btn-danger pull-right" id="btnRemoveProduct"><i class="icon-trash icon-large"></i>Remove</a>

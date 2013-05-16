@@ -1,0 +1,5 @@
+Initial images sizes
+
+Slider - 1349 x 346
+Squares - 270 x 216
+Rect. - 638 x 313

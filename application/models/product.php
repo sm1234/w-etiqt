@@ -131,7 +131,7 @@ public static function deleteProduct($delId)
 	$retVal=array("status"=>0,"message"=>"");
 	try
 	{
-			DB::transaction(function() use ($delId, $retVal)
+			DB::transaction(function() use ($delId, &$retVal)
 			{
 				$prod = Product::where_id($delId)->first();
 				$prod->status = 0;
@@ -179,15 +179,72 @@ public static function deleteProduct($delId)
 					$userProduct->pivot->status = 0;
 					$userProduct->pivot->save();
 				}
-				
 				$prod->save();
-				$retVal["message"]="Hello";
+				$retVal["message"]=$delId;
 			});
 	}
 	catch(Exception $ex)
 	{
 		$retVal["status"]=-1;
 		$retVal["message"]=$ex->getMessage();
+	}
+	
+	return json_encode($retVal);
+}
+
+/*
+ * Function to update product information
+ */
+public static function updateProduct($input)
+{
+	/*TODO:  validation*/
+	$retVal=array("status"=>0,"message"=>"");
+	try
+	{
+		$prodId = $input['id'];
+		$prodName = $input['name'];
+		$prodDesc = $input['description'];
+		$prodTagline = $input['tagline'];
+		$prodLocation = $input['location'];
+		$prodPrice = $input['price'];
+		$prodImgIds = $input['ImageIds'];
+		$prodCatId = $input['categoryId'];
+		
+		if(!self::validate(static::$rules, $input))
+		{
+			$messages = self::$validationMessages;
+		}
+									 
+		//Transaction is used for 'All Or Nothing'. If there is a problem with any of the database query, everything will be rolled back.
+		DB::transaction(function() use ($prodId, $prodName, $prodTagline, $prodDesc, $prodLocation, $prodPrice, $prodCatId, $prodImgIds)
+		{
+			$prod = Product::where_id($prodId)->first();
+			$prod->name=$prodName;
+			$prod->tagline=$prodTagline;
+			$prod->description=$prodDesc;
+			$prod->location=$prodLocation;
+			$prod->price=$prodPrice;
+			$prod->save();
+		
+			//Update product category, if it is changed
+			$prod->categories()->sync($prodCatId);
+			
+			//attach product to the image
+			//break the delimiter ~ and fetch individual imageIds
+			$ImageIds = explode("~",$prodImgIds);
+			foreach ($ImageIds as $imgId)
+			{
+				//save product image
+				$prod->images()->attach($imgId);
+			}
+		}
+		);
+		/*TODO: Define the return type for all the calls */
+	}
+	catch(Exception $ex)
+	{		
+		$retVal["status"]="-1";
+		$retVal["message"]=$ex->getMessage();		
 	}
 	
 	return json_encode($retVal);

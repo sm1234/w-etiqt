@@ -19,9 +19,26 @@ class Products_Controller extends Base_Controller {
 	}
 
 	
-	public function put_index($id=null)
+	public function put_index()
 	{
-		return "update a given product";
+		$retVal=array("status"=>0,"message"=>"");
+		try
+		{
+			$input = Input::all();
+			$updateProdStatus = json_decode(Product::updateProduct($input));
+			
+			if($updateProdStatus->{"status"}=="-1")
+			{
+				throw new Exception($updateProdStatus->{"message"});
+			}
+			
+		}
+		catch(Exception $ex)
+		{
+			$retVal["status"]=-1;
+			$retVal["message"]=$ex->getMessage();
+		}
+		return json_encode($retVal);
 	}
 	
 	/*this function is used for creating a new product and saving that in the DB*/

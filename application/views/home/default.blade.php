@@ -37,7 +37,7 @@
     <div class="row-fluid">
     	<div class="span6 boxes">
     	<span class="discount rotate-45">20% OFF</span>
-<a><img src="img/pw1.jpg"/></a>    		
+<a><img src="img/products/rect3.png"/></a>    		
 <div class="promotionInfo">
         <div class="wrapper">
             <span class="date">
@@ -54,7 +54,7 @@
     		<span class="c-buttons">
     			<a href="#"><i class="icon-heart"></i></a>
     		</span>
-    		<img src="img/testImg.jpg" />
+    		<img src="img/products/s13.jpg" />
     	<div class="productInfo">
 				<a href="#" class="title">Rio Poster A2</a>
                 <br>

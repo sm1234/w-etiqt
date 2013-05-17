@@ -38,12 +38,54 @@
 		position:relative;
 		border-bottom:1px solid #f0f0f0;	
 }
+
+.c-thumbnail {
+	margin-bottom: 70px;
+	position: relative;
+	overflow: hidden;	
+}
+
 .boxes
 {
 	position:relative;	
 	overflow:hidden;
 	margin-bottom: 10px;
 }
+
+.productInfo a.title
+{
+	font-size: 16px;
+	font-weight: bold;
+	color: black;
+}
+
+.productInfo a.title:hover
+{
+	text-decoration: none;
+}
+
+.productInfo small.brand
+{
+	color: rgb(153, 153, 153);
+	padding-bottom: 8px;
+	font-size: 12px;
+}
+
+.productInfo small.brand a
+{
+border-bottom: 1px dotted rgb(204, 204, 204);
+color: rgb(119, 119, 119);
+}
+.productInfo small.brand a:hover
+{
+	text-decoration: none;
+}
+.productInfo span.price
+{
+	font-size: 14px;
+	font-weight: bold;
+}
+
 .promotionInfo
 {
 	bottom: 0px;
@@ -67,6 +109,25 @@
 {	
 	float:left;
 	text-align:left;
+}
+
+.promotionInfo .wrapper a.title
+{
+	font-size: 21px;
+	color: rgb(255, 255, 255);
+	font-weight: bold;
+	margin-bottom: 5px;
+	display: block;
+	float:none;
+}
+.promotionInfo .wrapper a.title:hover
+{
+	text-decoration: none;
+}
+
+.promotionInfo .wrapper p
+{
+	margin: 0px;
 }
 
 .discount
@@ -93,12 +154,6 @@
 	
 }
 
-.c-thumbnail {
-	margin-bottom: 100px;
-	text-align: center;
-	position: relative;
-	overflow: hidden;	
-}
 
 .c-buttons {
 	position: absolute;

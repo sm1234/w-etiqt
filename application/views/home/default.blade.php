@@ -15,11 +15,11 @@
 		    <li data-target="#myCarousel" data-slide-to="1"></li>
 		    <li data-target="#myCarousel" data-slide-to="2"></li>
 		    </ol>
-		    <!-- Carousel items -->
-		    <div class="carousel-inner">
-		    	<div class="c-overlay">
+		    <div class="c-overlay">
     				<h3 style="color: white; margin: 0 5px">Handpicked People, Amazing Services</h3>
     			</div>
+		    <!-- Carousel items -->
+		    <div class="carousel-inner">
 		    <div class="active item"><img src="img/testImg1.jpg" /></div>
 		    <div class="item"><img src="img/products/slider1.jpg" /></div>
 		    <div class="item"><img src="img/products/slider2.jpg" /></div>
@@ -38,18 +38,17 @@
 @if(isset($productsData))
 
 <div class="row">
-    	<div class="span6">
-    	<img src="{{$productsData[0]->images[0]->url}}" />
-    		
-    	<div class="productInfo">
-				<a href="#" class="title">{{$productsData[0]->name}}</a>
-                <br>
-				<small class="brand smalldontshow">By <a>eBoy</a></small>
-                <span class="price pull-right">&euro; {{$productsData[0]->price}}</span>
-    	</div>
-    	</div>
+	<div class="span6 boxes">
+		<img src="{{$productsData[0]->images[0]->url}}" />
+    	<div class="promotionInfo">
+	        <div class="wrapper">
+	            <a href="#" class="title">{{$productsData[0]->name}}</a>
+	            <p>{{$productsData[0]->tagline}}</p>
+	        </div>    
+		</div>	
+	</div>
     	
-    	<!-- Show this div only when there are more than 5 products -->
+    	<!-- Show this div only when there are more than 1 product -->
 		@if(count($productsData)>1)
 		<div class="row">
 			@for($i=1 ; $i<count($productsData) ; $i++)
@@ -58,7 +57,7 @@
 		    	<div class="productInfo">
 						<a href="#" class="title">{{$productsData[$i]->name}}</a>
 		                <br>
-						<small class="brand smalldontshow">By <a>eBoy</a></small>
+						<small class="brand smalldontshow">By <a>{{$productsData[$i]->brand}}</a></small>
 		                <span class="price pull-right">&euro; {{$productsData[$i]->price}}</span>
 		    	</div>	
 		

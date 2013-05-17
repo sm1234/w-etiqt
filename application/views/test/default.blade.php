@@ -25,7 +25,7 @@
 @endfor
 </div>
 @endfor
-{{ $productsData->links(); }}
+
 @endif	    
   </div>    
    

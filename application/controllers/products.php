@@ -92,13 +92,17 @@ class Products_Controller extends Base_Controller {
 		}
 		return json_encode($retVal);
 	}
-	
+
+/*	
 	public function get_fetchProductDataForPage()
 	{
 		$retVal=array("status"=>0,"message"=>"");
 		try {
+			$pageId = Input::get('page');
+			Request::foundation()->query->set('page', $pageId);
 			
-			$retVal["message"]="Data found and returned";
+			$allProducts = DB::table('products')->paginate(8);
+			$retVal["message"]=json_encode($allProducts->results); 
 			
 		} catch (Exception $ex) {
 			$retVal["status"]="-1";
@@ -106,5 +110,5 @@ class Products_Controller extends Base_Controller {
 		}
 		return json_encode($retVal);
 	}
-
+*/
 }

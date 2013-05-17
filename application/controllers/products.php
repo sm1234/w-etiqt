@@ -92,5 +92,19 @@ class Products_Controller extends Base_Controller {
 		}
 		return json_encode($retVal);
 	}
+	
+	public function get_fetchProductDataForPage()
+	{
+		$retVal=array("status"=>0,"message"=>"");
+		try {
+			
+			$retVal["message"]="Data found and returned";
+			
+		} catch (Exception $ex) {
+			$retVal["status"]="-1";
+			$retVal["message"]=$ex->getMessage();
+		}
+		return json_encode($retVal);
+	}
 
 }

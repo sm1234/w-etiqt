@@ -70,54 +70,57 @@
 @endif	    
   </div>    
    
-    <div class="containerfull gray-gradient grayrow">
-        <div class="container-fluid">
-        <div class="row-fluid">
-        <div class="span6">
-        <h3>Upcoming Events</h3>
+<!-- Section --> 
+<div class="containerfull gray-gradient grayrow">
+	<div class="container">
+		<div class="row-fluid">
+        	<div class="span6">
+        		<h3>Upcoming Events</h3>
+        	</div>
+        	<div class="span6">
+        		<h3 class="pull-right">See all events</h3>
+        	</div>
         </div>
-        <div class="span6"><h3 class="pull-right">See all events</h3></div>
-        
-        </div>
-			<div class="row-fluid">
-    	<div class="span6 boxes">
-    	<span class="discount rotate-45">20% OFF</span>
-<a><img src="img/products/rect2.png"/></a>    		
-<div class="promotionInfo">
-        <div class="wrapper">
-            <span class="date">
-                <strong>MON<span class="color-yellow">05/06</span></strong> AT <strong>11AM</strong> ET            </span>
-            <span class="title">
-                <p>Eco-friendly Organic Notebooks</p>
-            </span>
-        </div>    
-</div>    		
-
-    	</div>
-    	<div class="span6 boxes">
-    	<span class="discount rotate-45">20% OFF</span>
-<a><img src="img/products/rect3.png"/></a>    		
-<div class="promotionInfo">
-        <div class="wrapper">
-            <span class="date">
-                <strong>MON<span class="color-yellow">05/06</span></strong> AT <strong>11AM</strong> ET            </span>
-            <span class="title">
-                <p>Eco-friendly Organic Notebooks</p>
-            </span>
-        </div>    
-</div>    		
-
-    	</div>    				
-			</div>
-			</div>
-    </div>
+		
+		<div class="row-fluid">
+    		<div class="span6 boxes">
+    			<span class="discount rotate-45">20% OFF</span>
+				<a><img src="https://playwho.com/uploads/vendor/000/000/001/117/vendor_cover_medium/pw_1117.jpg"/></a>    		
+				<div class="promotionInfo">
+        			<div class="wrapper">
+            			<span class="date">
+                			<strong>MON<span class="color-yellow">05/06</span></strong> AT <strong>11AM</strong> ET
+                		</span>
+                		<a href="#" class="title">Art. Lebedev Studio</a>            			
+                		<p>Unique Gifts to Entertain Yourself</p>            			
+        			</div>    
+				</div>    		
+    		</div>
+    	
+    		<div class="span6 boxes">
+    			<span class="discount rotate-45">20% OFF</span>
+				<a><img src="https://playwho.com/uploads/vendor/000/000/001/148/vendor_cover_medium/pw_1148.jpg"/></a>    		
+				<div class="promotionInfo">
+        			<div class="wrapper">
+            			<span class="date">
+                			<strong>MON<span class="color-yellow">05/06</span></strong> AT <strong>11AM</strong> ET
+                		</span>
+                		<a href="#" class="title">Kinto</a>            			
+                		<p>Functional Japanese Kitchenware</p>            			
+        			</div>    
+				</div>    		
+    		</div>    				
+		</div>
+	</div>
+</div>
     <br/><br/>
-    <div class="container-fluid">
-        <div class="row-fluid">
+    
+<div class="container-fluid">
+    <div class="row-fluid">
         <div class="span12 pagination-centered">
-        <span><button class="btn btn-large">Show More</button></span>
+        	<span><button class="btn btn-large">Show More</button></span>
         </div>
-        </div>
-        <br/><br/><br/><br/>    
     </div>
+<br/><br/><br/><br/>    
+</div>
 @endsection

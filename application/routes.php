@@ -350,6 +350,7 @@ Route::get('associatePromotionWithEventProducts',function(){
 
 Route::controller('products');
 Route::controller('home');
+Route::controller('admin');
 
 Route::get('testValidation',function(){
 	$input = array(

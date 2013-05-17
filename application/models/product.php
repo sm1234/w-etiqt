@@ -292,6 +292,47 @@ public static function updateProduct($input)
 	return json_encode($retVal);
 }
 
+/*
+ * Function to swap the products.
+ * It gets the ids of the products and interchanges their row and column nos
+ */
+public static function swapProducts($input)
+{
+
+	$retVal=array("status"=>"0","message"=>"");
+	try
+	{
+		$prodId1 = $input['id1'];
+		$prodId2 = $input['id2'];
+
+			DB::transaction(function() use ($prodId1, $prodId2)
+			{
+				$prod1 = Product::where_id($prodId1)->first();
+				$prod2 = Product::where_id($prodId2)->first();
+				
+				$tmpRow = $prod1->row_num;
+				$tmpCol = $prod1->col_num;
+				
+				$prod1->row_num = $prod2->row_num;
+				$prod1->col_num = $prod2->col_num;
+				
+				$prod2->row_num = $tmpRow;
+				$prod2->col_num = $tmpCol;
+				
+				$prod1->save();
+				$prod2->save();
+			});
+		
+	}
+	catch(Exception $ex)
+	{		
+		$retVal["status"]="-1";
+		$retVal["message"]=$ex->getMessage();		
+	}
+	
+	return json_encode($retVal);
+}
+
 }
 
 

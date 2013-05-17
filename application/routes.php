@@ -346,26 +346,13 @@ Route::get('associatePromotionWithEventProducts',function(){
 	});
 
 
-//Route::get('/products/(:any?)',array('uses'=>'products@index'));
+Route::get('/products/(:any?)',array('uses'=>'products@index'));
 
 Route::controller('products');
 Route::controller('home');
 Route::controller('admin');
 
-Route::get('testValidation',function(){
-	$input = array(
-			"name"=>""
-    );
-	
-	$rules = array(
-			"name"=>"required"
-			);
-	
-	$result = Validator::make($input, $rules);
-	return $result->fails();
-	 
 
-});
 
 /*****************************Above this Saurabh**************************/
 

@@ -92,7 +92,7 @@ class Products_Controller extends Base_Controller {
 		}
 		return json_encode($retVal);
 	}
-	
+/*
 	public function get_fetchProductDataForPage()
 	{
 		$retVal=array("status"=>0,"message"=>"");
@@ -106,31 +106,13 @@ class Products_Controller extends Base_Controller {
 		}
 		return json_encode($retVal);
 	}
+*/
 	
 	/*
 	 * Function to swap the products.
 	 * It gets the id of the products to be swapped and passes them to the model for interchanging their row and column nos
 	 */
-	public function get_swapProducts()
-	{
-		$retVal=array("status"=>0,"message"=>"");
-		try 
-		{
-			$input = Input::all();
-			
-			$swapProdStatus = json_decode(Product::swapProducts($input));
-			
-			if($swapProdStatus->{"status"}=="-1")
-			{
-				throw new Exception($addProdStatus->{"message"});
-			}
-		}
-		catch(Exception $e)
-		{
-			$retVal["status"]=-1;
-			$retVal["message"]=$e->getMessage();
-		}
-		return json_encode($retVal);
-	}
+	
 
 }
+?>

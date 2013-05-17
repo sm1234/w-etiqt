@@ -35,38 +35,24 @@
     </div>
     <br/>        
     <div class="container">
-@if(isset($productsData))
-
+@if(isset($productsData->results))
+@for($r=0;$r<2;$r++)
 <div class="row">
-	<div class="span6 boxes">
-		<img src="{{$productsData[0]->images[0]->url}}" />
-    	<div class="promotionInfo">
-	        <div class="wrapper">
-	            <a href="#" class="title">{{$productsData[0]->name}}</a>
-	            <p>{{$productsData[0]->tagline}}</p>
-	        </div>    
-		</div>	
-	</div>
-    	
-    	<!-- Show this div only when there are more than 1 product -->
-		@if(count($productsData)>1)
-		<div class="row">
-			@for($i=1 ; $i<count($productsData) ; $i++)
-		    	<div class="span3 c-thumbnail">
-		    		<img src="{{$productsData[$i]->images[0]->url}}" />
-		    	<div class="productInfo">
-						<a href="#" class="title">{{$productsData[$i]->name}}</a>
-		                <br>
-						<small class="brand smalldontshow">By <a>{{$productsData[$i]->brand}}</a></small>
-		                <span class="price pull-right">&euro; {{$productsData[$i]->price}}</span>
-		    	</div>	
-		
-		    	</div>
-		    @endfor
-		 
-		</div>  	
-		@endif
-   </div>
+@for($c=0;$c<4;$c++)
+@if(count($productsData->results)>4*$r+$c)
+   <div class="span3 c-thumbnail">
+   <img src="{{$productsData->results[4*$r+$c]->images[0]->url}}" />		    		
+   <div class="productInfo">
+		<a href="#" class="title">{{$productsData->results[4*$r+$c]->name}}</a>
+        <br>
+        <small class="brand smalldontshow">By <a>{{$productsData->results[4*$r+$c]->brand}}</a></small>						
+        <span class="price pull-right">&euro; {{$productsData->results[4*$r+$c]->price}}</span>
+    </div>			
+    </div>
+@endif	
+@endfor	
+</div>	
+@endfor	
 @endif	    
   </div>    
    
@@ -113,13 +99,35 @@
 		</div>
 	</div>
 </div>
-    <br/><br/>
-    
-<div class="container-fluid">
+    <div class="container">
+@if(isset($productsData->results))
+@for($r=2;$r<ceil(count($productsData->results)/4);$r++)
+<div class="row">
+@for($c=0;$c<4;$c++)
+@if(count($productsData->results)>4*$r+$c)
+   <div class="span3 c-thumbnail">
+   <img src="{{$productsData->results[4*$r+$c]->images[0]->url}}" />		    		
+   <div class="productInfo">
+		<a href="#" class="title">{{$productsData->results[4*$r+$c]->name}}</a>
+        <br>
+        <small class="brand smalldontshow">By <a>{{$productsData->results[4*$r+$c]->brand}}</a></small>						
+        <span class="price pull-right">&euro; {{$productsData->results[4*$r+$c]->price}}</span>
+    </div>			
+    </div>
+@endif	
+@endfor	
+</div>	
+@endfor	
+@endif	    
+  </div>
+<div class="container-fluid container-page-links">
     <div class="row-fluid">
-        <div class="span12 pagination-centered">
-        	<span><button class="btn btn-large">Show More</button></span>
+        <div class="span2">
+        	{{$productsData->previous();}}
         </div>
+        <div class="span1 offset9">
+        	{{$productsData->next();}}
+        </div>        
     </div>
 <br/><br/><br/><br/>    
 </div>

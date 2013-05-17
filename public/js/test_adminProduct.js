@@ -32,14 +32,15 @@ function()
 			alert('Please select 2 products to swap!');
 		}
 		
+		//Get the checkboxes
+		var chkBox1 = $("input:checkbox[class=product]:checked")[0];
+		var chkBox2 = $("input:checkbox[class=product]:checked")[1];
 		//Get the product Ids of the products to be swapped
-		var productIdToBeSwapped1 = $($("input:checkbox[class=product]:checked")[0]).attr('data-id');
-		var productIdToBeSwapped2 = $($("input:checkbox[class=product]:checked")[1]).attr('data-id');
-
+		var productIdToBeSwapped1 = $(chkBox1).attr('data-id');
+		var productIdToBeSwapped2 = $(chkBox2).attr('data-id');
 		//Send data to the controller
 		try{
-			to_url = BASE+"/products/swapProducts";
-			
+			to_url = BASE+"/admin/swapProducts";
 
 			var _reqParams = {									
 					"id1":productIdToBeSwapped1,
@@ -53,13 +54,15 @@ function()
 			});
 			
 			postReq.success(function(data){
-				resp = JSON.parse(data);
-				    var el1 = $($("input:checkbox[class=product]:checked")[0]).parent(".c-thumbnail");
-				    var el2 = $($("input:checkbox[class=product]:checked")[1]).parent(".c-thumbnail");
+					resp = JSON.parse(data);		
+				    var el1 = $(chkBox1).parent(".c-thumbnail");
+				    var el2 = $(chkBox2).parent(".c-thumbnail");
 				    var tag1 = $('<span/>').insertBefore(el1); // drop a marker in place
 				    var tag2 = $('<span/>').insertBefore(el2); // drop a marker in place
 				    tag1.replaceWith(el2);
 				    tag2.replaceWith(el1);
+				    $(chkBox1).prop('checked',false);
+				    $(chkBox2).prop('checked',false);
 			});
 			
 			postReq.fail(function(data){

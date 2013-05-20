@@ -7,7 +7,8 @@ class Admin_Controller extends Base_Controller {
 	public function get_index()
 	{
 		$allcategories = Category::with('products')->get();
-		return View::make('test.admin')->with('title','Admin Panel')->with('categoriesData',$allcategories);
+		$allProducts = Product::with(array('images'=>function($query){$query->where_status('1')->where_key('1');}))->order_by('row_num','asc')->order_by('col_num','asc')->get();
+		return View::make('test.admin')->with('title','Admin Panel')->with('categoriesData',$allcategories)->with('productsData',$allProducts);
 	}
 	
 	public function get_test()

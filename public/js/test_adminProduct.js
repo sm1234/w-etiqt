@@ -55,8 +55,9 @@ function()
 			
 			postReq.success(function(data){
 					resp = JSON.parse(data);		
-				    var el1 = $(chkBox1).parent(".c-thumbnail");
-				    var el2 = $(chkBox2).parent(".c-thumbnail");
+				    var el1 = $(chkBox1).parents(".divProdHolder");
+				    var el2 = $(chkBox2).parents(".divProdHolder");
+				    alert(el1.length+el2.length);
 				    var tag1 = $('<span/>').insertBefore(el1); // drop a marker in place
 				    var tag2 = $('<span/>').insertBefore(el2); // drop a marker in place
 				    tag1.replaceWith(el2);

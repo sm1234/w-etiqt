@@ -9,15 +9,36 @@
 <div class="container">
 <div class="tabbable tabs-left">
 	<ul class="nav nav-tabs">
-	  <li class="active">
-	    <a href="#tabCategories" data-toggle="tab">Categories</a>
-	  </li>
-	  <li><a href="#tabProducts" data-toggle="tab">Products</a></li>
+	  <li class="active"><a href="#tabProducts" data-toggle="tab">Products</a></li>
+	  <li><a href="#tabCategories" data-toggle="tab">Categories</a></li>	  
 	  <li><a href="#tabEvents" data-toggle="tab">Events</a></li>
 	  <li><a href="#tabStores" data-toggle="tab">Stores</a></li>
 	</ul>
 	<div class="tab-content">
-		<div class="tab-pane active" id="tabCategories">
+		<div class="tab-pane active" id="tabProducts">
+		@if(isset($productsData))
+		<a class="btn pull-right" id="btnSwapProducts">Swap</a>
+		<br/><br/>
+		@for($r=0;$r<ceil(count($productsData)/4);$r++)
+			<div class="row" style="margin-left: 20px">				
+				@for($c=0;$c<4;$c++)
+					@if(count($productsData)>4*$r+$c)
+						<div class="span2 divProdHolder">
+							<div>
+							<img src="{{$productsData[4*$r+$c]->images[0]->url}}">
+							</div>
+							<div class="productInfo">
+							<input type="checkbox" class="product" data-id="{{$productsData[4*$r+$c]->id}}" />
+							<span>{{$productsData[4*$r+$c]->name}}</span>
+							</div>
+						</div>
+					@endif
+				@endfor
+			</div>
+		@endfor
+		@endif
+		</div>	
+		<div class="tab-pane" id="tabCategories">
 		<table class="table table-bordered table-hover">
 		<thead>
 		<tr>
@@ -42,9 +63,7 @@
 		</tbody>
 		</table>
 		</div>
-		<div class="tab-pane" id="tabProducts">
-		Products
-		</div>
+
 		<div class="tab-pane" id="tabEvents">
 		Events
 		</div>
@@ -67,4 +86,5 @@ var BASE = "<?php echo URL::base(); ?>";/*Define the BASE URL*/
 
 </script>
 {{ HTML::script('js/test_admin.js') }}
+{{ HTML::script('js/test_adminProduct.js') }}
 @endsection

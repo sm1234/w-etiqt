@@ -225,7 +225,7 @@ color: rgb(119, 119, 119);
 	color: #888;
 }
 
-#aAddProduct:hover
+#aAddProduct:hover,#aEditCategory:hover
 {
 	color: rgb(180, 26, 28);
 	text-decoration: none;

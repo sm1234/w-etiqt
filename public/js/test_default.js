@@ -2,7 +2,7 @@ $(document).ready(
 function()
 {
 	
-	
+	alert('I am here');
 	$('#btnShowMoreProducts').click(function(){
 		//get more data using AJAX get
 		try{

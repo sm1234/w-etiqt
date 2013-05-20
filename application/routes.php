@@ -344,6 +344,12 @@ Route::get('associatePromotionWithEventProducts',function(){
 	{
 		return View::make('admin.default')->with('title','etiqt homepage');
 	});
+	
+	Route::get('toaster', function()
+	{
+		return View::make('test.default')->with('title','etiqt homepage');
+	});
+
 
 
 Route::get('/products/(:any?)',array('uses'=>'products@index'));

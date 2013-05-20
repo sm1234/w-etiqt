@@ -6,7 +6,8 @@ class Admin_Controller extends Base_Controller {
 
 	public function get_index()
 	{
-		return "Welcome Admin";
+		$allcategories = Category::with('products')->get();
+		return View::make('test.admin')->with('title','Admin Panel')->with('categoriesData',$allcategories);
 	}
 	
 	public function get_test()

@@ -4,18 +4,29 @@ use Laravel\Database\Eloquent\Model;
 
 class Products_Controller extends Base_Controller {
 
-	public function get_index($id = null)
+	public function get_index($id)
 	{
-		if(is_null($id)) 
+		$retVal=array("status"=>0,"message"=>"");
+		try
 		{
-		return "get all the product information";
+			$prodInfo = json_decode(Product::getProductDetails($id));
+			if($prodInfo->{"status"}=="-1")
+			{
+				throw new Exception($prodInfo->{"message"});
+			}
+			else
+			{
+				$retVal = $prodInfo;
+			}
+			 
 		}
-		else
+		catch(Exception $ex)
 		{
-		return "get one product";	
+			$retVal["status"]=-1;
+			$retVal["message"]=$ex->getMessage();			
 		}
 
-		
+		return json_encode($retVal);		
 	}
 
 	
@@ -30,6 +41,10 @@ class Products_Controller extends Base_Controller {
 			if($updateProdStatus->{"status"}=="-1")
 			{
 				throw new Exception($updateProdStatus->{"message"});
+			}
+			else
+			{
+				$retVal = $updateProdStatus;
 			}
 			
 		}
@@ -54,6 +69,10 @@ class Products_Controller extends Base_Controller {
 			{
 				throw new Exception($addProdStatus->{"message"});
 			}
+			else
+			{
+				$retVal = $addProdStatus;
+			}			
 			
 		}
 		catch(Exception $ex)

@@ -78,13 +78,29 @@ public function users()
 
 
 
+public static function getProductDetails($id)
+{
+	$retVal=array("status"=>"0","message"=>"");
+	try
+	{
 
+			$retVal["message"]=Product::with(array('images'=>function($query){$query->where_status('1')->where_key('1');}))->find($id)->to_array();
+		
+	}
+	catch(Exception $ex)
+	{
+		$retVal["status"]=-1;
+		$retVal["message"]=$ex->getMessage();
+	}
+	//return the json encoded message
+	return json_encode($retVal);
+}
 
 public static function addProduct($input)
 {
 	/*TODO: Finish the server side validation*/
 	//for the validation, fetch the data from the post data
-	$retVal=array("status"=>"10","message"=>"");
+	$retVal=array("status"=>"0","message"=>"");
 	try
 	{
 		$prodName = $input['name'];
@@ -94,7 +110,9 @@ public static function addProduct($input)
 		$prodPrice = $input['price'];
 		$prodImgIds = $input['ImageIds'];
 		$prodCatId = $input['categoryId'];
-		
+		$prodBrandName = $input['brandName'];
+		$maxRowNum = "";
+		$maxColNum = "";		
 		$mydata = array(
 				'name'=>$prodName,
 				'categoryId'=>$prodCatId
@@ -102,19 +120,38 @@ public static function addProduct($input)
 		
 		
 		$result = self::validate($mydata, self::$rules, self::$messages);
+		/*TODO: How does the scope of methods work in PHP. I do not want to write all the methods as Public*/
+		/*How do I declare a private/public method as static in PHP*/
+		/*A static method within a class is always referred as self::*/
+		$rowColVals = json_decode(self::getRowColForNewProduct());
+		
+		/*TODO:Is there any better way to return error messages*/
+		if($rowColVals->status=="-1")
+		{
+			$result=false;
+			self::$validationMessages="Failed to get row and column information";
+		}
+		else
+		{
+			$maxRowNum=$rowColVals->message->row;
+			$maxColNum=$rowColVals->message->col;
+		}
 		
 		if($result)
 		{
 			/*TODO: save new product, product image, product category information */
-			DB::transaction(function() use ($prodName, $prodTagline, $prodDesc, $prodLocation, $prodPrice, $prodCatId, $prodImgIds)
+			DB::transaction(function() use ($prodName, $prodTagline, $prodDesc, $prodLocation, $prodPrice, $prodCatId, $prodImgIds, $prodBrandName,$maxRowNum,$maxColNum,&$retVal)
 			{
 				$prod = new Product();
 				$prod->name=$prodName;
+				$prod->brand=$prodBrandName;
 				$prod->tagline=$prodTagline;
 				$prod->description=$prodDesc;
 				$prod->location=$prodLocation;
 				$prod->price=$prodPrice;
-				$prod->save();
+				$prod->row_num=$maxRowNum;
+				$prod->col_num=$maxColNum;
+				$prod->save();				
 			
 				//save product category
 				$prod->categories()->attach($prodCatId);
@@ -125,8 +162,9 @@ public static function addProduct($input)
 				foreach ($ImageIds as $imgId)
 				{
 					//save product image
-					$prod->images()->attach($imgId);
+					$prod->images()->attach($imgId,array('key'=>1));
 				}
+				$retVal["message"] = array("productId"=>$prod->id);
 			}
 			);
 		}
@@ -363,6 +401,33 @@ public static function validate($input, $rules, $messages=null)
 	return $retVal;
 }
 
+private static function getRowColForNewProduct()
+{
+	$retVal=array("status"=>"0","message"=>"");
+	try
+	{
+		$maxRow = Product::max('row_num');
+		$maxCol = Product::where('row_num','=',$maxRow)->max('col_num');
+		/*TODO: Adjust this data accordingly*/
+		if($maxCol==4)
+		{
+			$maxCol=1;
+			$maxRow++;
+		}
+		else
+		{
+			$maxCol++;
+		}
+		$msgPart = array("row"=>$maxRow,"col"=>$maxCol);
+		$retVal["message"]=$msgPart;
+	}
+	catch(Exception $ex)
+	{
+		$retVal["status"]="-1";
+		$retVal["message"]=$ex->getMessage();		
+	}
+	return json_encode($retVal);	
+}
 
 }
 

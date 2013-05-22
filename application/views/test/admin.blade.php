@@ -17,8 +17,80 @@
 	<div class="tab-content">
 		<div class="tab-pane active" id="tabProducts">
 		@if(isset($productsData))
-		<a class="btn pull-right" id="btnSwapProducts">Swap</a>
-		<br/><br/>
+		<div class="row" style="margin-left: 20px">
+		<div class="span8">
+		    <a id="aAddProduct" role="button" data-toggle="modal" href="#modalAddProduct" class="pull-left">
+		    Add new Product <i class="icon-plus-sign icon-2x"></i>
+		    </a>		
+			<a class="btn pull-right" id="btnSwapProducts">Swap</a>
+			<div id="modalAddProduct" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h3 id="myModalLabel">Add new product</h3>
+				</div>
+				<div class="modal-body">
+			<div class="row-fluid fieldline">
+				<div class="span4">
+					<label style="text-align: right">Product name</label>
+				</div>
+				<div class="span4">
+					<input type="text"/>
+				</div>
+			</div>
+			<div class="row-fluid fieldline">
+				<div class="span4">
+					<label style="text-align: right">Product Image</label>
+				</div>
+				<div class="span4">
+					<input type="button" value="Add Image"/>
+				</div>
+			</div>
+			<div class="row-fluid fieldline">
+				<div class="span4">
+					<label style="text-align: right">Category</label>
+				</div>
+				<div class="span4">
+                   <select name="category" class="special required">
+                        <option value="-1">Select Category</option>
+                        @if(isset($categoriesData))
+                        @foreach($categoriesData as $category)
+                        <option value="{{$category->id}}">{{$category->description}}</option>
+                        @endforeach
+                        @endif
+                   </select>				
+				</div>
+			</div>
+			<div class="row-fluid fieldline">
+				<div class="span4">
+					<label style="text-align: right">Product tagline</label>
+				</div>
+				<div class="span4">
+					<input type="text"/>
+				</div>
+			</div>									
+			<div class="row-fluid fieldline">
+				<div class="span4">
+					<label style="text-align: right">Product description</label>
+				</div>
+				<div class="span4">
+					<textarea></textarea>					
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span4">
+					<label style="text-align: right">Price</label>
+				</div>
+				<div class="span2">
+					<input class="small" style="margin-right:2px;width:60px" type="text"> 					 
+				</div>
+			</div>																		
+			</div>
+			<div class="modal-footer">
+			<button class="btn btn-primary" id="btnAddProduct">Add product to etiqt</button>
+			</div>
+			</div>
+		</div>
+		</div>				
 		@for($r=0;$r<ceil(count($productsData)/4);$r++)
 			<div class="row" style="margin-left: 20px">				
 				@for($c=0;$c<4;$c++)

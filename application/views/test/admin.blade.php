@@ -34,7 +34,7 @@
 					<label style="text-align: right">Product name</label>
 				</div>
 				<div class="span4">
-					<input type="text"/>
+					<input type="text" id="txtProductName"/>
 				</div>
 			</div>
 			<div class="row-fluid fieldline">
@@ -43,15 +43,25 @@
 				</div>
 				<div class="span4">
 					<input type="button" value="Add Image" id="btnAddProductImage"/>
-					<input id="hdnbtnAddProductImage" type="file" style="visibility: hidden">
+					<input id="hdnbtnAddProductImage" type="file" style="display: none">
 				</div>
 			</div>
+			<div class="row-fluid fieldline">
+				<div class="span4 offset4" id="divNewAttachmentHolder">
+					<div class="hide" id="divAttachmentTemplate">
+						<input type="checkbox" checked id="chkIncludeFile"></input>
+						<span id="spanIncludeFileName">File Name</span>    	
+						{{HTML::image('img/ajax-loader.gif', "uploading", array('id'=>'imgUploaderTemplate'))}}
+						<input type="hidden" id="hdnUploadedFileNames" value=""></input>
+					</div>
+				</div>			
+			</div>			
 			<div class="row-fluid fieldline">
 				<div class="span4">
 					<label style="text-align: right">Category</label>
 				</div>
 				<div class="span4">
-                   <select name="category" class="special required">
+                   <select name="category" class="special required" id="selectProdCategory">
                         <option value="-1">Select Category</option>
                         @if(isset($categoriesData))
                         @foreach($categoriesData as $category)
@@ -66,7 +76,7 @@
 					<label style="text-align: right">Product tagline</label>
 				</div>
 				<div class="span4">
-					<input type="text"/>
+					<input type="text" id="txtProdTagline"/>
 				</div>
 			</div>									
 			<div class="row-fluid fieldline">
@@ -74,7 +84,7 @@
 					<label style="text-align: right">Product description</label>
 				</div>
 				<div class="span4">
-					<textarea></textarea>					
+					<textarea id="txtProdDesc"></textarea>					
 				</div>
 			</div>
 			<div class="row-fluid">
@@ -82,7 +92,7 @@
 					<label style="text-align: right">Price</label>
 				</div>
 				<div class="span2">
-					<input class="small" style="margin-right:2px;width:60px" type="text"> 					 
+					<input class="small" style="margin-right:2px;width:60px" type="text" id="txtProdPrice"> 					 
 				</div>
 			</div>																		
 			</div>

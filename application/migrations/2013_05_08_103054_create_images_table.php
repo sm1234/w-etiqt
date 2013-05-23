@@ -14,7 +14,8 @@ class Create_Images_Table {
 		Schema::table('images', function($table){
 			$table->create();
 			$table->increments('id');
-			$table->string('url',200);
+			$table->string('name',200);			
+			$table->string('url',500);
 			$table->timestamps();			
 		});
 	}

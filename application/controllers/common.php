@@ -3,7 +3,7 @@ class common
 {	
 	public static function fnGetFileName($extension)
 	{
-		return date("Y-m-d-G-i-s__").".".$extension;
+		return date("Y-m-d-G-i-s").".".$extension;
 	}
 	
 	public static function fnUploadFileToAWS($filePath,$fileName)

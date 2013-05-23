@@ -1,6 +1,25 @@
 $(document).ready(
 function()
 {
+	
+	$("#aAddProduct").click(function(){
+		/*TODO: clean the pop up content holders*/
+		//txtProductName
+		$("#txtProductName").val('');		
+		
+		$("div[id^='divAttachmentNewProdImg']").each(function(index){
+			$(this).remove();
+		});
+		//selectProdCategory
+		$("#selectProdCategory").val(-1);
+		//txtProdTagline
+		$("#txtProdTagline").val('');
+		//txtProdDesc
+		$("#txtProdDesc").val('');
+		//txtProdPrice
+		$("#txtProdPrice").val('');
+	});
+	
 	//Check if any checkbox is already checked; if it is, then uncheck it
 	if($("input:checkbox[class=product]:checked").length > 0)
 	{
@@ -83,16 +102,25 @@ function()
 		/*TODO: invoke the POST method on controller Products to create a new product*/
 		try{
 			to_url = BASE+"/products";
+			var prodName=$("#txtProductName").val();
+			var catId=$('#selectProdCategory').val();
+			var brandName="";
+			var prodDesc=$("#txtProdDesc").val();
+			var prodTagline=$("#txtProdTagline").val();
+			var prodLocation="";
+			var prodPrice=$("#txtProdPrice").val();
+			var prodImgURLs=fnGetAssociatedProdURLs();
+			alert(prodImgURLs);
+			//alert(prodName+"~"+catId+"~"+brandName+"~"+prodDesc+"~"+prodTagline+"~"+prodLocation+"~"+prodPrice+"~"+prodImgURLs);
 			
-
-			var _reqParams = {"name":"sometime",
-					"categoryId":"3",
-					"brandName":"brandSome",
-					"description":"product description",
-					"tagline":"product tagline",
-					"location":"product location",
-					"price":"12.4",					
-					"ImageIds":"1~2~3"
+			var _reqParams = {"name":prodName,
+					"categoryId":catId,
+					"brandName":brandName,
+					"description":prodDesc,
+					"tagline":prodTagline,
+					"location":prodLocation,
+					"price":prodPrice,					
+					"ImageURLs":prodImgURLs
 					};
 
 			var postReq = $.ajax({
@@ -103,7 +131,6 @@ function()
 			
 			postReq.success(function(data){
 				resp = JSON.parse(data);
-				//alert(resp.message.productId);
 				to_url = BASE+"/products/"+resp.message.productId;
 				var getProdInfo = $.ajax({
 					url:to_url,
@@ -140,6 +167,8 @@ function()
 		var fileName = $("#hdnbtnAddProductImage").val();
 		if(isValidFileExtension(fileName))
 		{
+			fnShowUploadStatus(fileName);
+			
 			var _sURL = BASE+"/products/uploadImageContent";
 			var ctrlNewFiles = document.getElementById("hdnbtnAddProductImage");			
 			var fd = new FormData();
@@ -153,8 +182,19 @@ function()
 				contentType: false
 				});
 			
-			postReq.success(function(data){alert(data)});
-			//alert('here');
+			postReq.success(function(data){
+				resp = JSON.parse(data);
+				if(resp["status"]=="0")
+				{
+					fOriginal = resp["message"]["originalFileName"];
+					fLoaded = resp["message"]["uploadedFileName"];
+					newName=fOriginal+"~#~"+fLoaded;
+					spanWithImgInfo = $("span[id='spanIncludeFileName']:contains('"+fOriginal+"')");
+					spanWithImgInfo.siblings("img[id='imgUploader']").addClass("hide");
+					hdnFileCtrl = spanWithImgInfo.siblings("input[id='hdnUploadedFileNames']");
+					hdnFileCtrl.val(newName);	
+				}
+			});
 		}
 	}
 	function isValidFileExtension(fileName)
@@ -175,6 +215,35 @@ function()
 		retVal = false;
 	}
 	return retVal;
+	}
+	
+	function fnShowUploadStatus(fileName)
+	{
+		if(fileName.lastIndexOf("\\") > 0)
+		{	fName = fileName.substring(fileName.lastIndexOf("\\") + 1, fileName.length);	}
+		else
+		{	fName = fileName;	}
+		
+		divNewAttachmentClone = $("#divAttachmentTemplate").clone();
+		divNewAttachmentClone.attr("id","divAttachmentNewProdImg");
+		divNewAttachmentClone.find("#spanIncludeFileName").text(fName);
+		divNewAttachmentClone.find("#imgUploaderTemplate").attr("id","imgUploader");
+		
+		divNewAttachmentClone.removeClass("hide");
+		divNewAttachmentClone.prependTo("#divNewAttachmentHolder");
+		
+	}
+	function fnGetAssociatedProdURLs()
+	{
+		var retVal="";
+		
+		alert($("#divAttachmentNewProdImg input:checked").length);
+		
+		$("#divAttachmentNewProdImg input:checked").each(function(index){
+			if($(this).siblings("input[type='hidden']").val()!="")
+			{retVal+=$(this).siblings("input[type='hidden']").val()+","}
+			});
+		return retVal;
 	}
 }
 );

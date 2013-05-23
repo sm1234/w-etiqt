@@ -116,30 +116,43 @@ class Products_Controller extends Base_Controller {
 /*TODO: This function belongs to common.php i.e Common_Controller class*/
 	public function post_uploadImageContent()
 	{
-				foreach ($_FILES["images"]["error"] as $key => $error)
+		$retVal=array("status"=>0,"message"=>array("originalFileName"=>"","uploadedFileName"=>""));
+		try 
+		{
+			foreach ($_FILES["images"]["error"] as $key => $error)
+			{
+				if ($error == UPLOAD_ERR_OK)
 				{
-					if ($error == UPLOAD_ERR_OK)
+					$fTempName=$_FILES["images"]["tmp_name"][$key];
+					$fName=$_FILES['images']['name'][$key];
+					$indexExtension = strrpos($fName, ".");
+					if($indexExtension!=FALSE)
 					{
-						$fTempName=$_FILES["images"]["tmp_name"][$key];
-						$fName=$_FILES['images']['name'][$key];
-						$indexExtension = strrpos($fName, ".");
-						if($indexExtension!=FALSE)
-						{
-							$extension = substr($fName, $indexExtension+1);//find the file extension
-							$newFileName = common::fnGetFileName($extension);
-							move_uploaded_file( $fTempName, "public/uploads/".$newFileName);
-							$file="public/uploads/".$newFileName;
+						$extension = substr($fName, $indexExtension+1);//find the file extension
+						$newFileName = common::fnGetFileName($extension);
+						move_uploaded_file( $fTempName, "public/uploads/".$newFileName);
+						$file="public/uploads/".$newFileName;
 							
-							if(common::fnUploadFileToAWS($file,$newFileName))
-							{
-								unlink($file);
-							}
-							$fileURL = 'http://s3.amazonaws.com/EnjoyTheForum/'.$newFileName;
-							return $fileURL;
+						if(common::fnUploadFileToAWS($file,$newFileName))
+						{
+							unlink($file);
 						}
+						$fileURL = 'http://s3.amazonaws.com/EnjoyTheForum/'.$newFileName;
+						
+						$retVal["message"]["originalFileName"]=$fName;
+						$retVal["message"]["uploadedFileName"]=$fileURL;						
 					}
 				}
-				return false;
+			}			
+		}
+		catch(Exception $ex)
+		{
+			$retVal["status"]=$ex->getCode();
+			$retVal["message"]=$ex->getMessage();
+		}
+
+	return json_encode($retVal);
+	
 	}
 	
 

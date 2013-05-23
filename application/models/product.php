@@ -108,7 +108,7 @@ public static function addProduct($input)
 		$prodTagline = $input['tagline'];
 		$prodLocation = $input['location'];
 		$prodPrice = $input['price'];
-		$prodImgIds = $input['ImageIds'];
+		$prodImgURLs = $input['ImageURLs'];
 		$prodCatId = $input['categoryId'];
 		$prodBrandName = $input['brandName'];
 		$maxRowNum = "";
@@ -140,7 +140,7 @@ public static function addProduct($input)
 		if($result)
 		{
 			/*TODO: save new product, product image, product category information */
-			DB::transaction(function() use ($prodName, $prodTagline, $prodDesc, $prodLocation, $prodPrice, $prodCatId, $prodImgIds, $prodBrandName,$maxRowNum,$maxColNum,&$retVal)
+			DB::transaction(function() use ($prodName, $prodTagline, $prodDesc, $prodLocation, $prodPrice, $prodCatId, $prodImgURLs, $prodBrandName,$maxRowNum,$maxColNum,&$retVal)
 			{
 				$prod = new Product();
 				$prod->name=$prodName;
@@ -158,11 +158,19 @@ public static function addProduct($input)
 			
 				//attach product to the image
 				//break the delimiter ~ and fetch individual imageIds
-				$ImageIds = explode("~",$prodImgIds);
-				foreach ($ImageIds as $imgId)
+				$ImageURLs = explode(",",$prodImgURLs);
+				foreach ($ImageURLs as $url)
 				{
-					//save product image
-					$prod->images()->attach($imgId,array('key'=>1));
+					if($url!="")
+					{
+						$ImageDet = explode("~#~",$url);
+						$img = new Image();
+						$img->name=$ImageDet[0];
+						$img->url=$ImageDet[1];
+						$img->save();
+						//save product image
+						$prod->images()->attach($img->id,array("key"=>1));						
+					}
 				}
 				$retVal["message"] = array("productId"=>$prod->id);
 			}

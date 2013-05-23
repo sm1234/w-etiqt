@@ -42,7 +42,8 @@
 					<label style="text-align: right">Product Image</label>
 				</div>
 				<div class="span4">
-					<input type="button" value="Add Image"/>
+					<input type="button" value="Add Image" id="btnAddProductImage"/>
+					<input id="hdnbtnAddProductImage" type="file" style="visibility: hidden">
 				</div>
 			</div>
 			<div class="row-fluid fieldline">

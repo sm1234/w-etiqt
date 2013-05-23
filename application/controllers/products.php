@@ -1,5 +1,6 @@
 <?php
 
+include ('common.php');
 use Laravel\Database\Eloquent\Model;
 
 class Products_Controller extends Base_Controller {
@@ -111,26 +112,35 @@ class Products_Controller extends Base_Controller {
 		}
 		return json_encode($retVal);
 	}
-/*
-	public function get_fetchProductDataForPage()
+
+/*TODO: This function belongs to common.php i.e Common_Controller class*/
+	public function post_uploadImageContent()
 	{
-		$retVal=array("status"=>0,"message"=>"");
-		try {
-			
-			$retVal["message"]="Data found and returned";
-			
-		} catch (Exception $ex) {
-			$retVal["status"]="-1";
-			$retVal["message"]=$ex->getMessage();
-		}
-		return json_encode($retVal);
+				foreach ($_FILES["images"]["error"] as $key => $error)
+				{
+					if ($error == UPLOAD_ERR_OK)
+					{
+						$fTempName=$_FILES["images"]["tmp_name"][$key];
+						$fName=$_FILES['images']['name'][$key];
+						$indexExtension = strrpos($fName, ".");
+						if($indexExtension!=FALSE)
+						{
+							$extension = substr($fName, $indexExtension+1);//find the file extension
+							$newFileName = common::fnGetFileName($extension);
+							move_uploaded_file( $fTempName, "public/uploads/".$newFileName);
+							$file="public/uploads/".$newFileName;
+							
+							if(common::fnUploadFileToAWS($file,$newFileName))
+							{
+								unlink($file);
+							}
+							$fileURL = 'http://s3.amazonaws.com/EnjoyTheForum/'.$newFileName;
+							return $fileURL;
+						}
+					}
+				}
+				return false;
 	}
-*/
-	
-	/*
-	 * Function to swap the products.
-	 * It gets the id of the products to be swapped and passes them to the model for interchanging their row and column nos
-	 */
 	
 
 }

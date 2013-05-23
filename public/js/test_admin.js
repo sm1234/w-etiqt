@@ -126,5 +126,55 @@ function()
 		}
 
 	});
+	
+	$("#btnAddProductImage").click(function(){
+		$("#hdnbtnAddProductImage").click();
+	});
+	
+	$("#hdnbtnAddProductImage").change(function(){fnAssociateNewAttachment();});
+	
+	function fnAssociateNewAttachment()
+	{
+		
+		//validate the file type 
+		var fileName = $("#hdnbtnAddProductImage").val();
+		if(isValidFileExtension(fileName))
+		{
+			var _sURL = BASE+"/products/uploadImageContent";
+			var ctrlNewFiles = document.getElementById("hdnbtnAddProductImage");			
+			var fd = new FormData();
+			fd.append("images[]", ctrlNewFiles.files[0]);			
+			
+			var postReq = $.ajax({
+				url: _sURL,
+				type: "POST",
+				data: fd,
+				processData: false,
+				contentType: false
+				});
+			
+			postReq.success(function(data){alert(data)});
+			//alert('here');
+		}
+	}
+	function isValidFileExtension(fileName)
+	{	
+	var retVal=true;
+	try{
+	    if (fileName.lastIndexOf(".") > 0) {
+	        fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length).toUpperCase();
+	        if(fileExtension=="GIF" || fileExtension=="JPEG" || fileExtension=="JPG"|| fileExtension=="PNG")
+	        {}
+	        else
+	        {retVal=false;}
+	             
+	    }
+	}
+	catch(err){
+		alert(err);
+		retVal = false;
+	}
+	return retVal;
+	}
 }
 );

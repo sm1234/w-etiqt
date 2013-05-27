@@ -167,6 +167,20 @@
 		</tbody>
 		</table>
 		</div>
+		
+<!-- Modal for confirming category deletion -->
+<div id="deleteCategoryConfirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header" style="border-bottom:0px;">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>	
+	</div>
+	<div class="modal-body">
+		<p><strong>Are you sure you want to delete this category?</strong></p>
+	</div>
+	<div class="modal-footer">
+		<button id="btnDeleteCategory" data-id="" class="btn">Yes</button>
+		<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">No</button>
+	</div>
+</div>
 
 <!-- Tab for events -->
 		<div class="tab-pane" id="tabEvents">

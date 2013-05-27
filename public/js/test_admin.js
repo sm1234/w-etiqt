@@ -86,45 +86,54 @@ function()
 	 * Handles the delete event of a category
 	 */
 	$(".aDeleteCategory").click(function(){
-		var btnClicked = $(this);
-		var delId = btnClicked.attr('data-id');
+		var delId = $(this).attr('data-id');
 		/*
 		 * Check if the category is saved in the database or not.
 		 * If not, then simply remove it without any server-side coding.
 		 */
 		if(delId=="")
 		{
-			btnClicked.parent('td').parent('tr').remove();
+			$(this).parent('td').parent('tr').remove();
 		}
 		else
 		{
-			try
-			{
-				to_url = BASE+"/admin/deleteCategory";
-				
-				var req_params = {
-					"delId":delId,
-				};
-				
-				var post_req = $.ajax({
-									url:to_url,
-									type:'GET',
-									data:req_params
-				});
-				
-				post_req.success(function(data){
-					btnClicked.parent('td').parent('tr').remove();
-				});
-				
-				post_req.fail(function(data){
-					alert('failed');
-				});
-			}
-			catch(e)
-			{
-				throw e;
-			} 
+			$('#btnDeleteCategory').attr('data-id',delId);
+			$('#deleteCategoryConfirmModal').modal('show');
 		}
+		
+	});	
+	
+	$("#btnDeleteCategory").click(function(){
+		var btnClicked = $(this);
+		var delId = btnClicked.attr('data-id');
+		try
+		{
+			to_url = BASE+"/admin/deleteCategory";
+			
+			var req_params = {
+				"delId":delId,
+			};
+			
+			var post_req = $.ajax({
+								url:to_url,
+								type:'GET',
+								data:req_params
+			});
+			
+			post_req.success(function(data){
+				btnDel = $('a.aDeleteCategory[data-id="'+delId+'"]')
+				$('#deleteCategoryConfirmModal').modal('hide');
+				btnDel.parent('td').parent('tr').remove();
+			});
+			
+			post_req.fail(function(data){
+				alert('failed');
+			});
+		}
+		catch(e)
+		{
+			throw e;
+		} 
 	});
 	
 	//Check if any checkbox is already checked; if it is, then uncheck it

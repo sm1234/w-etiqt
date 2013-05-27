@@ -15,6 +15,8 @@
 	  <li><a href="#tabStores" data-toggle="tab">Stores</a></li>
 	</ul>
 	<div class="tab-content">
+
+<!-- Tab for products -->
 		<div class="tab-pane active" id="tabProducts">
 		@if(isset($productsData))
 		<div class="row" style="margin-left: 20px">
@@ -121,7 +123,12 @@
 		@endfor
 		@endif
 		</div>	
+		
+<!-- Tab for categories -->
 		<div class="tab-pane" id="tabCategories">
+		<a id="aAddCategory" role="button" href="#" class="pull-left">
+	    	Add new Category <i class="icon-plus-sign icon-2x"></i>
+	 	</a><br/>
 		<table class="table table-bordered table-hover">
 		<thead>
 		<tr>
@@ -135,21 +142,36 @@
 <tr>
     <td>
 <div class="input-append">
-  <input id="appendedInputButton" type="text" value="{{$catData->description}}" data-id="{{$catData->id}}">
-  <button class="btn" type="button" data-action="btnSaveCategoryName">Save</button>
+  <input type="text" value="{{$catData->description}}" autocomplete="off">
+  <button class="btn appendedInputButton" type="button" data-id="{{$catData->id}}" data-action="btnSaveCategoryName">Save</button>
 </div>    
     </td>
     <td><span>{{count($catData->products)}}</span></td>
 </tr>	
 @endforeach
-@endif  		
+@endif 
+
+<!-- Hidden table row which will be cloned and inserted into the table on the click of add new category button -->  
+<tr class="hide catRow">
+    <td>
+<div class="input-append">
+  <input type="text" value="" autocomplete="off">
+  <button class="btn appendedInputButton" type="button" data-id="" data-action="btnSaveCategoryName">Add</button>
+</div>
+    </td>
+    <td><span></span></td>
+</tr>
+		
 		</tbody>
 		</table>
 		</div>
 
+<!-- Tab for events -->
 		<div class="tab-pane" id="tabEvents">
 		Events
 		</div>
+
+<!-- Tab for stores -->
 		<div class="tab-pane" id="tabStores">
 		Stores
 		</div>						

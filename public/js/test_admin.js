@@ -20,6 +20,62 @@ function()
 		$("#txtProdPrice").val('');
 	});
 	
+	/*
+	 * On clicking the 'Add new Category' button, a row is cloned and inserted into the table of categories
+	 */
+	$("#aAddCategory").click(function(){
+		$(".catRow").clone('true').removeAttr('class').prependTo('tbody');
+	});
+	
+	/*
+	 * Handles the 'Save' or 'Add' button click for a category.
+	 * In both the cases, the 'data-id' attribute containing the category-id is sent.
+	 * For existing category(Save), the category-id is the associated id of the category. 
+	 * For adding a new category, it is blank.
+	 * According to the catId value sent, appropriate action is taken on the server side
+	 */
+	/*
+	 * TODO: client side validation
+	 */
+	$(".appendedInputButton").click(function(){
+		var btnClicked = $(this); 
+		var catId = $(this).attr('data-id');
+		var catName = $(this).siblings('input').val();
+		
+		try
+		{
+			to_url = BASE+"/admin/addOrEditCategory";
+			
+			var req_params = {
+				"catId":catId,
+				"catName":catName
+			};
+			
+			var post_req = $.ajax({
+								url:to_url,
+								type:'GET',
+								data:req_params
+			});
+			
+			post_req.success(function(data){
+				resp = JSON.parse(data);
+				if(btnClicked.html()=="Add")
+				{
+					btnClicked.html('Save');
+					btnClicked.attr('data-id',resp.message);
+				}
+			});
+			
+			post_req.fail(function(data){
+				alert('failed');
+			});
+		}
+		catch(e)
+		{
+			throw e;
+		}
+	});
+	
 	//Check if any checkbox is already checked; if it is, then uncheck it
 	if($("input:checkbox[class=product]:checked").length > 0)
 	{

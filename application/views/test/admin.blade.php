@@ -145,6 +145,7 @@
   <input type="text" value="{{$catData->description}}" autocomplete="off">
   <button class="btn appendedInputButton" type="button" data-id="{{$catData->id}}" data-action="btnSaveCategoryName">Save</button>
 </div>    
+&nbsp;&nbsp;&nbsp;<a class="aDeleteCategory" data-id="{{$catData->id}}"><i class="icon-remove-sign icon-2x"></i></a>
     </td>
     <td><span>{{count($catData->products)}}</span></td>
 </tr>	
@@ -158,6 +159,7 @@
   <input type="text" value="" autocomplete="off">
   <button class="btn appendedInputButton" type="button" data-id="" data-action="btnSaveCategoryName">Add</button>
 </div>
+&nbsp;&nbsp;&nbsp;<a class="aDeleteCategory" data-id=""><i class="icon-remove-sign icon-2x"></i></a>
     </td>
     <td><span></span></td>
 </tr>

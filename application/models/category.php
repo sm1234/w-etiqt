@@ -48,5 +48,29 @@ class Category extends Eloquent
 		
 		return json_encode($retVal);
 	}
+	
+	public static function deleteCategory($input)
+	{
+		$retVal=array("status"=>"0","message"=>"");
+		try
+		{
+			$delId = $input['delId'];
+			
+				DB::transaction(function() use ($delId)
+				{
+					$category = Category::where_id($delId)->first();
+					$category->status = false;
+					$category->save();
+				});
+			
+		}
+		catch(Exception $ex)
+		{		
+			$retVal["status"]="-1";
+			$retVal["message"]=$ex->getMessage();		
+		}
+		
+		return json_encode($retVal);
+	}
 }
 ?>

@@ -38,7 +38,8 @@ function()
 	 * TODO: client side validation
 	 */
 	$(".appendedInputButton").click(function(){
-		var btnClicked = $(this); 
+		var btnClicked = $(this);
+		var btnDelete = $(this).parent(".input-append").siblings(".aDeleteCategory"); 
 		var catId = $(this).attr('data-id');
 		var catName = $(this).siblings('input').val();
 		
@@ -59,10 +60,15 @@ function()
 			
 			post_req.success(function(data){
 				resp = JSON.parse(data);
+				/*
+				 * If a new category is added, change the button name to 'Save' instead of 'Add' 
+				 * and assign the returned id to the data-id attribute of the save and delete buttons
+				 */
 				if(btnClicked.html()=="Add")
 				{
 					btnClicked.html('Save');
 					btnClicked.attr('data-id',resp.message);
+					btnDelete.attr('data-id',resp.message);
 				}
 			});
 			
@@ -73,6 +79,51 @@ function()
 		catch(e)
 		{
 			throw e;
+		}
+	});
+	
+	/*
+	 * Handles the delete event of a category
+	 */
+	$(".aDeleteCategory").click(function(){
+		var btnClicked = $(this);
+		var delId = btnClicked.attr('data-id');
+		/*
+		 * Check if the category is saved in the database or not.
+		 * If not, then simply remove it without any server-side coding.
+		 */
+		if(delId=="")
+		{
+			btnClicked.parent('td').parent('tr').remove();
+		}
+		else
+		{
+			try
+			{
+				to_url = BASE+"/admin/deleteCategory";
+				
+				var req_params = {
+					"delId":delId,
+				};
+				
+				var post_req = $.ajax({
+									url:to_url,
+									type:'GET',
+									data:req_params
+				});
+				
+				post_req.success(function(data){
+					btnClicked.parent('td').parent('tr').remove();
+				});
+				
+				post_req.fail(function(data){
+					alert('failed');
+				});
+			}
+			catch(e)
+			{
+				throw e;
+			} 
 		}
 	});
 	

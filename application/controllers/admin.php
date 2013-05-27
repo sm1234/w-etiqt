@@ -6,7 +6,7 @@ class Admin_Controller extends Base_Controller {
 
 	public function get_index()
 	{
-		$allcategories = Category::with('products')->order_by('created_at','desc')->get();
+		$allcategories = Category::with('products')->where_status('1')->order_by('created_at','desc')->get();
 		$allProducts = Product::with(array('images'=>function($query){$query->where_status('1')->where_key('1');}))->order_by('row_num','asc')->order_by('col_num','asc')->get();
 		return View::make('test.admin')->with('title','Admin Panel')->with('categoriesData',$allcategories)->with('productsData',$allProducts);
 	}
@@ -62,5 +62,28 @@ class Admin_Controller extends Base_Controller {
 		}
 		return json_encode($retVal);
 	}
+	
+	public function get_deleteCategory()
+	{
+		$retVal=array("status"=>0,"message"=>"");
+		try 
+		{
+			$input = Input::all();
+			
+			$catStatus = json_decode(Category::deleteCategory($input));
+			
+			if($catStatus->{"status"}=="-1")
+			{
+				throw new Exception($catStatus->{"message"});
+			}
+		}
+		catch(Exception $e)
+		{
+			$retVal["status"]=-1;
+			$retVal["message"]=$e->getMessage();
+		}
+		return json_encode($retVal);
+	}
 
 }
+?>

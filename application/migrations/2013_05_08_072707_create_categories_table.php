@@ -14,6 +14,7 @@ class Create_Categories_Table {
 				$table->create();
 				$table->increments('id');
 				$table->string('description',100);
+				$table->boolean('status')->default(true);
 				$table->timestamps();
 			});
 	}

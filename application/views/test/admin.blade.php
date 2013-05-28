@@ -21,6 +21,7 @@
 		@if(isset($productsData))
 		<div class="row" style="margin-left: 20px">
 		<div class="span8">
+		<form id="formAddNewProduct" onsubmit="return false">
 		    <a id="aAddProduct" role="button" data-toggle="modal" href="#modalAddProduct" class="pull-left">
 		    Add new Product <i class="icon-plus-sign icon-2x"></i>
 		    </a>		
@@ -31,12 +32,13 @@
 					<h3 id="myModalLabel">Add new product</h3>
 				</div>
 				<div class="modal-body">
+				
 			<div class="row-fluid fieldline">
 				<div class="span4">
 					<label style="text-align: right">Product name</label>
 				</div>
 				<div class="span4">
-					<input type="text" id="txtProductName"/>
+					<input type="text" id="txtProductName" required/>
 				</div>
 			</div>
 			<div class="row-fluid fieldline">
@@ -96,12 +98,25 @@
 				<div class="span2">
 					<input class="small" style="margin-right:2px;width:60px" type="text" id="txtProdPrice"> 					 
 				</div>
-			</div>																		
+			</div>
+																		
 			</div>
 			<div class="modal-footer">
-			<button class="btn btn-primary" id="btnAddProduct">Add product to etiqt</button>
+			<button class="btn btn-primary" id="btnAddProduct" type="submit">Add product to etiqt</button>
 			</div>
 			</div>
+			</form>
+
+<div id="modalConfirmRemoveProduct" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalConfirmRemoveProduct" aria-hidden="true">
+<div class="modal-body">
+<p>Are you sure, you want to delete this product?</p>
+</div>
+<div class="modal-footer">
+<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+<button class="btn btn-primary" data-id="1234" id="btnDeleteProduct">Delete Product</button>
+</div>
+</div>			
+			
 		</div>
 		</div>				
 		@for($r=0;$r<ceil(count($productsData)/4);$r++)
@@ -115,6 +130,10 @@
 							<div class="productInfo">
 							<input type="checkbox" class="product" data-id="{{$productsData[4*$r+$c]->id}}" />
 							<span>{{$productsData[4*$r+$c]->name}}</span>
+							
+							<div id="divRemoveProduct" class="hide">
+							<i class="icon-remove-sign icon-2x pull-right iconRemoveProduct" data-id="{{$productsData[4*$r+$c]->id}}" data-toggle="modal"></i>							
+							</div>
 							</div>
 						</div>
 					@endif

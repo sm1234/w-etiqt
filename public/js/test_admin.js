@@ -214,6 +214,9 @@ function()
 	
 	$('#btnAddProduct').click(function(){
 		/*TODO:Complete the client side validation for all the mandatory fields*/
+		//alert(document.getElementById('txtProductName').validity);
+		//document.getElementById('txtProductName').setCustomValidity('Product Name must be given');
+		alert('hi');
 		/*TODO: Complete the error handling here*/
 		/*TODO: invoke the POST method on controller Products to create a new product*/
 		try{
@@ -226,8 +229,7 @@ function()
 			var prodLocation="";
 			var prodPrice=$("#txtProdPrice").val();
 			var prodImgURLs=fnGetAssociatedProdURLs();
-			alert(prodImgURLs);
-			//alert(prodName+"~"+catId+"~"+brandName+"~"+prodDesc+"~"+prodTagline+"~"+prodLocation+"~"+prodPrice+"~"+prodImgURLs);
+
 			
 			var _reqParams = {"name":prodName,
 					"categoryId":catId,
@@ -254,13 +256,13 @@ function()
 					});
 				
 				getProdInfo.success(function(data){
-					alert(data);
+					alert("prodInfo"+data);
 				});
 			});
 			
 			postReq.fail(function(data){
 				resp = JSON.parse(data);
-				alert(resp.message);
+				alert("fail"+resp.message);
 			});			
 		}
 		catch(e)
@@ -349,11 +351,14 @@ function()
 		divNewAttachmentClone.prependTo("#divNewAttachmentHolder");
 		
 	}
+	/*
+	 * Gets the images that are to be associated with the product
+	 * */
 	function fnGetAssociatedProdURLs()
 	{
 		var retVal="";
 		
-		alert($("#divAttachmentNewProdImg input:checked").length);
+
 		
 		$("#divAttachmentNewProdImg input:checked").each(function(index){
 			if($(this).siblings("input[type='hidden']").val()!="")
@@ -361,5 +366,34 @@ function()
 			});
 		return retVal;
 	}
+	
+	//alert();
+	$("div.divProdHolder").hover(function(){
+		$(this).find("#divRemoveProduct").toggleClass("hide");
+	});
+	$("i.iconRemoveProduct").click(function(){
+		//Show a confirmation modal dialog
+		//if confirmed, then remove the product from the catalog
+		//iconRemoveProduct
+		//
+		$("#btnDeleteProduct").attr("data-id",$(this).attr("data-id"));
+		
+	    $('#modalConfirmRemoveProduct').modal('show');
+	});
+	
+	$("#btnDeleteProduct").click(function(){
+		//TODO: place the code in try catch block and validate the data before invoking the DELETE call
+		to_url = BASE+"/products/";
+		var getProdInfo = $.ajax({
+			url:to_url,
+			type:'DELETE',
+		    data: {"id": $(this).attr("data-id")}
+			});
+		$('#modalConfirmRemoveProduct').modal('hide');
+		getProdInfo.success(function(data){
+			resp = JSON.parse(data);
+			$("i.iconRemoveProduct[data-id='"+resp["message"]+"']").parents("div.divProdHolder").remove();
+		});
+	});
 }
 );

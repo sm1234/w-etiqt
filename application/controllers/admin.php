@@ -39,7 +39,7 @@ class Admin_Controller extends Base_Controller {
 		return json_encode($retVal);
 	}
 	
-	public function get_addOrEditCategory()
+	public function post_addOrEditCategory()
 	{
 		$retVal=array("status"=>0,"message"=>"");
 		try 
@@ -63,7 +63,7 @@ class Admin_Controller extends Base_Controller {
 		return json_encode($retVal);
 	}
 	
-	public function get_deleteCategory()
+	public function delete_deleteCategory()
 	{
 		$retVal=array("status"=>0,"message"=>"");
 		try 

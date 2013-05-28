@@ -54,7 +54,7 @@ function()
 			
 			var post_req = $.ajax({
 								url:to_url,
-								type:'GET',
+								type:'POST',
 								data:req_params
 			});
 			
@@ -116,7 +116,7 @@ function()
 			
 			var post_req = $.ajax({
 								url:to_url,
-								type:'GET',
+								type:'DELETE',
 								data:req_params
 			});
 			

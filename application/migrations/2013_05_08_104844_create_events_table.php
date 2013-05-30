@@ -20,8 +20,8 @@ class Create_Events_Table {
 			$table->integer('user_id')->unsigned();
 			$table->string('location')->nullable();
 			$table->boolean('status')->default(true);
-			$table->timestamp('start_date')->nullable();
-			$table->timestamp('end_date')->nullable();
+			$table->date('start_date')->nullable();
+			$table->date('end_date')->nullable();
 			$table->timestamps();
 			
 		});

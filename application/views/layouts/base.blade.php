@@ -24,8 +24,8 @@
 		{{ HTML::script('js/vendor/modernizr-2.6.2.min.js') }}
 		@yield_section
 		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->	    	    	   
-        <link rel="shortcut icon" href="img/em_favicon.ico"/>
-		<link rel="apple-touch-icon" href="img/em_apple_icon.png"/>			            
+        <link rel="shortcut icon" href="{{asset('img/em_favicon.ico')}}"/>
+		<link rel="apple-touch-icon" href="{{asset('img/em_apple_icon.png')}}"/>			            
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand"><img src="img/em_logo.png"></a>
+          <a class="brand"><img src="{{asset('img/em_logo.png')}}"></a>
           
           <div class="nav-collapse collapse">
             <ul class="nav">

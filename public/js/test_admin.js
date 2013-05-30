@@ -21,7 +21,8 @@ function()
 	});
 	
 	/*
-	 * On clicking the 'Add new Category' button, a row is cloned and inserted into the table of categories
+	 *	It handles the adding of new categories and editing of existing categories
+	 *  On clicking the 'Add new Category' button, a row is cloned and inserted into the table of categories
 	 */
 	$("#aAddCategory").click(function(){
 		$(".catRow").clone('true').removeAttr('class').prependTo('tbody');
@@ -36,8 +37,9 @@ function()
 	 */
 	/*
 	 * TODO: client side validation
+	 * TODO: On successful adding or editing, display a nice prompt informing the user
 	 */
-	$(".appendedInputButton").click(function(){
+	$(".btnAddOrEditCategory").click(function(){
 		var btnClicked = $(this);
 		var btnDelete = $(this).parent(".input-append").siblings(".aDeleteCategory"); 
 		var catId = $(this).attr('data-id');
@@ -73,7 +75,8 @@ function()
 			});
 			
 			post_req.fail(function(data){
-				alert('failed');
+				resp = JSON.parse(data);
+				alert(resp.message);
 			});
 		}
 		catch(e)
@@ -121,13 +124,15 @@ function()
 			});
 			
 			post_req.success(function(data){
+				resp = JSON.parse(data);
 				btnDel = $('a.aDeleteCategory[data-id="'+delId+'"]')
 				$('#deleteCategoryConfirmModal').modal('hide');
 				btnDel.parent('td').parent('tr').remove();
 			});
 			
 			post_req.fail(function(data){
-				alert('failed');
+				resp = JSON.parse(data);
+				alert(resp.message);
 			});
 		}
 		catch(e)
@@ -136,10 +141,151 @@ function()
 		} 
 	});
 	
+	/*
+	 * Handles closing the Event
+	 */
+	$(".btnCloseEventConfirmation").click(function(){
+		var eventId = $(this).attr('data-id');
+		
+		$('#btnCloseEvent').attr('data-id',eventId);
+		$('#closeEventConfirmModal').modal('show');
+
+	});
+	
+	$("#btnCloseEvent").click(function(){
+		var btnClicked = $(this);
+		var eventId = btnClicked.attr('data-id');
+		try
+		{
+			to_url = BASE+"/admin/closeEvent";
+			
+			var req_params = {
+				"eventId":eventId,
+			};
+			
+			var post_req = $.ajax({
+								url:to_url,
+								type:'DELETE',
+								data:req_params
+			});
+			
+			post_req.success(function(data){
+				resp = JSON.parse(data);
+				btnDel = $('button.btnCloseEventConfirmation[data-id="'+eventId+'"]')
+				$('#closeEventConfirmModal').modal('hide');
+				btnDel.parent('td').parent('tr').remove();
+			});
+			
+			post_req.fail(function(data){
+				resp = JSON.parse(data);
+				alert(resp.message);
+			});
+		}
+		catch(e)
+		{
+			throw e;
+		} 
+	});
+	
+	/*
+	 * Handles the Editing of Event Details
+	 * TODO: Upon successful edit, display a nice prompt to the user instead of the alert
+	 */
+	$("#btnEditEventDetail").click(function(){
+		var eventId = $(this).attr('data-id');
+		var name = $('#tableEventDetails').find('#inputName').val();
+		var tagline = $('#tableEventDetails').find('#inputTagline').val();
+		var startDate = $('#tableEventDetails').find('#inputStartDate').val();
+		var endDate = $('#tableEventDetails').find('#inputEndDate').val();
+		var location = $('#tableEventDetails').find('#inputLocation').val();
+		
+		try
+		{
+			to_url = BASE+"/admin/editEventDetails";
+			
+			var req_params = {
+				"id":eventId,
+				"name":name,
+				"tagline":tagline,
+				"startDate":startDate,
+				"endDate":endDate,
+				"location":location
+			};
+			
+			var post_req = $.ajax({
+								url:to_url,
+								type:'PUT',
+								data:req_params
+			});
+			
+			post_req.success(function(data){
+				resp = JSON.parse(data);
+				alert('Edited');
+			});
+			
+			post_req.fail(function(data){
+				resp = JSON.parse(data);
+				alert(resp.message);
+			});
+		}
+		catch(e)
+		{
+			throw e;
+		}
+		
+	});
+	
+	/*
+	 * Handles the removal of products from the event
+	 * TODO: After successful removal, remove the product from the 'Existing products' tab and put it in the 'Add product' tab
+	 */
+	$('#btnRemoveEventProducts').click(function(){
+		var eventId = $(this).attr('data-id');
+		var i = 0;
+		var prod_ids = [];
+		
+		$('input:checkbox[class=chkboxRemoveProduct]:checked').each(function(){
+			prod_ids[i++] = $(this).attr('data-id');
+		})
+		
+		try{
+			to_url = BASE+"/admin/removeAssociatedProducts";
+
+			var _reqParams = {
+					"eventId":eventId,								
+					"allIds":prod_ids
+					};
+
+			var postReq = $.ajax({
+								url:to_url,
+								type:'DELETE',
+								data:_reqParams
+			});
+			
+			postReq.success(function(data){
+				alert('done!');
+					resp = JSON.parse(data);						    
+			});
+			
+			postReq.fail(function(data){
+				alert('failed');
+				resp = JSON.parse(data);
+				alert(resp.message);
+			});
+		}
+		catch(e)
+		{
+			throw e;
+		}
+	})
+	
+	/*
+	 * Handles the swapping of products
+	 */
 	//Check if any checkbox is already checked; if it is, then uncheck it
-	if($("input:checkbox[class=product]:checked").length > 0)
+	if($("input:checkbox:checked").length > 0)
 	{
-		$("input:checkbox[class=product]:checked").each(function(){
+		$("input:checkbox:checked").each(function(){
 			$(this).prop('checked',false);
 		})
 	}

@@ -37,5 +37,130 @@ public function sections()
 	return $this->has_many_and_belongs_to('Tblsection','event_section','event_id','section_id');
 }
 
+/*
+ * Setter method to filter the start and end date before storing them in the database.
+ * We want only the date, not time(i.e., 'date' mysql type instead of 'datetime')
+ * But there is no 'date' type in laravel 3
+ */ 
+public function set_start_date($start_date)
+{
+	$this->set_attribute('start_date',date("d-m-y",strtotime($start_date)));
+}
+public function set_end_date($end_date)
+{
+	$this->set_attribute('end_date',date("d-m-y",strtotime($end_date)));
+}
+
+/*
+ * Getter method to filter the start and end date before displaying them to the user.
+ * We want only the date, not time(i.e., 'date' mysql type instead of 'datetime')
+ * But there is no 'date' type in laravel 3
+ */ 
+public function get_start_date()
+{
+	return date("d-m-y",strtotime($this->get_attribute('start_date')));
+}
+public function get_end_date()
+{
+	return date("d-m-y",strtotime($this->get_attribute('end_date')));
+}
+
+/*
+ * Function to close an event
+ * It sets the status of the event to 0
+ */
+public static function closeEvent($input)
+	{
+		$retVal=array("status"=>"0","message"=>"");
+		try
+		{
+			$eventId = $input['eventId'];
+			
+				DB::transaction(function() use ($eventId)
+				{
+					$event = Tblevent::where_id($eventId)->first();
+					$event->status = false;
+					$event->save();
+				});
+			
+		}
+		catch(Exception $ex)
+		{		
+			$retVal["status"]="-1";
+			$retVal["message"]=$ex->getMessage();		
+		}
+		
+		return json_encode($retVal);
+	}
+	
+/*
+ * Function to edit Event Details
+ */
+public static function editEventDetails($input)
+{
+	$retVal=array("status"=>"0","message"=>"");
+		try
+		{
+			$id = $input['id'];
+			$name = $input['name'];
+			$tagline = $input['tagline'];
+			$startDate = $input['startDate'];
+			$endDate = $input['endDate'];
+			$location = $input['location'];
+
+				DB::transaction(function() use ($id, $name, $tagline, $startDate, $endDate, $location)
+				{
+					$event = Tblevent::where_id($id)->first();
+					$event->name = $name;
+					$event->tagline = $tagline;
+					$event->start_date = $startDate;
+					$event->end_date = $endDate;
+					$event->location = $location;
+					$event->save();
+				});
+		}
+		catch(Exception $ex)
+		{		
+			$retVal["status"]="-1";
+			$retVal["message"]=$ex->getMessage();		
+		}
+		
+		return json_encode($retVal);
+}
+
+/*
+ * Function to remove the products associated with an event.
+ * It gets the ids of the products to be removed and updates the 'status' field of the 'event_product' table to 0
+ */
+public static function removeAssociatedProducts($input)
+	{
+		$retVal=array("status"=>"0","message"=>"");
+		try
+		{
+			$eventId = $input['eventId'];
+			$allProdIds = $input['allIds'];
+			
+				DB::transaction(function() use ($eventId, $allProdIds)
+				{
+					$event = Tblevent::where_id($eventId)->first();
+					foreach($event->products as $prod)
+					{
+						if(in_array($prod->pivot->product_id, $allProdIds))
+						{
+							$prod->pivot->status = false;
+							$prod->pivot->save();											
+						}
+		
+					}	
+				});
+		}
+		catch(Exception $ex)
+		{		
+			$retVal["status"]="-1";
+			$retVal["message"]=$ex->getMessage();		
+		}
+		
+		return json_encode($retVal);
+	}
 }
 ?>

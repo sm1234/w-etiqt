@@ -162,7 +162,7 @@
     <td>
 <div class="input-append">
   <input type="text" value="{{$catData->description}}" autocomplete="off">
-  <button class="btn appendedInputButton" type="button" data-id="{{$catData->id}}" data-action="btnSaveCategoryName">Save</button>
+  <button class="btn btnAddOrEditCategory" type="button" data-id="{{$catData->id}}">Save</button>
 </div>    
 &nbsp;&nbsp;&nbsp;<a class="aDeleteCategory" data-id="{{$catData->id}}"><i class="icon-remove-sign icon-2x"></i></a>
     </td>
@@ -176,7 +176,7 @@
     <td>
 <div class="input-append">
   <input type="text" value="" autocomplete="off">
-  <button class="btn appendedInputButton" type="button" data-id="" data-action="btnSaveCategoryName">Add</button>
+  <button class="btn btnAddOrEditCategory" type="button" data-id="">Add</button>
 </div>
 &nbsp;&nbsp;&nbsp;<a class="aDeleteCategory" data-id=""><i class="icon-remove-sign icon-2x"></i></a>
     </td>
@@ -203,7 +203,46 @@
 
 <!-- Tab for events -->
 		<div class="tab-pane" id="tabEvents">
-		Events
+		<a id="aCreateEvent" role="button" data-toggle="modal" href="#modalCreateEvent" class="pull-left">
+		Create an Event <i class="icon-plus-sign icon-2x"></i>
+		</a><br/>
+		<table class="table table-bordered table-hover">
+		<thead>
+		<tr>
+      		<th>Event Name</th>
+      		<th>Start Date</th>
+      		<th>End Date</th>
+      		<th>Location</th>
+      		<th>Action</th>
+    	</tr>
+		</thead>
+		<tbody>
+			@if(isset($eventsData))
+			@foreach($eventsData as $event)
+				<tr>
+				    <td><a href="{{action('admin@event', array($event->id))}}">{{$event->name}}</a></td>
+				    <td>{{$event->start_date}}</td>
+				    <td>{{$event->end_date}}</td>
+				    <td>{{$event->location}}</td>
+				    <td><button class="btn btn-danger btnCloseEventConfirmation" data-id="{{$event->id}}">Close Event</button></td>
+				</tr>
+			@endforeach
+			@endif
+		</tbody>
+		</table>
+		</div>
+<!-- Modal for Close event Confirmation -->
+		<div id="closeEventConfirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-header" style="border-bottom:0px;">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>	
+			</div>
+			<div class="modal-body">
+				<p><strong>Are you sure you want to close this event?</strong></p>
+			</div>
+			<div class="modal-footer">
+				<button id="btnCloseEvent" data-id="" class="btn">Yes</button>
+				<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">No</button>
+			</div>
 		</div>
 
 <!-- Tab for stores -->

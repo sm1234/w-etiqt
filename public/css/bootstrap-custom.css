@@ -220,12 +220,12 @@ color: rgb(119, 119, 119);
 	color: rgb(255, 255, 255);
 }
 
-#aAddProduct,#aAddCategory,.aDeleteCategory
+#aAddProduct,#aAddCategory,.aDeleteCategory,#aCreateEvent
 {
 	color: #888;
 }
 
-#aAddProduct:hover,#aEditCategory:hover,#aAddCategory:hover,.aDeleteCategory:hover
+#aAddProduct:hover,#aEditCategory:hover,#aAddCategory:hover,.aDeleteCategory:hover,#aCreateEvent:hover
 {
 	color: rgb(180, 26, 28);
 	text-decoration: none;

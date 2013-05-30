@@ -11,7 +11,7 @@ class Admin_Controller extends Base_Controller {
 
 		$allProducts = Product::with(array('images'=>function($query){$query->where_status('1')->where_key('1');}))->order_by('row_num','asc')->where_status('1')->order_by('col_num','asc')->get();
 
-		$allEvents = Tblevent::where_status('1')->get();
+		$allEvents = Tblevent::where_status('1')->order_by('name','asc')->get();
 		
 		$allStores = Store::where_status('1')->get();
 		
@@ -157,7 +157,35 @@ class Admin_Controller extends Base_Controller {
 		
 		return View::make('test.eventContainer')->with('title','Event')->with('allProducts',$allProducts)->with('event',$event)->with('eventProducts',$eventProducts);
 	}
-	
+
+/*
+ * Function to add new Event Details
+ */
+public function post_addEventDetails()
+{
+	$retVal=array("status"=>0,"message"=>"");
+	try
+	{
+		$input = Input::all();//get all the inputs			
+		$eventStatus = json_decode(Tblevent::createEvent($input));
+			
+		if($eventStatus->{"status"}=="-1")
+		{
+			throw new Exception($prodStatus->{"message"});
+		}
+		else
+		{
+			$retVal["message"] = $eventStatus->{"message"};
+		}
+
+	}
+	catch(Exception $ex)
+	{
+		$retVal["status"]=-1;
+		$retVal["message"]=$ex->getMessage();
+	}
+	return json_encode($retVal);
+}
 /*
  * Function to Edit the Event Details
  */

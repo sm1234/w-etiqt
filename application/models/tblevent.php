@@ -44,11 +44,11 @@ public function sections()
  */ 
 public function set_start_date($start_date)
 {
-	$this->set_attribute('start_date',date("d-m-y",strtotime($start_date)));
+	$this->set_attribute('start_date',date("Y-m-d",strtotime($start_date)));
 }
 public function set_end_date($end_date)
 {
-	$this->set_attribute('end_date',date("d-m-y",strtotime($end_date)));
+	$this->set_attribute('end_date',date("Y-m-d",strtotime($end_date)));
 }
 
 /*
@@ -58,11 +58,51 @@ public function set_end_date($end_date)
  */ 
 public function get_start_date()
 {
-	return date("d-m-y",strtotime($this->get_attribute('start_date')));
+	return date("d/m/Y",strtotime($this->get_attribute('start_date')));
 }
 public function get_end_date()
 {
-	return date("d-m-y",strtotime($this->get_attribute('end_date')));
+	return date("d/m/Y",strtotime($this->get_attribute('end_date')));
+}
+
+/*
+ * Function to create an event
+ */
+public static function createEvent($input)
+{
+	$retVal=array("status"=>"0","message"=>"");
+
+	try
+	{
+		$name = $input['name'];
+		$startDt = $input['startDt'];
+		$endDt = $input['endDt'];
+		$location = $input['location'];
+		$eventId=0;
+
+		DB::transaction(function() use ($name,$startDt,$endDt,$location,&$eventId)
+		{
+			$event = new Tblevent();
+			$event->name = $name;
+			$event->start_date = $startDt;
+			$event->end_date = $endDt;
+			$event->location = $location;
+			$event->user_id = 1;
+			$event->save();
+
+			$eventId = $event->id;
+
+		});
+
+		$retVal["message"] = array("id"=>$eventId);
+	}
+	catch(Exception $ex)
+	{
+		$retVal["status"]=-1;
+		$retVal["message"]=$ex->getMessage();		
+	}
+
+	return json_encode($retVal);
 }
 
 /*
@@ -92,6 +132,25 @@ public static function closeEvent($input)
 		
 		return json_encode($retVal);
 	}
+
+public static function getEventDetails($id)
+{
+	$retVal=array("status"=>"0","message"=>"");
+	try
+	{
+
+		$retVal["message"]=Tblevent::find($id)->to_array();
+		
+	}
+	catch(Exception $ex)
+	{
+		$retVal["status"]=-1;
+		$retVal["message"]=$ex->getMessage();
+	}
+	//return the json encoded message
+	return json_encode($retVal);
+}
+
 	
 /*
  * Function to edit Event Details

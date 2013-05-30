@@ -88,8 +88,7 @@
 				@else
 				No Products added to this event yet
 				@endif	
-			</div>
-			
+			</div>			
 			<!-- Tab for Adding more Products to the event -->
 			<div class="tab-pane" id="tabAddProductsToEvent">				
 				@if(count($allProducts)!=0)
@@ -119,7 +118,7 @@
 	</div>
 </div>
 
-<button style="margin-left: 20%" class="btn btn-info" href="#" onClick="history.go(-1);"><i class="icon-arrow-left"></i>Back to all Events</a>
+<a style="margin-left: 20%" class="btn btn-info" href="{{action('admin@index')}}"><i class="icon-arrow-left"></i>Back to all Events</a>
 @endsection
 
 @section('footer_script')

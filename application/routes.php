@@ -353,8 +353,10 @@ Route::get('associatePromotionWithEventProducts',function(){
 
 
 Route::get('/products/(:any?)',array('uses'=>'products@index'));
+Route::get('/events/(:any?)',array('uses'=>'events@index'));
 
 Route::controller('products');
+Route::controller('events');
 Route::controller('home');
 Route::controller('admin');
 

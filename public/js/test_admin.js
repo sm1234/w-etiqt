@@ -1,11 +1,117 @@
 $(document).ready(
 function()
 {
-	
 	$("#aAddProduct").click(function(){
 		fnResetProductDataBinding();
 	});
-	
+/*-----------Begin Section for all the JS associated with events--------------*/
+
+	//All the events associated with creation of the event
+	//on click of aCreateProduct, reset the controls within modal [DONE]
+	//on click of the save button in the modal do the validation and save the new event
+	//after saving the new event, fetch the data and bind it to the grid
+	//check if the close of that new event is working fine
+	//check if navigation to event detail is working fine
+
+	//on click of aCreateProduct, reset the controls within modal
+	$("#aCreateEvent").click(function(){
+		fnResetEventDataBinding();
+	});
+	//on click of aCreateProduct, reset the controls within modal
+	function fnResetEventDataBinding()
+	{
+		$("#txtEventName").val('');
+		$("#txtEventStartDt").val('');
+		$("#txtEventEndDt").val('');
+		$("#txtEventLocation").val('');
+	}
+
+//on click of the save button in the modal do the validation and save the new event
+$("#btnCreateEvent").click(function(){
+	try
+	{
+		//TODO: perform all the cient side validation
+		//if the validation is successful, then save the information in the DB
+		//name should be unique
+		//start date should not be greater than start dt
+		//start date should not be less than today
+		//get the user information
+		//get the tagline and description
+		//how to standardize the location?
+		var eventName = $("#txtEventName").val();
+		var eventStartDt = $("#txtEventStartDt").val();
+		var eventEndDt = $("#txtEventEndDt").val();
+		var eventLocation = $("#txtEventLocation").val();
+
+		//form the input parameter
+		var req_params = {
+				"name":eventName,
+				"startDt":eventStartDt,
+				"endDt":eventEndDt,
+				"location":eventLocation
+			};
+
+		to_url = BASE+"/admin/addEventDetails";
+
+		var post_req = $.ajax({
+							url:to_url,
+							type:'POST',
+							data:req_params
+						});
+
+		post_req.success(function(data){
+			resp  = JSON.parse(data);
+			fnAppendNewEventToUI(resp.message.id);
+			$("#modalCreateEvent").modal('hide');
+		});
+		post_req.fail(function(data){
+		alert("unable to save the new event");
+		});
+
+	}
+	catch(ex)
+	{ throw ex;}
+
+});
+
+function fnAppendNewEventToUI(eventid)
+{
+	//based on the eventid, get the details
+	try
+	{		
+		var to_url = BASE+"/events/"+eventid;
+
+		var getEventInfo = $.ajax({
+								url:to_url,
+								type:'GET'
+								});
+
+		getEventInfo.success(function(data){
+			var resp  = JSON.parse(data);
+			var eventURL = BASE+"/admin/event/"+resp.message.id;
+			//clone the tr with id: 
+			trClonedRow = $("#trNewEventTemplate").clone('true');
+			trClonedRow.find("#aEventName").html(resp.message.name);
+			trClonedRow.find("#aEventName").attr("href",eventURL);
+			trClonedRow.find("#spanEventStartDt").html(resp.message.start_date);
+			trClonedRow.find("#spanEventEndDt").html(resp.message.end_date);
+			trClonedRow.find("#spanEventLocation").html(resp.message.location);
+			trClonedRow.find(".btnCloseEventConfirmation").attr("data-id",resp.message.id);
+			trClonedRow.removeClass("hide");
+			
+			trClonedRow.prependTo('tbody#tbodyEvents');
+			
+		});
+		getEventInfo.fail(function(){alert('Failed to get event information');});
+	}
+	catch(ex)
+	{
+		throw ex;
+	}
+}
+
+
+/*-----------End Section for all the JS associated with events--------------*/	
 	function fnResetProductDataBinding()
 	{
 		/*TODO: clean the pop up content holders*/
@@ -229,7 +335,6 @@ function()
 			
 			post_req.success(function(data){
 				resp = JSON.parse(data);
-				alert('Edited');
 			});
 			
 			post_req.fail(function(data){
@@ -477,6 +582,8 @@ function()
 			$(this).prop('checked',false);
 		})
 	}
+	
+	
 	
 	/*
 	* Prevent the user from checking more than two products for swapping
@@ -754,6 +861,8 @@ function()
 		divNewAttachmentClone.attr("id","divAttachmentNewProdImg");
 		divNewAttachmentClone.find("#spanIncludeFileName").text(fName);
 		divNewAttachmentClone.find("#imgUploaderTemplate").attr("id","imgUploader");
+		divNewAttachmentClone.find("#chkIncludeFile").prop("checked",true);
+		
 		
 		divNewAttachmentClone.removeClass("hide");
 		divNewAttachmentClone.prependTo("#divNewAttachmentHolder");
@@ -817,6 +926,7 @@ function()
 						imgCheckBox.attr("data-name",resp.message.images[imgIndex].name);
 						imgCheckBox.attr("data-url",resp.message.images[imgIndex].url);
 						imgCheckBox.attr("data-id",resp.message.images[imgIndex].id);
+						imgCheckBox.prop("checked",true);
 
 						divNewAttachmentClone.prependTo("#divNewAttachmentHolder");						
 					}

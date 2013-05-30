@@ -171,7 +171,7 @@
       		<th>#Products</th>
     	</tr>
 		</thead>
-		<tbody>
+		<tbody id="tbodyCategories">
 @if(isset($categoriesData))
 @foreach($categoriesData as $catData)
 <tr>
@@ -187,7 +187,8 @@
 @endforeach
 @endif 
 
-<!-- Hidden table row which will be cloned and inserted into the table on the click of add new category button -->  
+<!-- Hidden table row which will be cloned and inserted into the table on the click of add new category button -->
+<!--TODO: Change the id to template-->  
 <tr class="hide catRow">
     <td>
 <div class="input-append">

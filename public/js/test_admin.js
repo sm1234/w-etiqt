@@ -34,7 +34,7 @@ function()
 	 *  On clicking the 'Add new Category' button, a row is cloned and inserted into the table of categories
 	 */
 	$("#aAddCategory").click(function(){
-		$(".catRow").clone('true').removeAttr('class').prependTo('tbody');
+		$(".catRow").clone('true').removeAttr('class').prependTo('tbody#tbodyCategories');
 	});
 	
 	/*

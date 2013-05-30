@@ -570,7 +570,51 @@ function fnAppendNewEventToUI(eventid)
 		{
 			throw e;
 		}
-	})
+	});
+	
+	/*
+ * Handles the Adding of new products to the store
+ * TODO: when a new product is added to the store, it should be moved from the 'Add products' tab to the 'Existing products' tab
+ */
+	$('#btnAddStoreProducts').click(function(){
+		var storeId = $(this).attr('data-id');
+		var i = 0;
+		var prod_ids = [];
+		
+		$('input:checkbox[class=chkboxAddStoreProduct]:checked').each(function(){
+			prod_ids[i++] = $(this).attr('data-id');
+		})
+
+		try{
+			to_url = BASE+"/admin/addNewStoreProducts";
+
+			var _reqParams = {
+					"storeId":storeId,								
+					"allIds":prod_ids
+					};
+
+			var postReq = $.ajax({
+								url:to_url,
+								type:'POST',
+								data:_reqParams
+			});
+			
+			postReq.success(function(data){
+				alert('done!');
+					resp = JSON.parse(data);						    
+			});
+			
+			postReq.fail(function(data){
+				alert('failed');
+				resp = JSON.parse(data);
+				alert(resp.message);
+			});
+		}
+		catch(e)
+		{
+			throw e;
+		}
+	});
 	
 	/*
 	 * Handles the swapping of products

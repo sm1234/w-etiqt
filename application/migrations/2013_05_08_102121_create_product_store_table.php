@@ -14,8 +14,7 @@ class Create_Product_Store_Table {
 				$table->create();
 				$table->increments('id');
 				$table->integer('product_id')->unsigned();			
-				$table->integer('store_id')->unsigned();
-				$table->boolean('status')->default(true);			
+				$table->integer('store_id')->unsigned();			
 				$table->timestamps();
 			});
 	}

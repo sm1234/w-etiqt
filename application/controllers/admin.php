@@ -296,7 +296,7 @@ public function post_addEventDetails()
 		$store = Store::find($storeId);
 		
 		//Get all the products related to this store 
-		$storeProducts = $store->products()->where('product_store.status','=','1')->get();
+		$storeProducts = $store->products()->get();
 		
 		/*
 		 * Get all the other products, that are not related to this store
@@ -358,6 +358,31 @@ public function post_addEventDetails()
 			$input = Input::all();
 			
 			$prodStatus = json_decode(Store::removeAssociatedStoreProducts($input));
+			
+			if($prodStatus->{"status"}=="-1")
+			{
+				throw new Exception($prodStatus->{"message"});
+			}
+		}
+		catch(Exception $e)
+		{
+			$retVal["status"]=-1;
+			$retVal["message"]=$e->getMessage();
+		}
+		return json_encode($retVal);
+	}
+	
+	/*
+ * Function to add new products to an store
+ */
+	public function post_addNewStoreProducts()
+	{
+		$retVal=array("status"=>0,"message"=>"");
+		try 
+		{
+			$input = Input::all();
+			
+			$prodStatus = json_decode(Store::addNewStoreProducts($input));
 			
 			if($prodStatus->{"status"}=="-1")
 			{

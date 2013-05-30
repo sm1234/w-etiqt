@@ -204,8 +204,24 @@ public static function removeAssociatedEventProducts($input)
 					$event = Tblevent::where_id($eventId)->first();
 					foreach($event->products as $prod)
 					{
+						/*
+						 * We have to delete only those products from the event which the user has checked.
+						 * The ids of all such products is passed in the form of an array and then only those
+						 * entries in the event_product table are deleted which match these ids
+						 */
 						if(in_array($prod->pivot->product_id, $allProdIds))
 						{
+							/*
+							 * Before deleting the event_product entry, we have to first delete any promotion
+							 * associated with that event_product.
+							 * To do so, we first get hold of the event_product enty of that product,
+							 * Then we fetch all the promotions associated with it and delete them all
+							 */
+							$eventPro = Productevent::find($prod->pivot->id);
+							foreach($eventPro->promotion as $eventProPromotion)
+							{
+								$eventProPromotion->pivot->delete();
+							}
 							$prod->pivot->delete();											
 						}
 		
@@ -223,10 +239,7 @@ public static function removeAssociatedEventProducts($input)
 	
 /*
  * Function to add new products to an event.
- * It gets the ids of the products to be added and then it performs one of the two cases:
- * 	 1. Product was already added to the event previously but removed.
- * 		In this case, update the 'status' field of the 'event_product' table to 1
- * 	 2. Add a new entry in the 'event_product' table
+ * It gets the ids of the products to be added and then it adds a new entry in the 'event_product' table
  */
 public static function addNewEventProducts($input)
 	{

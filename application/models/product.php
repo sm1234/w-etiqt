@@ -49,7 +49,7 @@ public function tags()
  * */
 public function images()
 {
-	return $this->has_many_and_belongs_to('Image','image_product','product_id','image_id');
+	return $this->has_many_and_belongs_to('Image','image_product','product_id','image_id')->with('key');
 }
 
 /*
@@ -77,14 +77,14 @@ public function users()
 }
 
 
-
+/*TODO: Check why this method is being invoked multiple times*/
 public static function getProductDetails($id)
 {
 	$retVal=array("status"=>"0","message"=>"");
 	try
 	{
 
-			$retVal["message"]=Product::with(array('images'=>function($query){$query->where_status('1')->where_key('1');}))->find($id)->to_array();
+			$retVal["message"]=Product::with(array('images'=>function($query){$query->where_status('1');},'categories'=>function($query){$query->where_status('1');}))->find($id)->to_array();
 		
 	}
 	catch(Exception $ex)
@@ -165,8 +165,8 @@ public static function addProduct($input)
 					{
 						$ImageDet = explode("~#~",$url);
 						$img = new Image();
-						$img->name=$ImageDet[0];
-						$img->url=$ImageDet[1];
+						$img->name=$ImageDet[1];
+						$img->url=$ImageDet[2];
 						$img->save();
 						//save product image
 						$prod->images()->attach($img->id,array("key"=>1));						
@@ -278,14 +278,16 @@ public static function updateProduct($input)
 	$retVal=array("status"=>0,"message"=>"");
 	try
 	{
-		$prodId = $input['id'];
+		$prodId = $input['prodId'];
 		$prodName = $input['name'];
 		$prodDesc = $input['description'];
 		$prodTagline = $input['tagline'];
 		$prodLocation = $input['location'];
 		$prodPrice = $input['price'];
-		$prodImgIds = $input['ImageIds'];
+		$prodImgIds = $input['ImageURLs'];
 		$prodCatId = $input['categoryId'];
+		$prodBrandName = $input['brandName'];
+		
 		
 		/*
 		 * Validation Starts from here.
@@ -301,7 +303,7 @@ public static function updateProduct($input)
 		if($result)	
 		{						 
 			//Transaction is used for 'All Or Nothing' approach. If there is a problem with any of the database query, everything will be rolled back.
-			DB::transaction(function() use ($prodId, $prodName, $prodTagline, $prodDesc, $prodLocation, $prodPrice, $prodCatId, $prodImgIds)
+			DB::transaction(function() use ($prodId, $prodName, $prodTagline, $prodDesc, $prodLocation, $prodPrice, $prodCatId, $prodImgIds, $prodBrandName,&$retVal)
 			{
 				$prod = Product::where_id($prodId)->first();
 				$prod->name=$prodName;
@@ -316,12 +318,38 @@ public static function updateProduct($input)
 				
 				//attach product to the image
 				//break the delimiter ~ and fetch individual imageIds
-				$ImageIds = explode("~",$prodImgIds);
-				foreach ($ImageIds as $imgId)
+				$ImageURLs = explode(",",$prodImgIds);
+				$ImgIds = array();
+				foreach ($ImageURLs as $url)
 				{
-					//save product image
-					$prod->images()->attach($imgId);
+					if($url!="")
+					{
+						$ImageDet = explode("~#~",$url);
+						if($ImageDet[0]=="")
+						{
+							$img = new Image();
+							$img->name=$ImageDet[1];
+							$img->url=$ImageDet[2];
+							$img->save();
+							//$ImgIds[$img->id] = array('key' =>1);
+							array_push($ImgIds, $img->id);
+							//save product image																					
+						}
+						else 
+						{
+							//create a new 
+							array_push($ImgIds, $ImageDet[0]);
+						}
+						
+					}
 				}
+				/*TODO: This should be changed to sync*/
+				$prod->images()->delete();
+				foreach($ImgIds as $prodImg)
+				$prod->images()->attach($prodImg,array("key"=>1));
+
+				$retVal["message"] = array("productId"=>$prod->id);
+				
 			});
 		}
 		else

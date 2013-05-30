@@ -29,7 +29,7 @@
 			<div id="modalAddProduct" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					<h3 id="myModalLabel">Add new product</h3>
+					<h3 id="addProdModalLabel">Add new product</h3>
 				</div>
 				<div class="modal-body">
 				
@@ -38,7 +38,7 @@
 					<label style="text-align: right">Product name</label>
 				</div>
 				<div class="span4">
-					<input type="text" id="txtProductName" required/>
+					<input type="text" id="txtProductName" required data-id=""/>
 				</div>
 			</div>
 			<div class="row-fluid fieldline">
@@ -53,10 +53,9 @@
 			<div class="row-fluid fieldline">
 				<div class="span4 offset4" id="divNewAttachmentHolder">
 					<div class="hide" id="divAttachmentTemplate">
-						<input type="checkbox" checked id="chkIncludeFile"></input>
+						<input type="checkbox" checked id="chkIncludeFile" data-id="" data-name="" data-url=""></input>
 						<span id="spanIncludeFileName">File Name</span>    	
 						{{HTML::image('img/ajax-loader.gif', "uploading", array('id'=>'imgUploaderTemplate'))}}
-						<input type="hidden" id="hdnUploadedFileNames" value=""></input>
 					</div>
 				</div>			
 			</div>			
@@ -65,8 +64,8 @@
 					<label style="text-align: right">Category</label>
 				</div>
 				<div class="span4">
-                   <select name="category" class="special required" id="selectProdCategory">
-                        <option value="-1">Select Category</option>
+                   <select name="category" class="special required" id="selectProdCategory" required>
+                        <option value="">Select Category</option>
                         @if(isset($categoriesData))
                         @foreach($categoriesData as $category)
                         <option value="{{$category->id}}">{{$category->description}}</option>
@@ -120,18 +119,19 @@
 		</div>
 		</div>				
 		@for($r=0;$r<ceil(count($productsData)/4);$r++)
-			<div class="row" style="margin-left: 20px">				
+			<div id="divProdRows_{{$r+1}}" class="row" style="margin:40px" data-rowVal={{$r+1}} data-lastRow={{$r==ceil(count($productsData)/4)-1}}>				
 				@for($c=0;$c<4;$c++)
 					@if(count($productsData)>4*$r+$c)
 						<div class="span2 divProdHolder">
 							<div>
-							<img src="{{$productsData[4*$r+$c]->images[0]->url}}">
+							<img id="imgKeyProd" src="{{$productsData[4*$r+$c]->images[0]->url}}">
 							</div>
 							<div class="productInfo">
 							<input type="checkbox" class="product" data-id="{{$productsData[4*$r+$c]->id}}" />
-							<span>{{$productsData[4*$r+$c]->name}}</span>
+							<span id="spanProdName">{{$productsData[4*$r+$c]->name}}</span>
 							
-							<div id="divRemoveProduct" class="hide">
+							<div id="divProductActionButtons" class="hide">
+							<i class="icon-edit icon-2x iconEditProduct" data-id="{{$productsData[4*$r+$c]->id}}" data-toggle="modal"></i>
 							<i class="icon-remove-sign icon-2x pull-right iconRemoveProduct" data-id="{{$productsData[4*$r+$c]->id}}" data-toggle="modal"></i>							
 							</div>
 							</div>
@@ -140,6 +140,22 @@
 				@endfor
 			</div>
 		@endfor
+		<div id="divNewProdRowTemplate" class="row hide" style="margin:40px" data-lastRow="">
+		<div class="span2 divProdHolder hide" id="divNewProdTemplate">
+			<div>
+			<img id="imgKeyProd" src="">
+			</div>
+			<div class="productInfo">
+			<input type="checkbox" class="product" data-id="" />
+			<span id="spanProdName"></span>
+			
+			<div id="divProductActionButtons" class="hide">
+			<i class="icon-edit icon-2x iconEditProduct" data-id="" data-toggle="modal"></i>
+			<i class="icon-remove-sign icon-2x pull-right iconRemoveProduct" data-id="" data-toggle="modal"></i>							
+			</div>
+			</div>									
+		</div>
+		</div>
 		@endif
 		</div>	
 		

@@ -3,9 +3,16 @@ function()
 {
 	
 	$("#aAddProduct").click(function(){
+		fnResetProductDataBinding();
+	});
+	
+	function fnResetProductDataBinding()
+	{
 		/*TODO: clean the pop up content holders*/
 		//txtProductName
-		$("#txtProductName").val('');		
+		$("#txtProductName").val('');
+		//set the data id attribute to empty
+		$("#txtProductName").attr("data-id","");
 		
 		$("div[id^='divAttachmentNewProdImg']").each(function(index){
 			$(this).remove();
@@ -18,8 +25,10 @@ function()
 		$("#txtProdDesc").val('');
 		//txtProdPrice
 		$("#txtProdPrice").val('');
-	});
-	
+		
+		$("#addProdModalLabel").html("Add new product");
+		$("#btnAddProduct").html("Add product to etiqt");
+	}
 	/*
 	 *	It handles the adding of new categories and editing of existing categories
 	 *  On clicking the 'Add new Category' button, a row is cloned and inserted into the table of categories
@@ -362,54 +371,126 @@ function()
 		/*TODO:Complete the client side validation for all the mandatory fields*/
 		//alert(document.getElementById('txtProductName').validity);
 		//document.getElementById('txtProductName').setCustomValidity('Product Name must be given');
-		alert('hi');
+		
 		/*TODO: Complete the error handling here*/
 		/*TODO: invoke the POST method on controller Products to create a new product*/
 		try{
-			to_url = BASE+"/products";
-			var prodName=$("#txtProductName").val();
-			var catId=$('#selectProdCategory').val();
-			var brandName="";
-			var prodDesc=$("#txtProdDesc").val();
-			var prodTagline=$("#txtProdTagline").val();
-			var prodLocation="";
-			var prodPrice=$("#txtProdPrice").val();
+			
 			var prodImgURLs=fnGetAssociatedProdURLs();
-
-			
-			var _reqParams = {"name":prodName,
-					"categoryId":catId,
-					"brandName":brandName,
-					"description":prodDesc,
-					"tagline":prodTagline,
-					"location":prodLocation,
-					"price":prodPrice,					
-					"ImageURLs":prodImgURLs
-					};
-
-			var postReq = $.ajax({
-								url:to_url,
-								type:'POST',
-								data:_reqParams
-			});
-			
-			postReq.success(function(data){
-				resp = JSON.parse(data);
-				to_url = BASE+"/products/"+resp.message.productId;
-				var getProdInfo = $.ajax({
-					url:to_url,
-					type:'GET'
-					});
+			if(prodImgURLs!="")
+			{
+				to_url = BASE+"/products";
+				var prodName=$("#txtProductName").val();
+				var prodId=$("#txtProductName").attr("data-id");
+				var catId=$('#selectProdCategory').val();
+				var brandName="";
+				var prodDesc=$("#txtProdDesc").val();
+				var prodTagline=$("#txtProdTagline").val();
+				var prodLocation="";
+				var prodPrice=$("#txtProdPrice").val();
 				
-				getProdInfo.success(function(data){
-					alert("prodInfo"+data);
+
+				var _reqParams = {"name":prodName,
+						"prodId":prodId,
+						"categoryId":catId,
+						"brandName":brandName,
+						"description":prodDesc,
+						"tagline":prodTagline,
+						"location":prodLocation,
+						"price":prodPrice,					
+						"ImageURLs":prodImgURLs
+						};
+				
+				var reqType="POST";
+				if(!isNaN(parseInt(prodId)))
+				{
+					reqType="PUT";
+				}
+				//alert(reqType);
+				
+				var postReq = $.ajax({
+									url:to_url,
+									type:reqType,
+									data:_reqParams
 				});
-			});
+				
+				$('#modalAddProduct').modal('hide');
+
+				postReq.success(function(data){
+
+					resp = JSON.parse(data);
+					to_url = BASE+"/products/"+resp.message.productId;
+					var getProdInfo = $.ajax({
+						url:to_url,
+						type:'GET'
+						});
+					
+					getProdInfo.success(function(data){
+						resp = JSON.parse(data);
+						//check if the product was updated by searching for id
+						//if found then update this information
+						var infoUpdated=false;
+						$("input.product[data-id='"+resp.message.id+"']").each(function(){
+						infoUpdated=true;
+						$(this).siblings("#spanProdName").html(resp.message.name);
+						$(this).parents(".divProdHolder").find("#imgKeyProd").attr("src",resp.message.images[0].url);
+						});
+						//if info is updated then
+						if(!infoUpdated)
+						{
+							//create a new tile and add it to the page
+							var lastRow = $("div[id^='divProdRows_'][data-lastRow='1']");
+							var lastRowVal = $("div[id^='divProdRows_'][data-lastRow='1']").attr("data-rowVal");
+							
+							if(lastRow.find("div.divProdHolder").length<4)
+							{
+								divNewProdTemplateClone = $("#divNewProdTemplate").clone(true);
+								divNewProdTemplateClone.attr("id","divNewProdHolder");
+								divNewProdTemplateClone.find("#spanProdName").html(resp.message.name);
+								divNewProdTemplateClone.find("input.product").attr("data-id",resp.message.id);
+								divNewProdTemplateClone.find("i.iconEditProduct").attr("data-id",resp.message.id);
+								divNewProdTemplateClone.find("i.iconRemoveProduct").attr("data-id",resp.message.id);
+								divNewProdTemplateClone.find("#imgKeyProd").attr("src",resp.message.images[0].url);
+
+								divNewProdTemplateClone.removeClass("hide");
+								divNewProdTemplateClone.appendTo("div[id^='divProdRows_'][data-lastRow='1']");
+							}
+							else
+							{								
+								divNewProdRowTemplateClone = $("#divNewProdRowTemplate").clone(true);
+								divNewProdRowTemplateClone.attr("id","divProdRows_"+(lastRowVal+1));
+								lastRow.attr('data-lastRow','');
+								divNewProdRowTemplateClone.attr('data-lastRow','1');
+								divNewProdRowTemplateClone.attr('data-rowVal',(lastRowVal+1));
+								divNewProdRowTemplateClone.find("#spanProdName").html(resp.message.name);
+								divNewProdRowTemplateClone.find("#imgKeyProd").attr("src",resp.message.images[0].url);
+								divNewProdRowTemplateClone.find("input.product").attr("data-id",resp.message.id);
+								divNewProdRowTemplateClone.find("i.iconEditProduct").attr("data-id",resp.message.id);
+								divNewProdRowTemplateClone.find("i.iconRemoveProduct").attr("data-id",resp.message.id);
+								divNewProdTemplateClone = divNewProdRowTemplateClone.find("#divNewProdTemplate");
+								
+								divNewProdTemplateClone.removeClass("hide");
+								divNewProdRowTemplateClone.removeClass("hide");
+								
+								lastRow.after(divNewProdRowTemplateClone);
+																
+							}
+						}
+
+					});
+					getProdInfo.success(function(data){
+
+					});
+				});
+				
+				postReq.fail(function(data){
+					resp = JSON.parse(data);
+					alert("fail"+resp.message);
+				});	
 			
-			postReq.fail(function(data){
-				resp = JSON.parse(data);
-				alert("fail"+resp.message);
-			});			
+			}
+			else
+				{alert('Please select a image');}
 		}
 		catch(e)
 		{
@@ -450,13 +531,15 @@ function()
 				resp = JSON.parse(data);
 				if(resp["status"]=="0")
 				{
+					
 					fOriginal = resp["message"]["originalFileName"];
 					fLoaded = resp["message"]["uploadedFileName"];
 					newName=fOriginal+"~#~"+fLoaded;
 					spanWithImgInfo = $("span[id='spanIncludeFileName']:contains('"+fOriginal+"')");
 					spanWithImgInfo.siblings("img[id='imgUploader']").addClass("hide");
-					hdnFileCtrl = spanWithImgInfo.siblings("input[id='hdnUploadedFileNames']");
-					hdnFileCtrl.val(newName);	
+					siblingCheckBox = spanWithImgInfo.siblings("input[id='chkIncludeFile']");
+					siblingCheckBox.attr("data-name",fOriginal);
+					siblingCheckBox.attr("data-url",fLoaded);
 				}
 			});
 		}
@@ -502,21 +585,86 @@ function()
 	 * */
 	function fnGetAssociatedProdURLs()
 	{
-		var retVal="";
-		
-
-		
+		var retVal="";		
 		$("#divAttachmentNewProdImg input:checked").each(function(index){
-			if($(this).siblings("input[type='hidden']").val()!="")
-			{retVal+=$(this).siblings("input[type='hidden']").val()+","}
+			if($(this).attr("data-url")!="")
+			{retVal+=$(this).attr("data-id")+"~#~"+$(this).attr("data-name")+"~#~"+$(this).attr("data-url")+","}
 			});
 		return retVal;
 	}
 	
 	//alert();
 	$("div.divProdHolder").hover(function(){
-		$(this).find("#divRemoveProduct").toggleClass("hide");
+		$(this).find("#divProductActionButtons").toggleClass("hide");
 	});
+	
+	//Fire the events for editing a product details
+	$("i.iconEditProduct").click(function(){
+		try
+		{
+			if(!isNaN(parseInt($(this).attr("data-id"))))
+			{				
+				//get the product details and show that in a modal dialog box
+				to_url = BASE+"/products/"+$(this).attr("data-id");
+				var getProdInfo = $.ajax({
+					url:to_url,
+					type:'GET'
+					});
+				
+				getProdInfo.success(function(data){
+					
+					resp = JSON.parse(data);
+					fnResetProductDataBinding();//clear all the bound values from the pop up
+					$("#addProdModalLabel").html("Edit Product");
+					$("#btnAddProduct").html("Save Product Information");
+					
+					$("#txtProductName").val(resp.message.name);
+					$("#txtProductName").attr("data-id",resp.message.id);
+					
+					for(var imgIndex=0;imgIndex<resp.message.images.length;imgIndex++)
+					{
+						divNewAttachmentClone = $("#divAttachmentTemplate").clone();
+						divNewAttachmentClone.attr("id","divAttachmentNewProdImg");
+						divNewAttachmentClone.find("#spanIncludeFileName").text(resp.message.images[imgIndex].name);
+						divNewAttachmentClone.find("#imgUploaderTemplate").addClass("hide");						
+						divNewAttachmentClone.removeClass("hide");
+
+						//add information to checkbox as well
+
+						imgCheckBox = divNewAttachmentClone.find("input[id='chkIncludeFile']");
+						imgCheckBox.attr("data-name",resp.message.images[imgIndex].name);
+						imgCheckBox.attr("data-url",resp.message.images[imgIndex].url);
+						imgCheckBox.attr("data-id",resp.message.images[imgIndex].id);
+
+						divNewAttachmentClone.prependTo("#divNewAttachmentHolder");						
+					}
+
+					
+					//selectProdCategory					
+					$("#selectProdCategory").val(resp.message.categories[0].id);
+					//txtProdTagline
+					$("#txtProdTagline").val(resp.message.tagline);
+					//txtProdDesc
+					$("#txtProdDesc").val(resp.message.description);
+					//txtProdPrice
+					$("#txtProdPrice").val(resp.message.price);
+					
+					$("#modalAddProduct").modal('show');
+				});
+				
+			}
+			else
+			{
+				alert("Unable to get the details");
+			}
+		}
+		catch(ex)
+		{
+			alert(ex.message);
+		}
+
+	});
+	
 	$("i.iconRemoveProduct").click(function(){
 		//Show a confirmation modal dialog
 		//if confirmed, then remove the product from the catalog

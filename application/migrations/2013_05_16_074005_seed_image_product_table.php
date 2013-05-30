@@ -15,6 +15,7 @@ class Seed_Image_Product_Table {
 		DB::table('image_product')->insert(
 		array(
 		array('image_id'=>'1','product_id'=>'1','status'=>'1','key'=>'1','created_at'=>$timeStamp,'updated_at'=>$timeStamp),
+		array('image_id'=>'2','product_id'=>'1','status'=>'1','key'=>'1','created_at'=>$timeStamp,'updated_at'=>$timeStamp),		
 		array('image_id'=>'2','product_id'=>'2','status'=>'1','key'=>'1','created_at'=>$timeStamp,'updated_at'=>$timeStamp),
 		array('image_id'=>'3','product_id'=>'3','status'=>'1','key'=>'1','created_at'=>$timeStamp,'updated_at'=>$timeStamp),
 		array('image_id'=>'4','product_id'=>'4','status'=>'1','key'=>'1','created_at'=>$timeStamp,'updated_at'=>$timeStamp),

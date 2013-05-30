@@ -22,7 +22,7 @@
 		<div class="row" style="margin-left: 20px">
 		<div class="span8">
 		<form id="formAddNewProduct" onsubmit="return false">
-		    <a id="aAddProduct" role="button" data-toggle="modal" href="#modalAddProduct" class="pull-left">
+		    <a id="aAddProduct" role="button" data-toggle="modal" href="#modalAddProduct" class="pull-left aCustomAnchors">
 		    Add new Product <i class="icon-plus-sign icon-2x"></i>
 		    </a>		
 			<a class="btn pull-right" id="btnSwapProducts">Swap</a>
@@ -161,7 +161,7 @@
 		
 <!-- Tab for categories -->
 		<div class="tab-pane" id="tabCategories">
-		<a id="aAddCategory" role="button" href="#" class="pull-left">
+		<a id="aAddCategory" role="button" href="#" class="pull-left aCustomAnchors">
 	    	Add new Category <i class="icon-plus-sign icon-2x"></i>
 	 	</a><br/>
 		<table class="table table-bordered table-hover">
@@ -180,7 +180,7 @@
   <input type="text" value="{{$catData->description}}" autocomplete="off">
   <button class="btn btnAddOrEditCategory" type="button" data-id="{{$catData->id}}">Save</button>
 </div>    
-&nbsp;&nbsp;&nbsp;<a class="aDeleteCategory" data-id="{{$catData->id}}"><i class="icon-remove-sign icon-2x"></i></a>
+&nbsp;&nbsp;&nbsp;<a class="aDeleteCategory aCustomAnchors" data-id="{{$catData->id}}"><i class="icon-remove-sign icon-2x"></i></a>
     </td>
     <td><span>{{count($catData->products)}}</span></td>
 </tr>	
@@ -189,13 +189,13 @@
 
 <!-- Hidden table row which will be cloned and inserted into the table on the click of add new category button -->
 <!--TODO: Change the id to template-->  
-<tr class="hide catRow">
+<tr class="hide newCatRowTemplate">
     <td>
 <div class="input-append">
   <input type="text" value="" autocomplete="off">
   <button class="btn btnAddOrEditCategory" type="button" data-id="">Add</button>
 </div>
-&nbsp;&nbsp;&nbsp;<a class="aDeleteCategory" data-id=""><i class="icon-remove-sign icon-2x"></i></a>
+&nbsp;&nbsp;&nbsp;<a class="aDeleteCategory aCustomAnchors" data-id=""><i class="icon-remove-sign icon-2x"></i></a>
     </td>
     <td><span></span></td>
 </tr>
@@ -220,7 +220,7 @@
 
 <!-- Tab for events -->
 		<div class="tab-pane" id="tabEvents">
-		<a id="aCreateEvent" role="button" data-toggle="modal" href="#modalCreateEvent" class="pull-left">
+		<a id="aCreateEvent" role="button" data-toggle="modal" href="#modalCreateEvent" class="pull-left aCustomAnchors">
 		Create an Event <i class="icon-plus-sign icon-2x"></i>
 		</a><br/>
 		<table class="table table-bordered table-hover">
@@ -264,8 +264,45 @@
 
 <!-- Tab for stores -->
 		<div class="tab-pane" id="tabStores">
-		Stores
-		</div>						
+		<a id="aCreateStore" role="button" data-toggle="modal" href="#modalCreateStore" class="pull-left aCustomAnchors">
+		Create a Store <i class="icon-plus-sign icon-2x"></i>
+		</a><br/>
+		<table class="table table-bordered table-hover">
+		<thead>
+		<tr>
+      		<th>Store Name</th>
+      		<th>Location</th>
+      		<th>Action</th>
+    	</tr>
+		</thead>
+		<tbody>
+			@if(isset($storesData))
+			@foreach($storesData as $store)
+				<tr>
+				    <td><a href="{{action('admin@store', array($store->id))}}">{{$store->name}}</a></td>				    
+				    <td>{{$store->location}}</td>
+				    <td><button class="btn btn-danger btnCloseStoreConfirmation" data-id="{{$store->id}}">Close Store</button></td>
+				</tr>
+			@endforeach
+			@endif
+		</tbody>
+		</table>
+		</div>
+		
+<!-- Modal for Close Store Confirmation -->
+		<div id="closeStoreConfirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-header" style="border-bottom:0px;">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>	
+			</div>
+			<div class="modal-body">
+				<p><strong>Are you sure you want to close this store?</strong></p>
+			</div>
+			<div class="modal-footer">
+				<button id="btnCloseStore" data-id="" class="btn">Yes</button>
+				<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">No</button>
+			</div>
+		</div>
+						
 	</div>
 </div>
 </div>      

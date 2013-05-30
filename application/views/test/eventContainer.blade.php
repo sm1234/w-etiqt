@@ -10,15 +10,15 @@
 	<div class="tabbable tabs-left">
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#tabEventDetails" data-toggle="tab">Event Details</a></li>
-			<li><a href="#tabExistingProducts" data-toggle="tab">Existing Products</a></li>
-			<li><a href="#tabAddProducts" data-toggle="tab">Add Products</a></li>
+			<li><a href="#tabExistingEventProducts" data-toggle="tab">Existing Products</a></li>
+			<li><a href="#tabAddProductsToEvent" data-toggle="tab">Add Products</a></li>
 		</ul>
 		<div class="tab-content">
 			
 			<!-- Tab for displaying and Editing Event details
 				TODO: display a calender to the users for editing the dates -->
 			<div class="tab-pane active" id="tabEventDetails">				
-				<table id="tableEventDetails" style="margin: 0 auto">					
+				<table id="tableEventDetails" style="margin: 0 auto">
 						<tr>
 						    <td>
 								Name
@@ -65,19 +65,19 @@
 			</div>
 			
 			<!-- Tab for Displaying and removing existing products -->
-			<div class="tab-pane" id="tabExistingProducts">				
+			<div class="tab-pane" id="tabExistingEventProducts">				
 				@if(count($eventProducts)!=0)
 				<button class="btn btn-danger pull-right" id="btnRemoveEventProducts" type="button" data-id="{{$event->id}}">Remove</button>
 				@for($r=0;$r<ceil(count($eventProducts)/4);$r++)
 					<div class="row" style="margin-left: 20px">				
 						@for($c=0;$c<4;$c++)
 							@if(count($eventProducts)>4*$r+$c)
-								<div class="span2 divProdHolder">
+								<div class="span2 divEventExistingProdHolder">
 									<div>
 									<img src="{{$eventProducts[4*$r+$c]->images[0]->url}}">
 									</div>
 									<div class="productInfo">
-									<input type="checkbox" class="chkboxRemoveProduct" data-id="{{$eventProducts[4*$r+$c]->id}}" />
+									<input type="checkbox" class="chkboxRemoveEventProduct" data-id="{{$eventProducts[4*$r+$c]->id}}" />
 									<span>{{$eventProducts[4*$r+$c]->name}}</span>													
 									</div>
 								</div>
@@ -91,19 +91,19 @@
 			</div>
 			
 			<!-- Tab for Adding more Products to the event -->
-			<div class="tab-pane" id="tabAddProducts">
+			<div class="tab-pane" id="tabAddProductsToEvent">				
+				@if(count($allProducts)!=0)
 				<button class="btn btn-info pull-right" id="btnAddEventProducts" type="button" data-id="{{$event->id}}">Add</button>
-				@if(isset($allProducts))
 				@for($r=0;$r<ceil(count($allProducts)/4);$r++)
 					<div class="row" style="margin-left: 20px">				
 						@for($c=0;$c<4;$c++)
 							@if(count($allProducts)>4*$r+$c)
-								<div class="span2 divProdHolder">
+								<div class="span2 divEventNewProdHolder">
 									<div>
 									<img src="{{$allProducts[4*$r+$c]->images[0]->url}}">
 									</div>
 									<div class="productInfo">
-									<input type="checkbox" class="chkboxAddProduct" data-id="{{$allProducts[4*$r+$c]->id}}" />
+									<input type="checkbox" class="chkboxAddEventProduct" data-id="{{$allProducts[4*$r+$c]->id}}" />
 									<span>{{$allProducts[4*$r+$c]->name}}</span>													
 									</div>
 								</div>
@@ -111,6 +111,8 @@
 						@endfor
 					</div>
 				@endfor
+				@else
+				No more products to add!
 				@endif	
 			</div>
 		</div>

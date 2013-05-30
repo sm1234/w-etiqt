@@ -132,7 +132,7 @@ public static function editEventDetails($input)
  * Function to remove the products associated with an event.
  * It gets the ids of the products to be removed and updates the 'status' field of the 'event_product' table to 0
  */
-public static function removeAssociatedProducts($input)
+public static function removeAssociatedEventProducts($input)
 	{
 		$retVal=array("status"=>"0","message"=>"");
 		try
@@ -147,8 +147,7 @@ public static function removeAssociatedProducts($input)
 					{
 						if(in_array($prod->pivot->product_id, $allProdIds))
 						{
-							$prod->pivot->status = false;
-							$prod->pivot->save();											
+							$prod->pivot->delete();											
 						}
 		
 					}	
@@ -162,5 +161,40 @@ public static function removeAssociatedProducts($input)
 		
 		return json_encode($retVal);
 	}
+	
+/*
+ * Function to add new products to an event.
+ * It gets the ids of the products to be added and then it performs one of the two cases:
+ * 	 1. Product was already added to the event previously but removed.
+ * 		In this case, update the 'status' field of the 'event_product' table to 1
+ * 	 2. Add a new entry in the 'event_product' table
+ */
+public static function addNewEventProducts($input)
+	{
+		$retVal=array("status"=>"0","message"=>"");
+		try
+		{
+			$eventId = $input['eventId'];
+			$allProdIds = $input['allIds'];
+			
+				DB::transaction(function() use ($eventId, $allProdIds)
+				{
+					$event = Tblevent::where_id($eventId)->first();
+					foreach($allProdIds as $prodId)
+					{						
+						$event->products()->attach($prodId);
+					}
+						
+				});
+		}
+		catch(Exception $ex)
+		{		
+			$retVal["status"]="-1";
+			$retVal["message"]=$ex->getMessage();		
+		}
+		
+		return json_encode($retVal);
+	}
+	
 }
 ?>

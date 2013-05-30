@@ -13,7 +13,9 @@ class Admin_Controller extends Base_Controller {
 
 		$allEvents = Tblevent::where_status('1')->get();
 		
-		return View::make('test.admin')->with('title','Admin Panel')->with('categoriesData',$allcategories)->with('productsData',$allProducts)->with('eventsData',$allEvents);
+		$allStores = Store::where_status('1')->get();
+		
+		return View::make('test.admin')->with('title','Admin Panel')->with('categoriesData',$allcategories)->with('productsData',$allProducts)->with('eventsData',$allEvents)->with('storesData',$allStores);
 	}
 	
 	public function get_test()
@@ -125,14 +127,14 @@ class Admin_Controller extends Base_Controller {
 	}
 
 /*
- * Function to manage events
+ * Function to fetch the information about a requested event and display it for editing
  */
 	public function get_event($eventId)
 	{
 		$event = Tblevent::find($eventId);
 		
 		//Get all the products related to this event 
-		$eventProducts = $event->products()->where('event_product.status','=','1')->get();
+		$eventProducts = $event->products()->get();
 		
 		/*
 		 * Get all the other products, that are not related to this event
@@ -186,14 +188,14 @@ class Admin_Controller extends Base_Controller {
 /*
  * Function to remove products associated with an event
  */
-	public function delete_removeAssociatedProducts()
+	public function delete_removeAssociatedEventProducts()
 	{
 		$retVal=array("status"=>0,"message"=>"");
 		try 
 		{
 			$input = Input::all();
 			
-			$prodStatus = json_decode(Tblevent::removeAssociatedProducts($input));
+			$prodStatus = json_decode(Tblevent::removeAssociatedEventProducts($input));
 			
 			if($prodStatus->{"status"}=="-1")
 			{
@@ -207,5 +209,140 @@ class Admin_Controller extends Base_Controller {
 		}
 		return json_encode($retVal);
 	}
+
+/*
+ * Function to add new products to an event
+ */
+	public function post_addNewEventProducts()
+	{
+		$retVal=array("status"=>0,"message"=>"");
+		try 
+		{
+			$input = Input::all();
+			
+			$prodStatus = json_decode(Tblevent::addNewEventProducts($input));
+			
+			if($prodStatus->{"status"}=="-1")
+			{
+				throw new Exception($prodStatus->{"message"});
+			}
+		}
+		catch(Exception $e)
+		{
+			$retVal["status"]=-1;
+			$retVal["message"]=$e->getMessage();
+		}
+		return json_encode($retVal);
+	}
+
+/*
+ * Function for closing a store
+ */ 
+	public function delete_closeStore()
+	{
+		$retVal=array("status"=>0,"message"=>"");
+		try 
+		{
+			$input = Input::all();
+			
+			$storeStatus = json_decode(Store::closeStore($input));
+			
+			if($storeStatus->{"status"}=="-1")
+			{
+				throw new Exception($storeStatus->{"message"});
+			}
+		}
+		catch(Exception $e)
+		{
+			$retVal["status"]=-1;
+			$retVal["message"]=$e->getMessage();
+		}
+		return json_encode($retVal);
+	}
+	
+/*
+ * Function to fetch the information about a requested store and display it for editing
+ */
+	public function get_store($storeId)
+	{
+		$store = Store::find($storeId);
+		
+		//Get all the products related to this store 
+		$storeProducts = $store->products()->where('product_store.status','=','1')->get();
+		
+		/*
+		 * Get all the other products, that are not related to this store
+		 * Here, we first store the ids of products that are related to this store
+		 * Then, we fetch all those products that do not have these ids using the 'where_not_in' clause
+		 */
+		if(count($storeProducts)==0)
+		{
+			$allProducts = Product::where_status('1')->get();
+		}
+		else
+		{
+			$i = 0;
+			foreach($storeProducts as $prod)
+			{
+				$existingProdIds[$i++] = $prod->id;
+			}
+			$allProducts = Product::where_not_in('id',$existingProdIds)->where_status('1')->get();
+		}
+		
+		return View::make('test.storeContainer')->with('title','Store')->with('allProducts',$allProducts)->with('store',$store)->with('storeProducts',$storeProducts);
+	}
+
+/*
+ * Function to Edit the Store Details
+ */
+ 	public function put_editStoreDetails()
+	{
+		$retVal=array("status"=>0,"message"=>"");
+		try 
+		{
+			$input = Input::all();
+			
+			$storeStatus = json_decode(Store::editStoreDetails($input));
+			
+			$retVal["message"]=$storeStatus->{"message"};
+			
+			if($storeStatus->{"status"}=="-1")
+			{
+				throw new Exception($storeStatus->{"message"});
+			}
+		}
+		catch(Exception $e)
+		{
+			$retVal["status"]=-1;
+			$retVal["message"]=$e->getMessage();
+		}
+		return json_encode($retVal);
+	}
+	
+/*
+ * Function to remove products associated with a store
+ */
+	public function delete_removeAssociatedStoreProducts()
+	{
+		$retVal=array("status"=>0,"message"=>"");
+		try 
+		{
+			$input = Input::all();
+			
+			$prodStatus = json_decode(Store::removeAssociatedStoreProducts($input));
+			
+			if($prodStatus->{"status"}=="-1")
+			{
+				throw new Exception($prodStatus->{"message"});
+			}
+		}
+		catch(Exception $e)
+		{
+			$retVal["status"]=-1;
+			$retVal["message"]=$e->getMessage();
+		}
+		return json_encode($retVal);
+	}
+	
 }
 ?>

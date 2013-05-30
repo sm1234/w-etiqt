@@ -34,7 +34,7 @@ function()
 	 *  On clicking the 'Add new Category' button, a row is cloned and inserted into the table of categories
 	 */
 	$("#aAddCategory").click(function(){
-		$(".catRow").clone('true').removeAttr('class').prependTo('tbody#tbodyCategories');
+		$(".newCatRowTemplate").clone('true').removeAttr('class').prependTo('tbody#tbodyCategories');
 	});
 	
 	/*
@@ -253,15 +253,194 @@ function()
 		var i = 0;
 		var prod_ids = [];
 		
-		$('input:checkbox[class=chkboxRemoveProduct]:checked').each(function(){
+		$('input:checkbox[class=chkboxRemoveEventProduct]:checked').each(function(){
 			prod_ids[i++] = $(this).attr('data-id');
 		})
 		
 		try{
-			to_url = BASE+"/admin/removeAssociatedProducts";
+			to_url = BASE+"/admin/removeAssociatedEventProducts";
 
 			var _reqParams = {
 					"eventId":eventId,								
+					"allIds":prod_ids
+					};
+
+			var postReq = $.ajax({
+								url:to_url,
+								type:'DELETE',
+								data:_reqParams
+			});
+			
+			postReq.success(function(data){
+				alert('done!');
+					resp = JSON.parse(data);						    
+			});
+			
+			postReq.fail(function(data){
+				alert('failed');
+				resp = JSON.parse(data);
+				alert(resp.message);
+			});
+		}
+		catch(e)
+		{
+			throw e;
+		}
+	});
+	
+/*
+ * Handles the Adding of new products to the event
+ * TODO: when a new product is added to the event, it should be moved from the 'Add products' tab to the 'Existing products' tab
+ */
+	$('#btnAddEventProducts').click(function(){
+		var eventId = $(this).attr('data-id');
+		var i = 0;
+		var prod_ids = [];
+		
+		$('input:checkbox[class=chkboxAddEventProduct]:checked').each(function(){
+			prod_ids[i++] = $(this).attr('data-id');
+		})
+
+		try{
+			to_url = BASE+"/admin/addNewEventProducts";
+
+			var _reqParams = {
+					"eventId":eventId,								
+					"allIds":prod_ids
+					};
+
+			var postReq = $.ajax({
+								url:to_url,
+								type:'POST',
+								data:_reqParams
+			});
+			
+			postReq.success(function(data){
+				alert('done!');
+					resp = JSON.parse(data);						    
+			});
+			
+			postReq.fail(function(data){
+				alert('failed');
+				resp = JSON.parse(data);
+				alert(resp.message);
+			});
+		}
+		catch(e)
+		{
+			throw e;
+		}
+	});
+	
+/*
+ * Handles the closing of a store
+ */
+	$(".btnCloseStoreConfirmation").click(function(){
+		var storeId = $(this).attr('data-id');
+		
+		$('#btnCloseStore').attr('data-id',storeId);
+		$('#closeStoreConfirmModal').modal('show');
+
+	});
+	
+	$("#btnCloseStore").click(function(){
+		var btnClicked = $(this);
+		var storeId = btnClicked.attr('data-id');
+		try
+		{
+			to_url = BASE+"/admin/closeStore";
+			
+			var req_params = {
+				"storeId":storeId,
+			};
+			
+			var post_req = $.ajax({
+								url:to_url,
+								type:'DELETE',
+								data:req_params
+			});
+			
+			post_req.success(function(data){
+				resp = JSON.parse(data);
+				btnDel = $('button.btnCloseStoreConfirmation[data-id="'+storeId+'"]')
+				$('#closeStoreConfirmModal').modal('hide');
+				btnDel.parent('td').parent('tr').remove();
+			});
+			
+			post_req.fail(function(data){
+				resp = JSON.parse(data);
+				alert(resp.message);
+			});
+		}
+		catch(e)
+		{
+			throw e;
+		} 
+	});
+	
+	/*
+	 * Handles the Editing of Store Details
+	 * TODO: Upon successful edit, display a nice prompt to the user instead of the alert
+	 */
+	$("#btnEditStoreDetail").click(function(){
+		var storeId = $(this).attr('data-id');
+		var name = $('#tableStoreDetails').find('#inputName').val();
+		var tagline = $('#tableStoreDetails').find('#inputTagline').val();
+		var description = $('#tableStoreDetails').find('#textareaDescription').val();
+		var location = $('#tableStoreDetails').find('#inputLocation').val();
+
+		try
+		{
+			to_url = BASE+"/admin/editStoreDetails";
+			
+			var req_params = {
+				"id":storeId,
+				"name":name,
+				"tagline":tagline,
+				"description":description,
+				"location":location
+			};
+			
+			var post_req = $.ajax({
+								url:to_url,
+								type:'PUT',
+								data:req_params
+			});
+			
+			post_req.success(function(data){
+				resp = JSON.parse(data);
+				alert('Edited');
+			});
+			
+			post_req.fail(function(data){
+				resp = JSON.parse(data);
+				alert(resp.message);
+			});
+		}
+		catch(e)
+		{
+			throw e;
+		}
+	});
+	
+	/*
+	 * Handles the removal of products from the Store
+	 * TODO: After successful removal, remove the product from the 'Existing products' tab and put it in the 'Add product' tab
+	 */
+	$('#btnRemoveStoreProducts').click(function(){
+		var storeId = $(this).attr('data-id');
+		var i = 0;
+		var prod_ids = [];
+		
+		$('input:checkbox[class=chkboxRemoveStoreProduct]:checked').each(function(){
+			prod_ids[i++] = $(this).attr('data-id');
+		})
+		
+		try{
+			to_url = BASE+"/admin/removeAssociatedStoreProducts";
+
+			var _reqParams = {
+					"storeId":storeId,								
 					"allIds":prod_ids
 					};
 
@@ -602,8 +781,10 @@ function()
 	$("i.iconEditProduct").click(function(){
 		try
 		{
+
 			if(!isNaN(parseInt($(this).attr("data-id"))))
-			{				
+			{
+											
 				//get the product details and show that in a modal dialog box
 				to_url = BASE+"/products/"+$(this).attr("data-id");
 				var getProdInfo = $.ajax({
@@ -623,6 +804,7 @@ function()
 					
 					for(var imgIndex=0;imgIndex<resp.message.images.length;imgIndex++)
 					{
+						
 						divNewAttachmentClone = $("#divAttachmentTemplate").clone();
 						divNewAttachmentClone.attr("id","divAttachmentNewProdImg");
 						divNewAttachmentClone.find("#spanIncludeFileName").text(resp.message.images[imgIndex].name);

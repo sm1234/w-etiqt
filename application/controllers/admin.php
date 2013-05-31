@@ -254,6 +254,7 @@ public function post_addEventDetails()
 			{
 				throw new Exception($prodStatus->{"message"});
 			}
+			$retVal["message"] = $prodStatus->{"message"};
 		}
 		catch(Exception $e)
 		{

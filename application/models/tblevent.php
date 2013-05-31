@@ -258,6 +258,7 @@ public static function addNewEventProducts($input)
 					}
 						
 				});
+				$retVal["message"]=array("Ids"=>$allProdIds);
 		}
 		catch(Exception $ex)
 		{		

@@ -69,7 +69,7 @@
 				@if(count($eventProducts)!=0)
 				<button class="btn btn-danger pull-right" id="btnRemoveEventProducts" type="button" data-id="{{$event->id}}">Remove</button>
 				@for($r=0;$r<ceil(count($eventProducts)/4);$r++)
-					<div class="row" style="margin-left: 20px">				
+					<div class="row" style="margin-left: 20px" id="divEventProductRow" data-rowVal={{$r+1}} data-lastRow={{$r==ceil(count($eventProducts)/4)-1}}>				
 						@for($c=0;$c<4;$c++)
 							@if(count($eventProducts)>4*$r+$c)
 								<div class="span2 divEventExistingProdHolder">
@@ -94,7 +94,7 @@
 				@if(count($allProducts)!=0)
 				<button class="btn btn-info pull-right" id="btnAddEventProducts" type="button" data-id="{{$event->id}}">Add</button>
 				@for($r=0;$r<ceil(count($allProducts)/4);$r++)
-					<div class="row" style="margin-left: 20px">				
+					<div class="row" style="margin-left: 20px" id="divProductRowNotInEvent" data-rowVal={{$r+1}} data-lastRow={{$r==ceil(count($allProducts)/4)-1}}>				
 						@for($c=0;$c<4;$c++)
 							@if(count($allProducts)>4*$r+$c)
 								<div class="span2 divEventNewProdHolder">

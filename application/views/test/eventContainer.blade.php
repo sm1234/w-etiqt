@@ -4,6 +4,10 @@
 {{$title}}
 @endif
 @endsection
+@section('h_style')
+@parent
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+@endsection
 @section('content')
 <br/><br/><br/><br/><br/>
 <div class="container">
@@ -40,7 +44,7 @@
 								Start Date
 						    </td>
 						    <td>						    	
-				  				<input id="inputStartDate" type="text" value="{{$event->start_date}}" autocomplete="off">				  			
+				  				<input class="txtDate" id="inputStartDate" type="text" value="{{$event->start_date}}" autocomplete="off">				  			
 						    </td>
 						</tr>
 						<tr>
@@ -48,7 +52,7 @@
 								End Date
 						    </td>
 						    <td>						    
-				  				<input id="inputEndDate" type="text" value="{{$event->end_date}}" autocomplete="off">				
+				  				<input class="txtDate" id="inputEndDate" type="text" value="{{$event->end_date}}" autocomplete="off">				
 						    </td>
 						</tr>
 						<tr>
@@ -128,8 +132,9 @@
 -->
 <script>
 var BASE = "<?php echo URL::base(); ?>";/*Define the BASE URL*/
-
 </script>
+
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 {{ HTML::script('js/test_admin.js') }}
 {{ HTML::script('js/test_adminProduct.js') }}
 @endsection

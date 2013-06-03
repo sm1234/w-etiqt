@@ -4,6 +4,10 @@
 {{$title}}
 @endif
 @endsection
+@section('h_style')
+@parent
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+@endsection
 @section('content')
 <br/><br/><br/><br/><br/>
 <div class="container">
@@ -284,7 +288,7 @@
                          <label style="text-align: right">Start Date</label>
                     </div>
                     <div class="span4">
-                         <input type="date" id="txtEventStartDt" required/>
+                         <input class="txtDate" type="text" id="txtEventStartDt" required/>
                     </div>
                </div>
                <div class="row-fluid fieldline">
@@ -292,7 +296,7 @@
                          <label style="text-align: right">End Date</label>
                     </div>
                     <div class="span4">
-                         <input type="date" id="txtEventEndDt" required/>
+                         <input class="txtDate" type="text" id="txtEventEndDt" required/>
                     </div>
                </div>
                <div class="row-fluid fieldline">
@@ -379,6 +383,7 @@
 <script>
 var BASE = "<?php echo URL::base(); ?>";/*Define the BASE URL*/
 </script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 {{ HTML::script('js/test_admin.js') }}
 {{ HTML::script('js/test_adminProduct.js') }}
 @endsection

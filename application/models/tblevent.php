@@ -58,11 +58,11 @@ public function set_end_date($end_date)
  */ 
 public function get_start_date()
 {
-	return date("d/m/Y",strtotime($this->get_attribute('start_date')));
+	return date("d-m-Y",strtotime($this->get_attribute('start_date')));
 }
 public function get_end_date()
 {
-	return date("d/m/Y",strtotime($this->get_attribute('end_date')));
+	return date("d-m-Y",strtotime($this->get_attribute('end_date')));
 }
 
 /*

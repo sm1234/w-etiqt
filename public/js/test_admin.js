@@ -1057,5 +1057,10 @@ function fnAppendNewEventToUI(eventid)
 			$("i.iconRemoveProduct[data-id='"+resp["message"]+"']").parents("div.divProdHolder").remove();
 		});
 	});
+	
+	/*
+	 * Invoking the Datepicker jquery UI
+	 */
+	$('.txtDate').datepicker({dateFormat:'dd-mm-yy'});
 }
 );

@@ -13,7 +13,7 @@ class Admin_Controller extends Base_Controller {
 
 		$allEvents = Tblevent::where_status('1')->order_by('created_at','desc')->get();
 		
-		$allStores = Store::where_status('1')->get();
+		$allStores = Store::where_status('1')->order_by('created_at','desc')->get();
 		
 		return View::make('test.admin')->with('title','Admin Panel')->with('categoriesData',$allcategories)->with('productsData',$allProducts)->with('eventsData',$allEvents)->with('storesData',$allStores);
 	}

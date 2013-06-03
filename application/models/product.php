@@ -214,48 +214,62 @@ public static function deleteProduct($delId)
 				$prod->status = 0;
 				
 				/*
-				 * Update the additional 'status' field in the 'event_product' pivot table
+				 * Delete the related entries in the 'event_product' pivot table
 				 */
 				foreach($prod->events()->get() as $eventProduct)
 				{
-					$eventProduct->pivot->status = 0;
-					$eventProduct->pivot->save();
 					
-					//Update the 'status' field in the 'event_product_promotion'
+					//Delete the related entries in the 'event_product_promotion'
 					$eventProductId = $eventProduct->pivot->id; 
 					
 					$eventProducts = Productevent::where_id($eventProductId)->first();					
 					foreach($eventProducts->promotion()->get() as $eventProductPromotion)
 					{
-						$eventProductPromotion->pivot->status = 0;
-						$eventProductPromotion->pivot->save();
+						$eventProductPromotion->pivot->delete();
 					}
+					$eventProduct->pivot->delete();
 				}
+				/*
+				 * Delete the related entries in the 'product_store' pivot table
+				 */
 				foreach($prod->stores()->get() as $storeProduct)
 				{
-					$storeProduct->pivot->status = 0;
-					$storeProduct->pivot->save();
 					
-					//Update the 'status' field in the 'product_store_promotion'
+					//Delete the related entries in the 'product_store_promotion'
 					$storeProductId = $storeProduct->pivot->id; 
 					
 					$storeProducts = Productstore::where_id($storeProductId)->first();					
 					foreach($storeProducts->promotion()->get() as $storeProductPromotion)
 					{
-						$storeProductPromotion->pivot->status = 0;
-						$storeProductPromotion->pivot->save();
+						$storeProductPromotion->pivot->delete();
 					}
+					$storeProduct->pivot->delete();
 				}
+				/*
+				 * Update the 'status' field in the 'product_section' pivot table
+				 */
 				foreach($prod->sections()->get() as $sectionProduct)
 				{
 					$sectionProduct->pivot->status = 0;
 					$sectionProduct->pivot->save();
 				}
+				/*
+				 * Update the 'status' field in the 'product_user' pivot table
+				 */
 				foreach($prod->users()->get() as $userProduct)
 				{
 					$userProduct->pivot->status = 0;
 					$userProduct->pivot->save();
 				}
+				/*
+				 * Update the 'status' field in the 'image_product' pivot table
+				 */
+				foreach($prod->images()->get() as $imageProduct)
+				{
+					$imageProduct->pivot->status = 0;
+					$imageProduct->pivot->save();
+				}
+				
 				$prod->save();
 				$retVal["message"]=$delId;
 			});

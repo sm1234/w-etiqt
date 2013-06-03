@@ -428,28 +428,49 @@ function fnAppendNewEventToUI(eventid)
 						  
 						  
 						  var lastRow = $("div[id='divEventProductRow'][data-lastRow='1']");
-						  var lastRowVal = $("div[id='divEventProductRow'][data-lastRow='1']").attr("data-rowVal");
-						  if(lastRow.find("div.divEventExistingProdHolder").length<4)
-						   {
-							  divToMove.removeClass("divEventNewProdHolder").addClass("divEventExistingProdHolder");
-							  var chkSelectProduct = divToMove.find("input:checkbox");
-							  chkSelectProduct.removeClass("chkboxAddEventProduct").addClass("chkboxRemoveEventProduct");
-							  chkSelectProduct.prop("checked",false);
-							  lastRow.append(divToMove);
-						   }
+						  var lastRowVal = 0;
+						  if(lastRow.length!=0)
+						  {
+							  lastRowVal = $("div[id='divEventProductRow'][data-lastRow='1']").attr("data-rowVal");
+						  }
+						  //if lastRow does not exists
+						  if(lastRow.length==0)
+							  {
+							  $("div#tabExistingEventProducts").append($("<div class='row' style='margin-left: 20px' id='divEventProductRow' data-rowVal='"+lastRowVal+1+"' data-lastRow='1'></div>"));
+								 
+								  divToMove.removeClass("divEventNewProdHolder").addClass("divEventExistingProdHolder");
+								  var chkSelectProduct = divToMove.find("input:checkbox");
+								  chkSelectProduct.removeClass("chkboxAddEventProduct").addClass("chkboxRemoveEventProduct");
+								  chkSelectProduct.prop("checked",false);
+								  lastRow = $("div[id='divEventProductRow'][data-lastRow='1']");
+								  lastRow.append(divToMove);
+								  $("div#divNoProductsFound").addClass("hide");
+							  }
 						  else
-							{
-							  lastRow.attr("data-lastRow","");
-							 $("<div class='row' style='margin-left: 20px' id='divEventProductRow' data-rowVal='"+lastRowVal+1+"' data-lastRow='1'></div>").insertAfter(lastRow);
-							 
-							  divToMove.removeClass("divEventNewProdHolder").addClass("divEventExistingProdHolder");
-							  var chkSelectProduct = divToMove.find("input:checkbox");
-							  chkSelectProduct.removeClass("chkboxAddEventProduct").addClass("chkboxRemoveEventProduct");
-							  chkSelectProduct.prop("checked",false);
-							  lastRow = $("div[id='divEventProductRow'][data-lastRow='1']");
-							  lastRow.append(divToMove);
-							  
-							}
+							  {
+							  if(lastRow.find("div.divEventExistingProdHolder").length<4)
+							   {
+								  divToMove.removeClass("divEventNewProdHolder").addClass("divEventExistingProdHolder");
+								  var chkSelectProduct = divToMove.find("input:checkbox");
+								  chkSelectProduct.removeClass("chkboxAddEventProduct").addClass("chkboxRemoveEventProduct");
+								  chkSelectProduct.prop("checked",false);
+								  lastRow.append(divToMove);
+							   }
+							  else
+								{
+								  lastRow.attr("data-lastRow","");
+								 $("<div class='row' style='margin-left: 20px' id='divEventProductRow' data-rowVal='"+lastRowVal+1+"' data-lastRow='1'></div>").insertAfter(lastRow);
+								 
+								  divToMove.removeClass("divEventNewProdHolder").addClass("divEventExistingProdHolder");
+								  var chkSelectProduct = divToMove.find("input:checkbox");
+								  chkSelectProduct.removeClass("chkboxAddEventProduct").addClass("chkboxRemoveEventProduct");
+								  chkSelectProduct.prop("checked",false);
+								  lastRow = $("div[id='divEventProductRow'][data-lastRow='1']");
+								  lastRow.append(divToMove);
+								  
+								}							  
+							  }
+
 						  
 						});
 					

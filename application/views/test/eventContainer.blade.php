@@ -69,9 +69,9 @@
 			</div>
 			
 			<!-- Tab for Displaying and removing existing products -->
-			<div class="tab-pane" id="tabExistingEventProducts">				
-				@if(count($eventProducts)!=0)
-				<button class="btn btn-danger pull-right" id="btnRemoveEventProducts" type="button" data-id="{{$event->id}}">Remove</button>
+			<div class="tab-pane" id="tabExistingEventProducts">
+				<button class="btn btn-danger pull-right" id="btnRemoveEventProducts" type="button" data-id="{{$event->id}}">Remove</button>				
+				@if(count($eventProducts)!=0)				
 				@for($r=0;$r<ceil(count($eventProducts)/4);$r++)
 					<div class="row" style="margin-left: 20px" id="divEventProductRow" data-rowVal={{$r+1}} data-lastRow={{$r==ceil(count($eventProducts)/4)-1}}>				
 						@for($c=0;$c<4;$c++)
@@ -90,7 +90,7 @@
 					</div>
 				@endfor
 				@else
-				No Products added to this event yet
+				<div id="divNoProductsFound"><span>No Products added to this event yet</span></div>				
 				@endif	
 			</div>			
 			<!-- Tab for Adding more Products to the event -->

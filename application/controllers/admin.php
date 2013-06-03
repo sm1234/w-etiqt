@@ -11,7 +11,7 @@ class Admin_Controller extends Base_Controller {
 
 		$allProducts = Product::with(array('images'=>function($query){$query->where_status('1')->where_key('1');}))->order_by('row_num','asc')->where_status('1')->order_by('col_num','asc')->get();
 
-		$allEvents = Tblevent::where_status('1')->order_by('name','asc')->get();
+		$allEvents = Tblevent::where_status('1')->order_by('created_at','desc')->get();
 		
 		$allStores = Store::where_status('1')->get();
 		

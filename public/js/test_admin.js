@@ -334,6 +334,7 @@ function fnAppendNewEventToUI(eventid)
 			});
 			
 			post_req.success(function(data){
+				alert('Edited');
 				resp = JSON.parse(data);
 			});
 			

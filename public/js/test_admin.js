@@ -757,6 +757,9 @@ function fnAppendNewEventToUI(eventid)
 		
 		/*TODO: Complete the error handling here*/
 		/*TODO: invoke the POST method on controller Products to create a new product*/
+		/*TODO: Before finding the last row for inserting new product tile, first check if there is
+		 * any row(i,e, whether there are any other products on the page to begin with)
+		 */
 		try{
 			
 			var prodImgURLs=fnGetAssociatedProdURLs();
@@ -841,17 +844,17 @@ function fnAppendNewEventToUI(eventid)
 							else
 							{								
 								divNewProdRowTemplateClone = $("#divNewProdRowTemplate").clone(true);
-								divNewProdRowTemplateClone.attr("id","divProdRows_"+(lastRowVal+1));
+								divNewProdRowTemplateClone.attr("id","divProdRows_"+(parseInt(lastRowVal)+1));
 								lastRow.attr('data-lastRow','');
 								divNewProdRowTemplateClone.attr('data-lastRow','1');
-								divNewProdRowTemplateClone.attr('data-rowVal',(lastRowVal+1));
+								divNewProdRowTemplateClone.attr('data-rowVal',(parseInt(lastRowVal)+1));
 								divNewProdRowTemplateClone.find("#spanProdName").html(resp.message.name);
 								divNewProdRowTemplateClone.find("#imgKeyProd").attr("src",resp.message.images[0].url);
 								divNewProdRowTemplateClone.find("input.product").attr("data-id",resp.message.id);
 								divNewProdRowTemplateClone.find("i.iconEditProduct").attr("data-id",resp.message.id);
 								divNewProdRowTemplateClone.find("i.iconRemoveProduct").attr("data-id",resp.message.id);
 								divNewProdTemplateClone = divNewProdRowTemplateClone.find("#divNewProdTemplate");
-								
+								divNewProdTemplateClone.attr("id","divNewProdHolder");
 								divNewProdTemplateClone.removeClass("hide");
 								divNewProdRowTemplateClone.removeClass("hide");
 								
@@ -923,6 +926,7 @@ function fnAppendNewEventToUI(eventid)
 					siblingCheckBox = spanWithImgInfo.siblings("input[id='chkIncludeFile']");
 					siblingCheckBox.attr("data-name",fOriginal);
 					siblingCheckBox.attr("data-url",fLoaded);
+					fnCheckAndEnableAddProductButton();
 				}
 			});
 		}
@@ -964,6 +968,8 @@ function fnAppendNewEventToUI(eventid)
 		divNewAttachmentClone.removeClass("hide");
 		divNewAttachmentClone.prependTo("#divNewAttachmentHolder");
 		
+		$('#btnAddProduct').attr('disabled','disabled');
+		
 	}
 	/*
 	 * Gets the images that are to be associated with the product
@@ -978,9 +984,26 @@ function fnAppendNewEventToUI(eventid)
 		return retVal;
 	}
 	
+	function fnCheckAndEnableAddProductButton()
+	{
+		allFilesLoaded=true;
+		$("img[id='imgUploader']").each(function(index){allFilesLoaded=$(this).hasClass("hide");});
+		if(allFilesLoaded)
+		{
+		$("#btnAddProduct").removeAttr("disabled");
+		}
+	}
+	
 	//alert();
-	$("div.divProdHolder").hover(function(){
+	//Show or hide the Edit and Delete icons below the product
+	/*$("div.divProdHolder").hover(function(){
 		$(this).find("#divProductActionButtons").toggleClass("hide");
+	});*/
+	$("div.divProdHolder").mouseenter(function(){
+		$(this).find("#divProductActionButtons").removeClass("hide");
+	});
+	$("div.divProdHolder").mouseleave(function(){
+		$(this).find("#divProductActionButtons").addClass("hide");
 	});
 	
 	//Fire the events for editing a product details
@@ -1066,6 +1089,7 @@ function fnAppendNewEventToUI(eventid)
 	
 	$("#btnDeleteProduct").click(function(){
 		//TODO: place the code in try catch block and validate the data before invoking the DELETE call
+		//TODO: if the deleted product is the only product in the row, then the row should also get deleted
 		to_url = BASE+"/products/";
 		var getProdInfo = $.ajax({
 			url:to_url,
@@ -1075,7 +1099,20 @@ function fnAppendNewEventToUI(eventid)
 		$('#modalConfirmRemoveProduct').modal('hide');
 		getProdInfo.success(function(data){
 			resp = JSON.parse(data);
-			$("i.iconRemoveProduct[data-id='"+resp["message"]+"']").parents("div.divProdHolder").remove();
+			/*
+			 * Count the no of products in the row. If only one product is there, delete the row as well.
+			 */
+			var prodContainer = $("i.iconRemoveProduct[data-id='"+resp["message"]+"']").parents("div.divProdHolder");
+			var noOfProductsInRow = prodContainer.siblings('div.divProdHolder').length;
+			if(noOfProductsInRow == 0)
+			{
+				prodContainer.parent('div.row').remove();
+			}
+			else
+			{
+				prodContainer.remove();
+			}
+			
 		});
 	});
 	

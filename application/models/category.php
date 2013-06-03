@@ -59,7 +59,15 @@ class Category extends Eloquent
 				DB::transaction(function() use ($delId)
 				{
 					$category = Category::where_id($delId)->first();
-					$category->status = false;
+					$defaultCategory = Category::where_description('uncategorized')->first();
+					$category->status = 0;
+					
+					foreach($category->products as $prod)
+					{
+						$prod->pivot->category_id = $defaultCategory->id;
+						$prod->pivot->save();
+					}
+					
 					$category->save();
 				});
 			

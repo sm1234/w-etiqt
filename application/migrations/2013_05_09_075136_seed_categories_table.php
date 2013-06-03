@@ -13,7 +13,8 @@ class Seed_Categories_Table {
 		$timeStamp->setTimestamp(time());
 		
 		DB::table('categories')->insert(
-		array(array('description'=>'seafood','created_at'=>$timeStamp,'updated_at'=>$timeStamp),
+		array(array('description'=>'uncategorized','created_at'=>$timeStamp,'updated_at'=>$timeStamp),
+		array('description'=>'seafood','created_at'=>$timeStamp,'updated_at'=>$timeStamp),
 		array('description'=>'deserts','created_at'=>$timeStamp,'updated_at'=>$timeStamp),
 		array('description'=>'snacks','created_at'=>$timeStamp,'updated_at'=>$timeStamp),
 		array('description'=>'dairy','created_at'=>$timeStamp,'updated_at'=>$timeStamp)));

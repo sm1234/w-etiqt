@@ -32,7 +32,7 @@
 		    </a>		
 			<a class="btn pull-right" id="btnSwapProducts">Swap</a>
 			</div>
-			<div id="modalAddProduct" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div id="modalAddProduct" class="modal hide fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 					<h3 id="addProdModalLabel">Add new product</h3>
@@ -166,6 +166,7 @@
 		</div>	
 		
 <!-- Tab for categories -->
+<!-- TODO: Do not show the delete icon on the 'Uncategorized' category -->
 		<div class="tab-pane" id="tabCategories">
 		<div class="well">
 		<a id="aAddCategory" role="button" href="#" class="pull-left aCustomAnchors">

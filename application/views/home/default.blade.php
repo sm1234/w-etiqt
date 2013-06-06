@@ -40,15 +40,16 @@
 <div class="row">
 @for($c=0;$c<4;$c++)
 @if(count($productsData->results)>4*$r+$c)
-   <div class="span3 c-thumbnail">
+   <a href="{{URL::to_action('products',array($productsData->results[4*$r+$c]->id))}}"><div class="span3 c-thumbnail">
    <img src="{{$productsData->results[4*$r+$c]->images[0]->url}}" />		    		
    <div class="productInfo">
-		<a href="#" class="title">{{$productsData->results[4*$r+$c]->name}}</a>
+		<a href="{{URL::to_action('products',array($productsData->results[4*$r+$c]->id))}}" class="title">{{$productsData->results[4*$r+$c]->name}}</a>
         <br>
         <small class="brand smalldontshow">By <a>{{$productsData->results[4*$r+$c]->brand}}</a></small>						
         <span class="price pull-right">&euro; {{$productsData->results[4*$r+$c]->price}}</span>
     </div>			
     </div>
+    </a>
 @endif	
 @endfor	
 </div>	
@@ -105,15 +106,17 @@
 <div class="row">
 @for($c=0;$c<4;$c++)
 @if(count($productsData->results)>4*$r+$c)
+<a href="{{URL::to_action('products',array($productsData->results[4*$r+$c]->id))}}">
    <div class="span3 c-thumbnail">
    <img src="{{$productsData->results[4*$r+$c]->images[0]->url}}" />		    		
    <div class="productInfo">
-		<a href="#" class="title">{{$productsData->results[4*$r+$c]->name}}</a>
+		<a href="{{URL::to_action('products',array($productsData->results[4*$r+$c]->id))}}" class="title">{{$productsData->results[4*$r+$c]->name}}</a>
         <br>
         <small class="brand smalldontshow">By <a>{{$productsData->results[4*$r+$c]->brand}}</a></small>						
         <span class="price pull-right">&euro; {{$productsData->results[4*$r+$c]->price}}</span>
     </div>			
     </div>
+</a>
 @endif	
 @endfor	
 </div>	

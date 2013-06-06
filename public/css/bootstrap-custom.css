@@ -8,12 +8,14 @@
 	color:rgb(46,178,231) !important;
 	font-size:14px;
 	padding: 15px !important;
+	text-decoration: none;
 }	
 
-.navbar-anchor:hover
+.navbar-anchor:hover,.navbar-anchor:active,.navbar-anchor:focus
 {
 	background: none repeat scroll 0% 0% rgba(0, 0, 0, 0.01);
 	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.07) inset;
+	text-decoration: none;
 }	
 
 .c-overlay {
@@ -256,7 +258,24 @@ div.fieldline
 		margin: 0; padding: 0;
 	}
 
+#footer
+{
+	background-color: rgb(56, 56, 52);
+	color: rgb(206, 206, 198);
+	padding: 30px 0px;
+}
 
+#footer li
+{	
+	height: 30px;
+	line-height: 30px;
+	padding-right: 35px;
+}
+
+#footer a
+{
+	color: rgb(206, 206, 198);
+}
 
 @media screen and (min-width:960px)
 {

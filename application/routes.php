@@ -31,6 +31,12 @@
 |		});
 |
 */
+
+Route::get('about',function()
+{
+	return View::make('test/about');
+});
+
 Route::get('createUser', function()
 {
 	$user=new User();

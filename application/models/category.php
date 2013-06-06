@@ -11,6 +11,32 @@ class Category extends Eloquent
 	{
 		return $this->has_many_and_belongs_to('Product','category_product','category_id','product_id');
 	}
+
+	public static function getCategoryDetails($id=null)
+	{
+		$retVal=array("status"=>"0","message"=>"");
+		try
+		{
+			$categoryData = "";
+			if($id==null)
+			{
+				$categoryData = Category::where_status('1')->get();
+			}
+			else
+			{
+				$categoryData = Category::where_status('1')->where_id($id)->get();
+			}
+
+			$retVal["message"]=$categoryData;
+		}
+		catch(Exception $ex)
+		{
+			$retVal["status"]="-1";
+			$retVal["message"]=$ex->getMessage();
+		}
+
+		return json_encode($retVal);
+	}
 	
 	public static function addOrEditCategory($input)
 	{

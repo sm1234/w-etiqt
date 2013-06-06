@@ -9,8 +9,8 @@
 <br/><br/><br/><br/><br/>
 <div class="container">
 	<ul>
-	@foreach($eventData as $event)
-		<li>{{$event->name}}</li>
+	@foreach($categoryData as $item)
+		<li>{{$item->description}}</li>
 	@endforeach
 	</ul>
 </div>

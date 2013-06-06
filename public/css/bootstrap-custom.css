@@ -277,6 +277,14 @@ div.fieldline
 	color: rgb(206, 206, 198);
 }
 
+ul.nav div.dropdown:hover ul.dropdown-menu,
+ul.nav div.dropdown:focus ul.dropdown-menu
+{
+    display: block;
+    margin-top:1px;
+    margin-left:-1px;        
+}
+
 @media screen and (min-width:960px)
 {
 	

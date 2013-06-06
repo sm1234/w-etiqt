@@ -54,10 +54,10 @@
               <a style="display: block" href="#" class="dropdown-toggle navbar-anchor" data-toggle="dropdown"><i class="icon-list icon-2x"></i>Categories</a>
               <!-- Category Dropdown -->
 	            <ul style="border-radius: 0" class="dropdown-menu" role="menu">
-	            	<li>Seafood</li>
-	            	<li>Deserts</li>
-	            	<li>Cat3</li>
-	            	<li>Cat4</li>
+	            	<li><a href="{{URL::to_action('categories/1')}}">Seafood</a></li>
+	            	<li><a href="{{URL::to_action('categories/1')}}">Seafood</a></li>
+	            	<li><a href="{{URL::to_action('categories/1')}}">Seafood</a></li>
+	            	<li><a href="{{URL::to_action('categories/1')}}">Seafood</a></li>
 	            </ul>
               </div>
               </li>

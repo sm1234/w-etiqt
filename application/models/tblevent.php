@@ -133,13 +133,23 @@ public static function closeEvent($input)
 		return json_encode($retVal);
 	}
 
-public static function getEventDetails($id)
+public static function getEventDetails($id=null)
 {
 	$retVal=array("status"=>"0","message"=>"");
 	try
 	{
-
-		$retVal["message"]=Tblevent::find($id)->to_array();
+		$eventData = "";
+		
+		if($id==null)
+		{
+			$eventData = Tblevent::where_status('1')->get();
+		}
+		else
+		{
+			$eventData = Tblevent::where_status('1')->where_id($id)->get();
+		}
+		
+		$retVal["message"]=$eventData;
 		
 	}
 	catch(Exception $ex)

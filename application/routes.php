@@ -358,11 +358,14 @@ Route::get('associatePromotionWithEventProducts',function(){
 
 
 
-Route::get('/products/(:any?)',array('uses'=>'products@index'));
-Route::get('/events/(:any?)',array('uses'=>'events@index'));
+Route::get('/products/(:num?)',array('uses'=>'products@index'));
+Route::get('/events/(:num?)',array('uses'=>'events@index'));
+Route::get('/categories/(:num?)',array('uses'=>'categories@index'));
+
 
 Route::controller('products');
 Route::controller('events');
+Route::controller('categories');
 Route::controller('home');
 Route::controller('admin');
 

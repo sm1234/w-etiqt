@@ -1,39 +1,39 @@
 <?php
-class Events_Controller extends Base_Controller {
+class Categories_Controller extends Base_Controller {
 	/*Function: gets the details for the event*/
 	
 	public function get_index($id=null)
 	{
-		/*TODO: How to raise 404 error while in the controller*/
+		
+		/*TODO: How to raise 404 error while in the controller*/		
 		try
 		{
-			$eventData="";
+			$categoryData="";
 		
 			if($id==null)
 			{
-				$eventData = Tblevent::where_status('1')->get();
+				$categoryData = Category::where_status('1')->get();
 			}
 			else
 			{
-				$eventData = Tblevent::where_status('1')->where_id($id)->get();
+				$categoryData = Category::where_status('1')->where_id($id)->get();
 			}
-		
-			return View::make('test/events')->with('title','Events')->with('eventData',$eventData);
+				
+			return View::make('test/categories')->with('title','Category')->with('categoryData',$categoryData);
 		}
 		catch(Exception $ex)
 		{
 			//Redirect to 404 page
-		}
+		}		
 	}
-	
-	public function get_eventData($id=null)
+	public function get_categoryData($id=null)
 	{
 		$retVal=array("status"=>0,"message"=>"");
-	
+		
 		try
 		{
-			$response = json_decode(Tblevent::getEventDetails($id));
-	
+			$response = json_decode(Category::getCategoryDetails($id));
+				
 			if($response->{"status"}=="-1")
 			{
 				throw new Exception($response->{"message"});
@@ -48,8 +48,8 @@ class Events_Controller extends Base_Controller {
 			$retVal["status"]=-1;
 			$retVal["message"]=$ex->getMessage();
 		}
-	
+		
 		return json_encode($retVal);
-	}	
+	}
 }
 ?>

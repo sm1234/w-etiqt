@@ -84,7 +84,7 @@ public static function getProductDetails($id)
 	try
 	{
 
-			$retVal["message"]=Product::with(array('images'=>function($query){$query->where_status('1');},'categories'=>function($query){$query->where_status('1');}))->find($id)->to_array();
+			$retVal["message"]=Product::with(array('images'=>function($query){$query->where_status('1');},'categories'))->find($id)->to_array();
 		
 	}
 	catch(Exception $ex)

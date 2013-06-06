@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 @endsection
 @section('content')
+<!--TODO: Remove the breaks and add top margin to container DIV-->
 <br/><br/><br/><br/><br/>
 <div class="container">
 	<div class="tabbable tabs-left">
@@ -21,7 +22,17 @@
 			
 			<!-- Tab for displaying and Editing Event details
 				TODO: display a calender to the users for editing the dates -->
-			<div class="tab-pane active" id="tabEventDetails">				
+			<div class="tab-pane active" id="tabEventDetails">
+			<div class="row" style="margin-left: 20px">
+			<div class="span9">
+			<div class="row">
+			<div class="well pagination-centered">
+			<a class="btn btn-info pull-left" href="{{action('admin@index').'?ShowTab=Events'}}"><i class="icon-arrow-left"></i>Back to all Events</a>
+			<img src="{{asset('img/ajax-loader.gif')}}" class="hide" id="imgEventSaveIndicator"></img>
+			<button class="btn btn-info pull-right" id="btnEditEventDetail" type="button" data-id="{{$event->id}}">Save</button>
+			</div>
+			</div>	
+			<div class="row">
 				<table id="tableEventDetails" style="margin: 0 auto">
 						<tr>
 						    <td>
@@ -65,12 +76,22 @@
 						</tr>
 					
 				</table>
-				<button class="btn btn-info pull-right" id="btnEditEventDetail" type="button" data-id="{{$event->id}}">Save</button>
+				</div>				
+			</div>
+			</div>
 			</div>
 			
 			<!-- Tab for Displaying and removing existing products -->
 			<div class="tab-pane" id="tabExistingEventProducts">
-				<button class="btn btn-danger pull-right" id="btnRemoveEventProducts" type="button" data-id="{{$event->id}}">Remove</button>				
+			<div class="row" style="margin-left: 20px">
+			<div class="span9">
+			<div class="row">
+				<div class="well">
+				<a class="btn btn-info pull-left" href="{{action('admin@index').'?ShowTab=Events'}}"><i class="icon-arrow-left"></i>Back to all Events</a>					
+				<button class="btn btn-danger pull-right" id="btnRemoveEventProducts" type="button" data-id="{{$event->id}}">Remove</button>								
+				</div>				
+			</div>
+			<div class="row" id="tabExistingEventProductsRowHolder">
 				@if(count($eventProducts)!=0)				
 				@for($r=0;$r<ceil(count($eventProducts)/4);$r++)
 					<div class="row" style="margin-left: 20px" id="divEventProductRow" data-rowVal={{$r+1}} data-lastRow={{$r==ceil(count($eventProducts)/4)-1}}>				
@@ -91,12 +112,24 @@
 				@endfor
 				@else
 				<div id="divNoProductsFound"><span>No Products added to this event yet</span></div>				
-				@endif	
-			</div>			
+				@endif
+			</div>					
+			</div>
+			</div>
+			</div>
 			<!-- Tab for Adding more Products to the event -->
-			<div class="tab-pane" id="tabAddProductsToEvent">				
+			<div class="tab-pane" id="tabAddProductsToEvent">
+			<div class="row" style="margin-left: 20px">
+			<div class="span9">
+			<div class="row">
+				<div class="well">
+					<a class="btn btn-info pull-left" href="{{action('admin@index').'?ShowTab=Events'}}"><i class="icon-arrow-left"></i>Back to all Events</a>									
+					<button class="btn btn-info pull-right" id="btnAddEventProducts" type="button" data-id="{{$event->id}}">Add</button>
+				</div>				
+			</div>
+			<div class="row" id="tabAddProductsToEventRowHolder">
 				@if(count($allProducts)!=0)
-				<button class="btn btn-info pull-right" id="btnAddEventProducts" type="button" data-id="{{$event->id}}">Add</button>
+				
 				@for($r=0;$r<ceil(count($allProducts)/4);$r++)
 					<div class="row" style="margin-left: 20px" id="divProductRowNotInEvent" data-rowVal={{$r+1}} data-lastRow={{$r==ceil(count($allProducts)/4)-1}}>				
 						@for($c=0;$c<4;$c++)
@@ -116,13 +149,14 @@
 				@endfor
 				@else
 				No more products to add!
-				@endif	
+				@endif
+			</div>								
+			</div>
+			</div>			
 			</div>
 		</div>
 	</div>
 </div>
-
-<a style="margin-left: 20%" class="btn btn-info" href="{{action('admin@index')}}"><i class="icon-arrow-left"></i>Back to all Events</a>
 @endsection
 
 @section('footer_script')
@@ -134,7 +168,7 @@
 var BASE = "<?php echo URL::base(); ?>";/*Define the BASE URL*/
 </script>
 
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+{{ HTML::script('http://code.jquery.com/ui/1.10.3/jquery-ui.js') }}
 {{ HTML::script('js/test_admin.js') }}
 {{ HTML::script('js/test_adminProduct.js') }}
 @endsection

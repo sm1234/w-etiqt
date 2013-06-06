@@ -13,14 +13,17 @@
 <div class="container">
 <div class="tabbable tabs-left">
 	<ul class="nav nav-tabs">
-	  <li class="active"><a href="#tabProducts" data-toggle="tab">Products</a></li>
-	  <li><a href="#tabCategories" data-toggle="tab">Categories</a></li>	  
-	  <li><a href="#tabEvents" data-toggle="tab">Events</a></li>
-	  <li><a href="#tabStores" data-toggle="tab">Stores</a></li>
+	  <li class="active" id="listTabProducts"><a href="#tabProducts" data-toggle="tab">Products</a></li>
+	  <li id="listTabCategories"><a href="#tabCategories" data-toggle="tab">Categories</a></li>	  
+	  <li id="listTabEvents"><a href="#tabEvents" data-toggle="tab">Events</a></li>
+	  <li id="listTabStores"><a href="#tabStores" data-toggle="tab">Stores</a></li>
 	</ul>
 	<div class="tab-content">
 
 <!-- Tab for products -->
+<!--TODO: Bigger checkboxes for products-->
+<!--TODO: Stable placeholder for edit and delete icon-->
+<!--TODO: Client side validation for Add Product-->
 		<div class="tab-pane active" id="tabProducts">
 		@if(isset($productsData))
 		<div class="row" style="margin-left: 20px">
@@ -110,7 +113,7 @@
 			<button class="btn btn-primary" id="btnAddProduct" type="submit">Add product to etiqt</button>
 			</div>
 			</div>
-			</form>
+		</form>
 
 <div id="modalConfirmRemoveProduct" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalConfirmRemoveProduct" aria-hidden="true">
 <div class="modal-body">
@@ -134,9 +137,9 @@
 							</div>
 							<div class="productInfo">
 							<input type="checkbox" class="product" data-id="{{$productsData[4*$r+$c]->id}}"/>
-							<span id="spanProdName">{{$productsData[4*$r+$c]->name}}</span>
+							<span id="spanProdName" style="margin-left:20px">{{$productsData[4*$r+$c]->name}}</span>
 							
-							<div id="divProductActionButtons" class="hide">
+							<div id="divProductActionButtons" style="visibility:hidden">
 							<i class="icon-edit icon-2x iconEditProduct" data-id="{{$productsData[4*$r+$c]->id}}" data-toggle="modal"></i>
 							<i class="icon-remove-sign icon-2x pull-right iconRemoveProduct" data-id="{{$productsData[4*$r+$c]->id}}" data-toggle="modal"></i>							
 							</div>
@@ -153,9 +156,9 @@
 			</div>
 			<div class="productInfo">
 			<input type="checkbox" class="product" data-id="" />
-			<span id="spanProdName"></span>
+			<span id="spanProdName" class="pull-right"></span>
 			
-			<div id="divProductActionButtons" class="hide">
+			<div id="divProductActionButtons" style="visibility:hidden">
 			<i class="icon-edit icon-2x iconEditProduct" data-id="" data-toggle="modal"></i>
 			<i class="icon-remove-sign icon-2x pull-right iconRemoveProduct" data-id="" data-toggle="modal"></i>							
 			</div>
@@ -168,49 +171,53 @@
 <!-- Tab for categories -->
 <!-- TODO: Do not show the delete icon on the 'Uncategorized' category -->
 		<div class="tab-pane" id="tabCategories">
-		<div class="well">
-		<a id="aAddCategory" role="button" href="#" class="pull-left aCustomAnchors">
-	    	Add new Category <i class="icon-plus-sign icon-2x"></i>
-	 	</a>
-	 	</div>
+		<div class="row" style="margin-left: 20px">
+		<div class="span10">			
+			<div class="well">
+			<a id="aAddCategory" role="button" href="#" class="pull-left aCustomAnchors">
+		    	Add new Category <i class="icon-plus-sign icon-2x"></i>
+		 	</a>
+		 	</div>
 		<table class="table table-bordered table-hover">
-		<thead>
-		<tr>
-      		<th>Category Name</th>
-      		<th>#Products</th>
-    	</tr>
-		</thead>
-		<tbody id="tbodyCategories">
-@if(isset($categoriesData))
-@foreach($categoriesData as $catData)
-<tr>
-    <td>
-<div class="input-append">
-  <input type="text" value="{{$catData->description}}" autocomplete="off">
-  <button class="btn btnAddOrEditCategory" type="button" data-id="{{$catData->id}}">Save</button>
-</div>    
-&nbsp;&nbsp;&nbsp;<a class="aDeleteCategory aCustomAnchors" data-id="{{$catData->id}}"><i class="icon-remove-sign icon-2x"></i></a>
-    </td>
-    <td><span>{{count($catData->products)}}</span></td>
-</tr>	
-@endforeach
-@endif 
+			<thead>
+			<tr>
+	      		<th>Category Name</th>
+	      		<th>#Products</th>
+	    	</tr>
+			</thead>
+			<tbody id="tbodyCategories">
+				@if(isset($categoriesData))
+				@foreach($categoriesData as $catData)
+				<tr>
+				    <td>
+				<div class="input-append">
+				  <input type="text" value="{{$catData->description}}" autocomplete="off">
+				  <button class="btn btnAddOrEditCategory" type="button" data-id="{{$catData->id}}">Save</button>
+				</div>    
+				&nbsp;&nbsp;&nbsp;<a class="aDeleteCategory aCustomAnchors" data-id="{{$catData->id}}"><i class="icon-remove-sign icon-2x"></i></a>
+				    </td>
+				    <td><span>{{count($catData->products)}}</span></td>
+				</tr>	
+				@endforeach
+				@endif 
 
-<!-- Hidden table row which will be cloned and inserted into the table on the click of add new category button -->
-<!--TODO: Change the id to template-->  
-<tr class="hide newCatRowTemplate">
-    <td>
-<div class="input-append">
-  <input type="text" value="" autocomplete="off">
-  <button class="btn btnAddOrEditCategory" type="button" data-id="">Add</button>
-</div>
-&nbsp;&nbsp;&nbsp;<a class="aDeleteCategory aCustomAnchors" data-id=""><i class="icon-remove-sign icon-2x"></i></a>
-    </td>
-    <td><span></span></td>
-</tr>
+				<!-- Hidden table row which will be cloned and inserted into the table on the click of add new category button -->
+				<!--TODO: Change the id to template-->  
+				<tr class="hide newCatRowTemplate">
+				    <td>
+				<div class="input-append">
+				  <input type="text" value="" autocomplete="off">
+				  <button class="btn btnAddOrEditCategory" type="button" data-id="">Add</button>
+				</div>
+				&nbsp;&nbsp;&nbsp;<a class="aDeleteCategory aCustomAnchors" data-id=""><i class="icon-remove-sign icon-2x"></i></a>
+				    </td>
+				    <td><span></span></td>
+				</tr>
 		
-		</tbody>
+			</tbody>
 		</table>
+		</div>
+		</div>
 		</div>
 		
 <!-- Modal for confirming category deletion -->
@@ -229,43 +236,46 @@
 
 <!-- Tab for events -->
 		<div class="tab-pane" id="tabEvents">
-
-		<div class="well">
-		<a id="aCreateEvent" role="button" data-toggle="modal" href="#modalCreateEvent" class="pull-left aCustomAnchors">
-		Create an Event <i class="icon-plus-sign icon-2x"></i>
-		</a>
-		</div>
-		<table class="table table-bordered table-hover">
-		<thead>
-		<tr>
-      		<th>Event Name</th>
-      		<th>Start Date</th>
-      		<th>End Date</th>
-      		<th>Location</th>
-      		<th>Action</th>
-    	</tr>
-		</thead>
-		<tbody id="tbodyEvents">
-			@if(isset($eventsData))
-			@foreach($eventsData as $event)
+		<div class="row" style="margin-left: 20px">
+		<div class="span10">			
+			<div class="well">
+			<a id="aCreateEvent" role="button" data-toggle="modal" href="#modalCreateEvent" class="pull-left aCustomAnchors">
+			Create an Event <i class="icon-plus-sign icon-2x"></i>
+			</a>
+			</div>
+			<table class="table table-bordered table-hover">
+				<thead>
 				<tr>
-				    <td><a id="spanEventName" href="{{action('admin@event', array($event->id))}}">{{$event->name}}</a></td>
-				    <td><span id="spanEventStartDt">{{$event->start_date}}</span></td>
-				    <td><span id="spanEventEndDt">{{$event->end_date}}</span></td>
-				    <td><span id="spanEventLocation">{{$event->location}}</span></td>
-				    <td><button class="btn btn-danger btnCloseEventConfirmation" data-id="{{$event->id}}">Close Event</button></td>
-				</tr>
-			@endforeach
-			@endif
-				<tr class="hide" id="trNewEventTemplate">
-				    <td><a id="aEventName" href=""></a></td>
-				    <td><span id="spanEventStartDt"></span></td>
-				    <td><span id="spanEventEndDt"></span></td>
-				    <td><span id="spanEventLocation"></span></td>
-				    <td><button class="btn btn-danger btnCloseEventConfirmation" data-id="">Close Event</button></td>
-				</tr>			
-		</tbody>
-		</table>
+		      		<th>Event Name</th>
+		      		<th>Start Date</th>
+		      		<th>End Date</th>
+		      		<th>Location</th>
+		      		<th>Action</th>
+		    	</tr>
+				</thead>
+				<tbody id="tbodyEvents">
+					@if(isset($eventsData))
+					@foreach($eventsData as $event)
+						<tr>
+						    <td><a id="spanEventName" href="{{action('admin@event', array($event->id))}}">{{$event->name}}</a></td>
+						    <td><span id="spanEventStartDt">{{$event->start_date}}</span></td>
+						    <td><span id="spanEventEndDt">{{$event->end_date}}</span></td>
+						    <td><span id="spanEventLocation">{{$event->location}}</span></td>
+						    <td><button class="btn btn-danger btnCloseEventConfirmation" data-id="{{$event->id}}">Close Event</button></td>
+						</tr>
+					@endforeach
+					@endif
+						<tr class="hide" id="trNewEventTemplate">
+						    <td><a id="aEventName" href=""></a></td>
+						    <td><span id="spanEventStartDt"></span></td>
+						    <td><span id="spanEventEndDt"></span></td>
+						    <td><span id="spanEventLocation"></span></td>
+						    <td><button class="btn btn-danger btnCloseEventConfirmation" data-id="">Close Event</button></td>
+						</tr>			
+				</tbody>
+			</table>
+		</div>
+		</div>		
 		</div>
 <!-- Modal for create event-->		
 		<div id="modalCreateEvent" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalCreateEvent" aria-hidden="true">
@@ -331,29 +341,35 @@
 
 <!-- Tab for stores -->
 		<div class="tab-pane" id="tabStores">
-		<a id="aCreateStore" role="button" data-toggle="modal" href="#modalCreateStore" class="pull-left aCustomAnchors">
-		Create a Store <i class="icon-plus-sign icon-2x"></i>
-		</a><br/>
-		<table class="table table-bordered table-hover">
-		<thead>
-		<tr>
-      		<th>Store Name</th>
-      		<th>Location</th>
-      		<th>Action</th>
-    	</tr>
-		</thead>
-		<tbody>
-			@if(isset($storesData))
-			@foreach($storesData as $store)
-				<tr>
-				    <td><a href="{{action('admin@store', array($store->id))}}">{{$store->name}}</a></td>				    
-				    <td>{{$store->location}}</td>
-				    <td><button class="btn btn-danger btnCloseStoreConfirmation" data-id="{{$store->id}}">Close Store</button></td>
-				</tr>
-			@endforeach
-			@endif
-		</tbody>
-		</table>
+		<div class="row" style="margin-left: 20px">
+		<div class="span10">			
+			<div class="well">			
+				<a id="aCreateStore" role="button" data-toggle="modal" href="#modalCreateStore" class="pull-left aCustomAnchors">
+				Create a Store <i class="icon-plus-sign icon-2x"></i>
+				</a>
+			</div>
+			<table class="table table-bordered table-hover">
+			<thead>
+			<tr>
+	      		<th>Store Name</th>
+	      		<th>Location</th>
+	      		<th>Action</th>
+	    	</tr>
+			</thead>
+			<tbody>
+				@if(isset($storesData))
+				@foreach($storesData as $store)
+					<tr>
+					    <td><a href="{{action('admin@store', array($store->id))}}">{{$store->name}}</a></td>				    
+					    <td>{{$store->location}}</td>
+					    <td><button class="btn btn-danger btnCloseStoreConfirmation" data-id="{{$store->id}}">Close Store</button></td>
+					</tr>
+				@endforeach
+				@endif
+			</tbody>
+			</table>
+		</div>
+		</div>
 		</div>
 		
 <!-- Modal for Close Store Confirmation -->

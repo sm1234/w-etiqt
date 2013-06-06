@@ -1,6 +1,35 @@
 $(document).ready(
 function()
 {
+	
+	function getParameterByName(name) {
+	    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+	    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+	        results = regex.exec(location.search);
+	    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
+	
+
+	if(getParameterByName('ShowTab')!='')
+		{
+		var param = getParameterByName('ShowTab');
+		var liParam = "li#listTab"+param;
+		var divParam = "div#tab"+param;
+		var liElement = $(liParam);
+		var divElement = $(divParam);
+
+		if(liElement.length>0 && divElement.length>0)
+		{
+			$("li[id^='listTab']").removeClass("active");
+			$("div[id^='tab']").removeClass("active");
+			
+			liElement.addClass("active");
+			divElement.addClass("active");
+		}
+
+		}
+	
+	
 	$("#aAddProduct").click(function(){
 		fnResetProductDataBinding();
 	});
@@ -332,9 +361,11 @@ function fnAppendNewEventToUI(eventid)
 								type:'PUT',
 								data:req_params
 			});
-			
+			//Show the save in progress
+			$("#imgEventSaveIndicator").removeClass("hide");
+
 			post_req.success(function(data){
-				alert('Edited');
+				$("#imgEventSaveIndicator").addClass("hide");
 				resp = JSON.parse(data);
 			});
 			
@@ -378,8 +409,60 @@ function fnAppendNewEventToUI(eventid)
 			});
 			
 			postReq.success(function(data){
-				alert('done!');
-					resp = JSON.parse(data);						    
+				resp = JSON.parse(data);
+				//remove the prodcts from existing products panel and move them to Add Products panel
+				//loop for all the checked products
+				console.log("Removing following id:"+prod_ids);
+				$.each( prod_ids, function( index, value ){
+					//find the DIV that has to be moved
+					var divToMove = $("div.divEventExistingProdHolder").find("input.chkboxRemoveEventProduct[data-id='"+value+"']").parents(".divEventExistingProdHolder");
+					//find the last row where the product should be added
+					var lastRow = $("div[id='divProductRowNotInEvent'][data-lastRow='1']");
+					var lastRowVal = 0;
+					if(lastRow.length!=0)
+					{
+						lastRowVal = $("div[id='divProductRowNotInEvent'][data-lastRow='1']").attr("data-rowVal");
+					}
+
+				//if lastRow does not exists
+				  	if(lastRow.length==0)
+					{
+					  $("div#tabAddProductsToEventRowHolder").append($("<div class='row' style='margin-left: 20px' id='divProductRowNotInEvent' data-rowVal='"+1+"' data-lastRow='1'></div>"));
+						 
+						  divToMove.removeClass("divEventExistingProdHolder").addClass("divEventNewProdHolder");
+						  var chkSelectProduct = divToMove.find("input:checkbox");
+						  chkSelectProduct.removeClass("chkboxRemoveEventProduct").addClass("chkboxAddEventProduct");
+						  chkSelectProduct.prop("checked",false);
+						  lastRow = $("div[id='divProductRowNotInEvent'][data-lastRow='1']");
+						  lastRow.append(divToMove);
+					}
+					else
+					{
+					  if(lastRow.find("div.divEventNewProdHolder").length<4)
+					   {
+						  divToMove.removeClass("divEventExistingProdHolder").addClass("divEventNewProdHolder");
+						  var chkSelectProduct = divToMove.find("input:checkbox");
+						  chkSelectProduct.removeClass("chkboxRemoveEventProduct").addClass("chkboxAddEventProduct");
+						  chkSelectProduct.prop("checked",false);
+						  lastRow.append(divToMove);
+					   }
+					  else
+						{
+						  lastRow.attr("data-lastRow","");
+
+						 $("<div class='row' style='margin-left: 20px' id='divProductRowNotInEvent' data-rowVal="+(parseInt(lastRowVal)+1)+" data-lastRow='1'></div>").insertAfter(lastRow);
+						 
+						  divToMove.removeClass("divEventExistingProdHolder").addClass("divEventNewProdHolder");
+						  var chkSelectProduct = divToMove.find("input:checkbox");
+						  chkSelectProduct.removeClass("chkboxRemoveEventProduct").addClass("chkboxAddEventProduct");
+						  chkSelectProduct.prop("checked",false);
+						  lastRow = $("div[id='divProductRowNotInEvent'][data-lastRow='1']");
+						  lastRow.append(divToMove);
+						  
+						}
+					}
+
+				});						    
 			});
 			
 			postReq.fail(function(data){
@@ -436,7 +519,7 @@ function fnAppendNewEventToUI(eventid)
 						  //if lastRow does not exists
 						  if(lastRow.length==0)
 							  {
-							  $("div#tabExistingEventProducts").append($("<div class='row' style='margin-left: 20px' id='divEventProductRow' data-rowVal='"+lastRowVal+1+"' data-lastRow='1'></div>"));
+							  $("div#tabExistingEventProductsRowHolder").append($("<div class='row' style='margin-left: 20px' id='divEventProductRow' data-rowVal='"+1+"' data-lastRow='1'></div>"));
 								 
 								  divToMove.removeClass("divEventNewProdHolder").addClass("divEventExistingProdHolder");
 								  var chkSelectProduct = divToMove.find("input:checkbox");
@@ -459,7 +542,7 @@ function fnAppendNewEventToUI(eventid)
 							  else
 								{
 								  lastRow.attr("data-lastRow","");
-								 $("<div class='row' style='margin-left: 20px' id='divEventProductRow' data-rowVal='"+lastRowVal+1+"' data-lastRow='1'></div>").insertAfter(lastRow);
+								 $("<div class='row' style='margin-left: 20px' id='divEventProductRow' data-rowVal='"+(parseInt(lastRowVal)+1)+"' data-lastRow='1'></div>").insertAfter(lastRow);
 								 
 								  divToMove.removeClass("divEventNewProdHolder").addClass("divEventExistingProdHolder");
 								  var chkSelectProduct = divToMove.find("input:checkbox");
@@ -609,8 +692,60 @@ function fnAppendNewEventToUI(eventid)
 			});
 			
 			postReq.success(function(data){
-				alert('done!');
-					resp = JSON.parse(data);						    
+				resp = JSON.parse(data);
+				$.each( prod_ids, function( index, value ) {
+
+					//find the DIV that has to be moved
+					var divToMove = $("div.divStoreExistingProdHolder").find("input.chkboxRemoveStoreProduct[data-id='"+value+"']").parents(".divStoreExistingProdHolder");
+					//find the last row where the product should be added
+					var lastRow = $("div[id='divProductRowNotInStore'][data-lastRow='1']");
+					var lastRowVal = 0;
+					if(lastRow.length!=0)
+					{
+						lastRowVal = $("div[id='divProductRowNotInStore'][data-lastRow='1']").attr("data-rowVal");
+					}
+
+				//if lastRow does not exists
+				  	if(lastRow.length==0)
+					{
+					  $("div#tabAddProductsToStoreRowHolder").append($("<div class='row' style='margin-left: 20px' id='divProductRowNotInStore' data-rowVal='"+1+"' data-lastRow='1'></div>"));
+						 
+						  divToMove.removeClass("divStoreExistingProdHolder").addClass("divStoreNewProdHolder");
+						  var chkSelectProduct = divToMove.find("input:checkbox");
+						  chkSelectProduct.removeClass("chkboxRemoveStoreProduct").addClass("chkboxAddStoreProduct");
+						  chkSelectProduct.prop("checked",false);
+						  lastRow = $("div[id='divProductRowNotInStore'][data-lastRow='1']");
+						  lastRow.append(divToMove);
+					}
+					else
+					{
+					  if(lastRow.find("div.divStoreNewProdHolder").length<4)
+					   {
+						  divToMove.removeClass("divStoreExistingProdHolder").addClass("divStoreNewProdHolder");
+						  var chkSelectProduct = divToMove.find("input:checkbox");
+						  chkSelectProduct.removeClass("chkboxRemoveStoreProduct").addClass("chkboxAddStoreProduct");
+						  chkSelectProduct.prop("checked",false);
+						  lastRow.append(divToMove);
+					   }
+					  else
+						{
+						  lastRow.attr("data-lastRow","");
+
+						 $("<div class='row' style='margin-left: 20px' id='divProductRowNotInStore' data-rowVal="+(parseInt(lastRowVal)+1)+" data-lastRow='1'></div>").insertAfter(lastRow);
+						 
+						  divToMove.removeClass("divStoreExistingProdHolder").addClass("divStoreNewProdHolder");
+						  var chkSelectProduct = divToMove.find("input:checkbox");
+						  chkSelectProduct.removeClass("chkboxRemoveStoreProduct").addClass("chkboxAddStoreProduct");
+						  chkSelectProduct.prop("checked",false);
+						  lastRow = $("div[id='divProductRowNotInStore'][data-lastRow='1']");
+						  lastRow.append(divToMove);
+						  
+						}
+					}
+
+
+				});
+
 			});
 			
 			postReq.fail(function(data){
@@ -653,8 +788,58 @@ function fnAppendNewEventToUI(eventid)
 			});
 			
 			postReq.success(function(data){
-				alert('done!');
-					resp = JSON.parse(data);						    
+				resp = JSON.parse(data);
+				//loop through all the ids and move the Product holder from non-store to store tab
+				$.each( prod_ids, function( index, value ) {
+					
+						  var divToMove = $("div.divStoreNewProdHolder").find("input.chkboxAddStoreProduct[data-id='"+value+"']").parents(".divStoreNewProdHolder");
+						  
+						  
+						  var lastRow = $("div[id='divStoreProductRow'][data-lastRow='1']");
+						  var lastRowVal = 0;
+						  if(lastRow.length!=0)
+						  {
+							  lastRowVal = $("div[id='divStoreProductRow'][data-lastRow='1']").attr("data-rowVal");
+						  }
+						  //if lastRow does not exists
+						  if(lastRow.length==0)
+							  {
+							  $("div#tabExistingStoreProductsRowHolder").append($("<div class='row' style='margin-left: 20px' id='divStoreProductRow' data-rowVal='"+1+"' data-lastRow='1'></div>"));
+								 
+								  divToMove.removeClass("divStoreNewProdHolder").addClass("divStoreExistingProdHolder");
+								  var chkSelectProduct = divToMove.find("input:checkbox");
+								  chkSelectProduct.removeClass("chkboxAddStoreProduct").addClass("chkboxRemoveStoreProduct");
+								  chkSelectProduct.prop("checked",false);
+								  lastRow = $("div[id='divStoreProductRow'][data-lastRow='1']");
+								  lastRow.append(divToMove);
+								  $("div#divNoProductsFound").addClass("hide");
+							  }
+						  else
+							  {
+							  if(lastRow.find("div.divStoreExistingProdHolder").length<4)
+							   {
+								  divToMove.removeClass("divStoreNewProdHolder").addClass("divStoreExistingProdHolder");
+								  var chkSelectProduct = divToMove.find("input:checkbox");
+								  chkSelectProduct.removeClass("chkboxAddStoreProduct").addClass("chkboxRemoveStoreProduct");
+								  chkSelectProduct.prop("checked",false);
+								  lastRow.append(divToMove);
+							   }
+							  else
+								{
+								  lastRow.attr("data-lastRow","");
+								 $("<div class='row' style='margin-left: 20px' id='divStoreProductRow' data-rowVal='"+(parseInt(lastRowVal)+1)+"' data-lastRow='1'></div>").insertAfter(lastRow);
+								 
+								  divToMove.removeClass("divStoreNewProdHolder").addClass("divStoreExistingProdHolder");
+								  var chkSelectProduct = divToMove.find("input:checkbox");
+								  chkSelectProduct.removeClass("chkboxAddStoreProduct").addClass("chkboxRemoveStoreProduct");
+								  chkSelectProduct.prop("checked",false);
+								  lastRow = $("div[id='divStoreProductRow'][data-lastRow='1']");
+								  lastRow.append(divToMove);
+								  
+								}							  
+							  }
+
+				});
 			});
 			
 			postReq.fail(function(data){
@@ -1000,10 +1185,10 @@ function fnAppendNewEventToUI(eventid)
 		$(this).find("#divProductActionButtons").toggleClass("hide");
 	});*/
 	$("div.divProdHolder").mouseenter(function(){
-		$(this).find("#divProductActionButtons").removeClass("hide");
+		$(this).find("#divProductActionButtons").css("visibility","");
 	});
 	$("div.divProdHolder").mouseleave(function(){
-		$(this).find("#divProductActionButtons").addClass("hide");
+		$(this).find("#divProductActionButtons").css("visibility","hidden");
 	});
 	
 	//Fire the events for editing a product details
@@ -1115,10 +1300,10 @@ function fnAppendNewEventToUI(eventid)
 			
 		});
 	});
-	
 	/*
 	 * Invoking the Datepicker jquery UI
 	 */
 	$('.txtDate').datepicker({dateFormat:'dd-mm-yy'});
+
 }
 );

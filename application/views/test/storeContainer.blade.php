@@ -4,6 +4,10 @@
 {{$title}}
 @endif
 @endsection
+@section('h_style')
+@parent
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+@endsection
 @section('content')
 <br/><br/><br/><br/><br/>
 <div class="container">
@@ -16,7 +20,16 @@
 		<div class="tab-content">
 			
 			<!-- Tab for displaying and Editing Store details -->
-			<div class="tab-pane active" id="tabStoreDetails">				
+			<div class="tab-pane active" id="tabStoreDetails">
+			<div class="row" style="margin-left: 20px">
+			<div class="span9">
+			<div class="row">
+				<div class="well">
+					<a class="btn btn-info pull-left" href="{{action('admin@index').'?ShowTab=Stores'}}"><i class="icon-arrow-left"></i>Back to all Stores</a>					
+					<button class="btn btn-info pull-right" id="btnEditStoreDetail" type="button" data-id="{{$store->id}}">Save</button>
+				</div>
+			</div>
+			<div class="row">
 				<table id="tableStoreDetails" style="margin: 0 auto">					
 						<tr>
 						    <td>
@@ -52,15 +65,26 @@
 						</tr>
 					
 				</table>
-				<button class="btn btn-info pull-right" id="btnEditStoreDetail" type="button" data-id="{{$store->id}}">Save</button>
+			</div>			
+			</div>
+			</div>
 			</div>
 			
 			<!-- Tab for Displaying and removing existing products -->
-			<div class="tab-pane" id="tabExistingStoreProducts">				
+			<div class="tab-pane" id="tabExistingStoreProducts">
+			<div class="row" style="margin-left: 20px">
+			<div class="span9">
+			<div class="row">
+				<div class="well">
+					<a class="btn btn-info pull-left" href="{{action('admin@index').'?ShowTab=Stores'}}"><i class="icon-arrow-left"></i>Back to all Stores</a>										
+					<button class="btn btn-danger pull-right" id="btnRemoveStoreProducts" type="button" data-id="{{$store->id}}">Remove</button>					
+				</div>
+			</div>
+			<div class="row" id="tabExistingStoreProductsRowHolder">
 				@if(count($storeProducts)!=0)
-				<button class="btn btn-danger pull-right" id="btnRemoveStoreProducts" type="button" data-id="{{$store->id}}">Remove</button>
+				
 				@for($r=0;$r<ceil(count($storeProducts)/4);$r++)
-					<div class="row" style="margin-left: 20px">				
+					<div class="row" style="margin-left: 20px" id="divStoreProductRow" data-rowVal={{$r+1}} data-lastRow={{$r==ceil(count($storeProducts)/4)-1}}>				
 						@for($c=0;$c<4;$c++)
 							@if(count($storeProducts)>4*$r+$c)
 								<div class="span2 divStoreExistingProdHolder">
@@ -77,16 +101,30 @@
 					</div>
 				@endfor
 				@else
-				No Products added to this store yet
-				@endif	
+				<div id="divNoProductsFound">
+					<span>No Products added to this store yet</span>
+				</div>
+				@endif
+			</div>												
+			</div>
+			</div>
 			</div>
 			
 			<!-- Tab for Adding more Products to the store -->
 			<div class="tab-pane" id="tabAddProductsToStore">
-				@if(count($allProducts)!=0)
+			<div class="row" style="margin-left: 20px">
+			<div class="span9">
+			<div class="row">
+				<div class="well">
+				<a class="btn btn-info pull-left" href="{{action('admin@index').'?ShowTab=Stores'}}"><i class="icon-arrow-left"></i>Back to all Stores</a>					
 				<button class="btn btn-info pull-right" id="btnAddStoreProducts" type="button" data-id="{{$store->id}}">Add</button>
+				</div>
+			</div>
+			<div class="row" id="tabAddProductsToStoreRowHolder">
+				@if(count($allProducts)!=0)
+
 				@for($r=0;$r<ceil(count($allProducts)/4);$r++)
-					<div class="row" style="margin-left: 20px">				
+					<div class="row" style="margin-left: 20px" id="divProductRowNotInStore" data-rowVal={{$r+1}} data-lastRow={{$r==ceil(count($allProducts)/4)-1}}>
 						@for($c=0;$c<4;$c++)
 							@if(count($allProducts)>4*$r+$c)
 								<div class="span2 divStoreNewProdHolder">
@@ -105,12 +143,13 @@
 				@else
 				No more products to add!
 				@endif
+			</div>			 											
+			</div>
+			</div>
 			</div>
 		</div>
 	</div>
 </div>
-
-<button style="margin-left: 20%" class="btn btn-info" href="#" onClick="history.go(-1);"><i class="icon-arrow-left"></i>Back to all Stores</a>
 @endsection
 
 @section('footer_script')
@@ -122,6 +161,7 @@
 var BASE = "<?php echo URL::base(); ?>";/*Define the BASE URL*/
 
 </script>
+{{ HTML::script('http://code.jquery.com/ui/1.10.3/jquery-ui.js') }}
 {{ HTML::script('js/test_admin.js') }}
 {{ HTML::script('js/test_adminProduct.js') }}
 @endsection

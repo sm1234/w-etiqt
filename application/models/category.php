@@ -20,11 +20,11 @@ class Category extends Eloquent
 			$categoryData = "";
 			if($id==null)
 			{
-				$categoryData = Category::where_status('1')->get();
+				$categoryData = json_decode(eloquent_to_json(Category::where_status('1')->get()));
 			}
 			else
 			{
-				$categoryData = Category::where_status('1')->where_id($id)->get();
+				$categoryData = json_decode(eloquent_to_json(Category::where_status('1')->find($id)));
 			}
 
 			$retVal["message"]=$categoryData;

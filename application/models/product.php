@@ -86,11 +86,11 @@ public static function getProductDetails($id=null)
 			$productData = "";
 			if($id==null)
 			{
-				$productData = Product::where_status('1')->get();
+				$productData = json_decode(eloquent_to_json(Product::where_status('1')->get()));
 			}
 			else
 			{
-				$productData = Product::with(array('images'=>function($query){$query->where_status('1');},'categories'))->find($id)->to_array();
+				$productData = json_decode(eloquent_to_json(Product::with(array('images'=>function($query){$query->where_status('1');},'categories'))->find($id)));
 			}
 			
 			$retVal["message"]=$productData;

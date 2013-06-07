@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 @endsection
 @section('content')
-<br/><br/><br/><br/><br/>
 <div class="container">
 	<div class="tabbable tabs-left">
 		<ul class="nav nav-tabs">

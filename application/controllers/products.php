@@ -5,31 +5,58 @@ use Laravel\Database\Eloquent\Model;
 
 class Products_Controller extends Base_Controller {
 
-	public function get_index($id)
+	public function get_index($id=null)
 	{
-		$retVal=array("status"=>0,"message"=>"");
+		/*TODO: How to raise 404 error while in the controller*/
 		try
 		{
-			$prodInfo = json_decode(Product::getProductDetails($id));
-			if($prodInfo->{"status"}=="-1")
+			$prodData="";
+		
+			if($id==null)
 			{
-				throw new Exception($prodInfo->{"message"});
+				$productData = Product::where_status('1')->get();
+				return View::make('test/products')->with('title','Products')->with('productData',$productData);
 			}
 			else
 			{
-				$retVal = $prodInfo;
+				$productData = Product::where_status('1')->where_id($id)->first();
+				return View::make('test/productContainer')->with('title',$productData->name)->with('productData',$productData);
 			}
-			 
+		}
+		catch(Exception $ex)
+		{
+			//Redirect to 404 page
+		}
+	}
+
+/*
+ * Gets the details of a specific product and retutrns the data in JSON format
+ */ 
+	public function get_productData($id=null)
+	{
+		$retVal=array("status"=>0,"message"=>"");
+	
+		try
+		{
+			$response = json_decode(Product::getProductDetails($id));
+	
+			if($response->{"status"}=="-1")
+			{
+				throw new Exception($response->{"message"});
+			}
+			else
+			{
+				$retVal = $response;
+			}
 		}
 		catch(Exception $ex)
 		{
 			$retVal["status"]=-1;
-			$retVal["message"]=$ex->getMessage();			
+			$retVal["message"]=$ex->getMessage();
 		}
-
-		return json_encode($retVal);		
+	
+		return json_encode($retVal);
 	}
-
 	
 	public function put_index()
 	{

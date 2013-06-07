@@ -47,13 +47,13 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
             	<div class="vertical-divider"></div>
-              <li><a href="{{URL::to_action('events')}}" class="navbar-anchor"><i class="icon-map-marker icon-2x"></i>Events</a></li>
+              <li><a href="{{URL::to_action('events')}}" class="navbar-anchor"><i class="icon-map-marker"></i>&nbsp;Events</a></li>
               <div class="vertical-divider"></div>
               <li>                
               <div class="dropdown">
-              <a style="display: block" href="#" class="dropdown-toggle navbar-anchor" data-toggle="dropdown"><i class="icon-list icon-2x"></i>Categories</a>
+              <a style="display: block" href="#" class="dropdown-toggle navbar-anchor"><i class="icon-list"></i>&nbsp;Categories</a>
               <!-- Category Dropdown -->
-	            <ul style="border-radius: 0" class="dropdown-menu" role="menu">
+	            <ul style="border-radius: 0" class="dropdown-menu">
 	            	<li><a href="{{URL::to_action('categories/1')}}">Seafood</a></li>
 	            	<li><a href="{{URL::to_action('categories/1')}}">Seafood</a></li>
 	            	<li><a href="{{URL::to_action('categories/1')}}">Seafood</a></li>
@@ -66,7 +66,7 @@
             
             <ul class="nav pull-right">
             <li>
-            <a href="{{URL::to('/about')}}" class="navbar-anchor" style="padding: 20px 15px !important">About Us</a>
+            <a href="{{URL::to('/about')}}" class="navbar-anchor">About Us</a>
             </li>                       
             </ul>
             <!--
@@ -112,12 +112,12 @@
 			<h4>Social</h4>
 								
 						<ul class="unstyled pull-left">
-						<li><a href="#"><i class="icon-twitter-sign"></i>Twitter</a></li>
-						<li><a href="#"><i class="icon-facebook-sign"></i>Facebook</a></li>
+						<li><a href="#"><img src="http://www.exclusivemotion.com/wp-content/themes/bigbangwp/images/icons/icon_facebook.png"></img></li>
+						<li><a href="#"><img src="http://www.exclusivemotion.com/wp-content/themes/bigbangwp/images/icons/icon_twitter.png"></img></a></li>
 						</ul>										
 						<ul class="unstyled pull-left">
-						<li><a href="#"><i class="icon-pinterest-sign"></i>Pinterest</a></li>
-						<li><a href="#"><i class="icon-google-plus-sign"></i>Google Plus</a></li>
+						<li><a href="#"><img src="http://www.exclusivemotion.com/wp-content/themes/bigbangwp/images/icons/icon_instagram.png"></img></a></li>
+						<li><a href="#"><img src="http://www.exclusivemotion.com/wp-content/themes/bigbangwp/images/icons/icon_pinterest.png"></img></a></li>
 						</ul>																			
 			
 		</div>

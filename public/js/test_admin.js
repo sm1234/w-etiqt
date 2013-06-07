@@ -1200,7 +1200,7 @@ function fnAppendNewEventToUI(eventid)
 			{
 											
 				//get the product details and show that in a modal dialog box
-				to_url = BASE+"/products/"+$(this).attr("data-id");
+				to_url = BASE+"/products/productData/"+$(this).attr("data-id");
 				var getProdInfo = $.ajax({
 					url:to_url,
 					type:'GET'

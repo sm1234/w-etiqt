@@ -5,8 +5,6 @@
 @endif
 @endsection
 @section('content')
-
-<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 <a class="btn pull-right" id="btnSwapProducts">Swap</a>
 <div class="container">
 	@if(isset($productsData))

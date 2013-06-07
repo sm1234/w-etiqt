@@ -6,11 +6,10 @@
 @endsection
 @section('h_style')
 @parent
+<!-- CSS for the jquery UI(for the calender that is displayed at the time of selecting the date) -->
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 @endsection
 @section('content')
-<!--TODO: Remove the breaks and add top margin to container DIV-->
-<br/><br/><br/><br/><br/>
 <div class="container">
 	<div class="tabbable tabs-left">
 		<ul class="nav nav-tabs">
@@ -168,7 +167,11 @@
 var BASE = "<?php echo URL::base(); ?>";/*Define the BASE URL*/
 </script>
 
+
+<!-- JS for the jquery UI(for the calender that is displayed at the time of selecting the date) -->
 {{ HTML::script('http://code.jquery.com/ui/1.10.3/jquery-ui.js') }}
+
+<!-- Page specific JS files -->
 {{ HTML::script('js/test_admin.js') }}
 {{ HTML::script('js/test_adminProduct.js') }}
 @endsection

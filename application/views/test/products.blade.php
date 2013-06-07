@@ -6,10 +6,11 @@
 @endsection
 
 @section('content')
+<br/><br/><br/><br/><br/>
 <div class="container">
 	<ul>
-	@foreach($eventData as $event)
-		<li>{{$event->name}}</li>
+	@foreach($productData as $product)
+		<li>{{$product->name}}</li>
 	@endforeach
 	</ul>
 </div>

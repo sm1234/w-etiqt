@@ -5,7 +5,6 @@
 @endif
 @endsection
 @section('content')
-<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>      
     <div class="container">
 @if(isset($productsData))
 

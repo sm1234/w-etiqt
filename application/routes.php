@@ -361,6 +361,7 @@ Route::get('associatePromotionWithEventProducts',function(){
 Route::get('/products/(:num?)',array('uses'=>'products@index'));
 Route::get('/events/(:num?)',array('uses'=>'events@index'));
 Route::get('/categories/(:num?)',array('uses'=>'categories@index'));
+Route::get('testStoreContainer/(:any?)',array('uses'=>'admin@store'));
 
 
 Route::controller('products');

@@ -318,7 +318,7 @@ public function post_addEventDetails()
 			$allProducts = Product::where_not_in('id',$existingProdIds)->where_status('1')->get();
 		}
 		
-		return View::make('test.storeContainer')->with('title','Store')->with('allProducts',$allProducts)->with('store',$store)->with('storeProducts',$storeProducts);
+		return View::make('test.storecontainer')->with('title','Store')->with('allProducts',$allProducts)->with('store',$store)->with('storeProducts',$storeProducts);
 	}
 
 /*

@@ -38,12 +38,13 @@
 
 Route::get('/products/(:num?)',array('uses'=>'products@index'));
 Route::get('/events/(:num?)',array('uses'=>'events@index'));
+Route::get('/stores/(:num?)',array('uses'=>'stores@index'));
 Route::get('/categories/(:num?)',array('uses'=>'categories@index'));
-Route::get('testStoreContainer/(:any?)',array('uses'=>'admin@store'));
 
 
 Route::controller('products');
 Route::controller('events');
+Route::controller('stores');
 Route::controller('categories');
 Route::controller('home');
 Route::controller('admin');

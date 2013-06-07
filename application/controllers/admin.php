@@ -265,6 +265,34 @@ public function post_addEventDetails()
 	}
 
 /*
+ * Function to create a new store
+ */
+ 	public function post_addStoreDetails()
+	{
+		$retVal=array("status"=>0,"message"=>"");
+		try
+		{
+			$input = Input::all();//get all the inputs			
+			$storeStatus = json_decode(Store::createStore($input));
+				
+			if($storeStatus->{"status"}=="-1")
+			{
+				throw new Exception($storeStatus->{"message"});
+			}
+			else
+			{
+				$retVal["message"] = $storeStatus->{"message"};
+			}
+	
+		}
+		catch(Exception $ex)
+		{
+			$retVal["status"]=-1;
+			$retVal["message"]=$ex->getMessage();
+		}
+		return json_encode($retVal);
+	} 
+/*
  * Function for closing a store
  */ 
 	public function delete_closeStore()

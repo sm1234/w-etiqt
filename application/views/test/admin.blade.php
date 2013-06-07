@@ -256,7 +256,7 @@
 					@if(isset($eventsData))
 					@foreach($eventsData as $event)
 						<tr>
-						    <td><a id="spanEventName" href="{{action('admin@event', array($event->id))}}">{{$event->name}}</a></td>
+						    <td><a id="aEventName" href="{{action('admin@event', array($event->id))}}">{{$event->name}}</a></td>
 						    <td><span id="spanEventStartDt">{{$event->start_date}}</span></td>
 						    <td><span id="spanEventEndDt">{{$event->end_date}}</span></td>
 						    <td><span id="spanEventLocation">{{$event->location}}</span></td>
@@ -276,7 +276,7 @@
 		</div>
 		</div>		
 		</div>
-<!-- Modal for create event-->		
+<!-- Modal for creating event-->		
 		<div id="modalCreateEvent" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalCreateEvent" aria-hidden="true">
 			<div class="modal-header" style="border-bottom:0px;">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -355,22 +355,57 @@
 	      		<th>Action</th>
 	    	</tr>
 			</thead>
-			<tbody>
+			<tbody id="tbodyStores">
 				@if(isset($storesData))
 				@foreach($storesData as $store)
 					<tr>
-					    <td><a href="{{action('admin@store', array($store->id))}}">{{$store->name}}</a></td>				    
-					    <td>{{$store->location}}</td>
+					    <td><a id="aStoreName" href="{{action('admin@store', array($store->id))}}">{{$store->name}}</a></td>				    
+					    <td><span id="spanStoreLocation">{{$store->location}}</span></td>
 					    <td><button class="btn btn-danger btnCloseStoreConfirmation" data-id="{{$store->id}}">Close Store</button></td>
 					</tr>
 				@endforeach
 				@endif
+					<tr class="hide" id="trNewStoreTemplate">
+					    <td><a id="aStoreName" href=""></a></td>
+					    <td><span id="spanStoreLocation"></span></td>
+					    <td><button class="btn btn-danger btnCloseStoreConfirmation" data-id="">Close Store</button></td>
+					</tr>
 			</tbody>
 			</table>
 		</div>
 		</div>
 		</div>
-		
+<!-- Modal for creating store-->		
+		<div id="modalCreateStore" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalCreateStore" aria-hidden="true">
+			<div class="modal-header" style="border-bottom:0px;">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="addStoreModalHeaderLabel">Add new Store</h3>
+			</div>
+			<div class="modal-body">
+				<div class="row-fluid fieldline">
+                    <div class="span4">
+                    	<!--TODO How do we link the label to the textbox-->
+                         <label style="text-align: right">Store name</label>
+                    </div>
+                    <div class="span4">
+                         <input type="text" id="txtStoreName" required data-id=""/>
+                    </div>
+               </div>
+               
+               <div class="row-fluid fieldline">
+                    <div class="span4">
+                         <label style="text-align: right">Location</label>
+                    </div>
+                    <div class="span4">
+                         <input type="text" id="txtStoreLocation" required/>
+                    </div>
+               </div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+				<button id="btnCreateStore" data-id="" class="btn btn-primary">Create Store</button>
+			</div>			
+		</div>
 <!-- Modal for Close Store Confirmation -->
 		<div id="closeStoreConfirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-header" style="border-bottom:0px;">

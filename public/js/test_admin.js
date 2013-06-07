@@ -120,13 +120,14 @@ function fnAppendNewEventToUI(eventid)
 			var eventURL = BASE+"/admin/event/"+resp.message.id;
 			//clone the tr with id: 
 			trClonedRow = $("#trNewEventTemplate").clone('true');
+			trClonedRow.removeAttr('id')
 			trClonedRow.find("#aEventName").html(resp.message.name);
 			trClonedRow.find("#aEventName").attr("href",eventURL);
 			trClonedRow.find("#spanEventStartDt").html(resp.message.start_date);
 			trClonedRow.find("#spanEventEndDt").html(resp.message.end_date);
 			trClonedRow.find("#spanEventLocation").html(resp.message.location);
 			trClonedRow.find(".btnCloseEventConfirmation").attr("data-id",resp.message.id);
-			trClonedRow.removeClass("hide");
+			trClonedRow.removeAttr("class");
 			
 			trClonedRow.prependTo('tbody#tbodyEvents');
 			
@@ -572,7 +573,105 @@ function fnAppendNewEventToUI(eventid)
 			throw e;
 		}
 	});
-	
+
+/*------------------------- JS for Store section begins here -------------------------*/
+//All the events associated with creation of the store
+	//on click of aCreateStore, reset the controls within modal
+	//on click of the save button in the modal do the validation and save the new store
+	//after saving the new store, fetch the data and bind it to the grid
+	//check if the close of that new store is working fine
+	//check if navigation to store detail is working fine
+
+	//on click of aCreateStore, reset the controls within modal
+	$("#aCreateStore").click(function(){
+		fnResetStoreDataBinding();
+	});
+	//on click of aCreateProduct, reset the controls within modal
+	function fnResetStoreDataBinding()
+	{
+		$("#txtStoreName").val('');
+		$("#txtStoreLocation").val('');
+	}
+
+//on click of the save button in the modal do the validation and save the new store
+$("#btnCreateStore").click(function(){
+	try
+	{
+		//TODO: perform all the cient side validation
+		//if the validation is successful, then save the information in the DB
+		//name should be unique
+		//get the user information
+		//get the tagline and description
+		//how to standardize the location?
+		var storeName = $("#txtStoreName").val();
+		var storeLocation = $("#txtStoreLocation").val();
+
+		//form the input parameter
+		var req_params = {
+				"name":storeName,
+				"location":storeLocation
+			};
+
+		to_url = BASE+"/admin/addStoreDetails";
+
+		var post_req = $.ajax({
+							url:to_url,
+							type:'POST',
+							data:req_params
+						});
+
+		post_req.success(function(data){
+			resp  = JSON.parse(data);
+			fnAppendNewStoreToUI(resp.message.id);
+			//Why is this not working?
+			$("#modalCreateStore").modal('hide');
+			
+		});
+		post_req.fail(function(data){
+		alert("unable to save the new store");
+		});
+
+	}
+	catch(ex)
+	{ throw ex;}
+
+});
+
+function fnAppendNewStoreToUI(storeid)
+{
+	//based on the storeid, get the details
+	try
+	{		
+		var to_url = BASE+"/stores/storeData/"+storeid;
+
+		var getStoreInfo = $.ajax({
+								url:to_url,
+								type:'GET'
+								});
+
+		getStoreInfo.success(function(data){
+			var resp  = JSON.parse(data);
+			var storeURL = BASE+"/admin/store/"+resp.message.id;
+			//clone the tr with id: 
+			trClonedRow = $("#trNewStoreTemplate").clone('true');
+			trClonedRow.removeAttr('id');
+			trClonedRow.find("#aStoreName").html(resp.message.name);
+			trClonedRow.find("#aStoreName").attr("href",storeURL);
+			trClonedRow.find("#spanStoreLocation").html(resp.message.location);
+			trClonedRow.find(".btnCloseStoreConfirmation").attr("data-id",resp.message.id);
+			trClonedRow.removeAttr("class");
+			
+			trClonedRow.prependTo('tbody#tbodyStores');
+			
+		});
+		getStoreInfo.fail(function(){alert('Failed to get store information');});
+	}
+	catch(ex)
+	{
+		throw ex;
+	}
+}
+
 /*
  * Handles the closing of a store
  */
@@ -853,6 +952,7 @@ function fnAppendNewEventToUI(eventid)
 			throw e;
 		}
 	});
+/*------------------------- JS for Store section ends here -------------------------*/
 	
 	/*
 	 * Handles the swapping of products

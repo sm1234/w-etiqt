@@ -48,6 +48,75 @@ public static function closeStore($input)
 		
 		return json_encode($retVal);
 	}
+
+public static function getStoreDetails($id=null)
+{
+	$retVal=array("status"=>"0","message"=>"");
+	try
+	{
+		$storeData = "";
+		
+		if($id==null)
+		{
+			$storeData = json_decode(eloquent_to_json(Store::where_status('1')->get()));
+
+		}
+		else
+		{
+
+			$storeData = json_decode(eloquent_to_json(Store::where_status('1')->find($id)));
+
+
+
+		}
+		
+		$retVal["message"]=$storeData;
+		
+	}
+	catch(Exception $ex)
+	{
+		$retVal["status"]=-1;
+		$retVal["message"]=$ex->getMessage();
+	}
+	//return the json encoded message
+	return json_encode($retVal);
+}
+
+/*
+ * Function to create a store
+ */
+public static function createStore($input)
+{
+	$retVal=array("status"=>"0","message"=>"");
+
+	try
+	{
+		$name = $input['name'];
+		$location = $input['location'];
+		$storeId=0;
+
+		DB::transaction(function() use ($name,$location,&$storeId)
+		{
+			$store = new Store();
+			$store->name = $name;
+			$store->location = $location;
+			$store->user_id = 1;
+			$store->save();
+
+			$storeId = $store->id;
+
+		});
+
+		$retVal["message"] = array("id"=>$storeId);
+	}
+	catch(Exception $ex)
+	{
+		$retVal["status"]=-1;
+		$retVal["message"]=$ex->getMessage();		
+	}
+
+	return json_encode($retVal);
+}
 	
 /*
  * Function to edit Store Details

@@ -78,13 +78,22 @@ public function users()
 
 
 /*TODO: Check why this method is being invoked multiple times*/
-public static function getProductDetails($id)
+public static function getProductDetails($id=null)
 {
 	$retVal=array("status"=>"0","message"=>"");
 	try
 	{
-
-			$retVal["message"]=Product::with(array('images'=>function($query){$query->where_status('1');},'categories'))->find($id)->to_array();
+			$productData = "";
+			if($id==null)
+			{
+				$productData = Product::where_status('1')->get();
+			}
+			else
+			{
+				$productData = Product::with(array('images'=>function($query){$query->where_status('1');},'categories'))->find($id)->to_array();
+			}
+			
+			$retVal["message"]=$productData;
 		
 	}
 	catch(Exception $ex)

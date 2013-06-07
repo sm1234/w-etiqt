@@ -146,7 +146,7 @@ public static function getEventDetails($id=null)
 		}
 		else
 		{
-			$eventData = Tblevent::where_status('1')->where_id($id)->get();
+			$eventData = Tblevent::where_status('1')->find($id)->to_array();
 		}
 		
 		$retVal["message"]=$eventData;

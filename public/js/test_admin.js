@@ -108,7 +108,7 @@ function fnAppendNewEventToUI(eventid)
 	//based on the eventid, get the details
 	try
 	{		
-		var to_url = BASE+"/events/"+eventid;
+		var to_url = BASE+"/events/eventData/"+eventid;
 
 		var getEventInfo = $.ajax({
 								url:to_url,

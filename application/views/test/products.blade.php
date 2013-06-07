@@ -6,7 +6,6 @@
 @endsection
 
 @section('content')
-<br/><br/><br/><br/><br/>
 <div class="container">
 	<ul>
 	@foreach($productData as $product)

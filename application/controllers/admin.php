@@ -155,7 +155,7 @@ class Admin_Controller extends Base_Controller {
 			$allProducts = Product::where_not_in('id',$existingProdIds)->where_status('1')->get();
 		}
 		
-		return View::make('test.eventContainer')->with('title','Event')->with('allProducts',$allProducts)->with('event',$event)->with('eventProducts',$eventProducts);
+		return View::make('test.eventcontainer')->with('title','Event')->with('allProducts',$allProducts)->with('event',$event)->with('eventProducts',$eventProducts);
 	}
 
 /*

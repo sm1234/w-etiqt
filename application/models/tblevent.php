@@ -142,11 +142,12 @@ public static function getEventDetails($id=null)
 		
 		if($id==null)
 		{
-			$eventData = Tblevent::where_status('1')->get();
+			$eventData = json_decode(eloquent_to_json(Tblevent::where_status('1')->get()));
+
 		}
 		else
 		{
-			$eventData = Tblevent::where_status('1')->where_id($id)->get();
+			$eventData = json_decode(eloquent_to_json(Tblevent::where_status('1')->find($id)));
 		}
 		
 		$retVal["message"]=$eventData;

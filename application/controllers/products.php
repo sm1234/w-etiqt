@@ -20,7 +20,14 @@ class Products_Controller extends Base_Controller {
 			else
 			{
 				$productData = Product::where_status('1')->where_id($id)->first();
-				return View::make('test/productcontainer')->with('title',$productData->name)->with('productData',$productData);
+				if(is_null($productData))
+				{
+					return Response::error(404);	
+				}
+				else
+				{
+					return View::make('test/productcontainer')->with('title',$productData->name)->with('productData',$productData);	
+				}				
 			}
 		}
 		catch(Exception $ex)

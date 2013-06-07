@@ -990,7 +990,7 @@ function fnAppendNewEventToUI(eventid)
 				postReq.success(function(data){
 
 					resp = JSON.parse(data);
-					to_url = BASE+"/products/"+resp.message.productId;
+					to_url = BASE+"/products/productData/"+resp.message.productId;
 					var getProdInfo = $.ajax({
 						url:to_url,
 						type:'GET'

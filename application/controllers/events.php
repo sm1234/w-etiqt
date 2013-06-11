@@ -17,7 +17,7 @@ class Events_Controller extends Base_Controller {
 			else
 			{
 				$eventData = Tblevent::with(array('products'=>function($query){ $query->where_status('1'); }))->where_status('1')->where_id($id)->first();
-				return View::make('test/eventProducts')->with('title',$eventData->name)->with('eventData',$eventData);
+				return View::make('test/eventproducts')->with('title',$eventData->name)->with('eventData',$eventData);
 			}
 		
 			

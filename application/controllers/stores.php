@@ -17,7 +17,7 @@ class Stores_Controller extends Base_Controller {
 			else
 			{
 				$storeData = Store::with(array('products'=>function($query){ $query->where_status('1'); }))->where_status('1')->where_id($id)->first();
-				return View::make('test/storeProducts')->with('title',$storeData->name)->with('storeData',$storeData);
+				return View::make('test/storeproducts')->with('title',$storeData->name)->with('storeData',$storeData);
 			}
 		
 			

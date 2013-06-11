@@ -18,7 +18,7 @@ class Categories_Controller extends Base_Controller {
 			else
 			{
 				$categoryData = Category::with(array('products'=>function($query){ $query->where_status('1'); }))->where_status('1')->where_id($id)->first();
-				return View::make('test/categoryProducts')->with('title',$categoryData->description)->with('categoryData',$categoryData);
+				return View::make('test/categoryproducts')->with('title',$categoryData->description)->with('categoryData',$categoryData);
 			}
 				
 			

@@ -8,8 +8,8 @@
 @section('content')
 <div class="container">
 	<ul>
-	@foreach($eventData as $event)
-		<li><a href="{{URL::to_action('events',array($event->id))}}">{{$event->name}}</a></li>
+	@foreach($storeData as $store)
+		<li><a href="{{URL::to_action('stores',array($store->id))}}">{{$store->name}}</a></li>
 	@endforeach
 	</ul>
 </div>

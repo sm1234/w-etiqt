@@ -8,7 +8,7 @@
 @section('content')
 <div class="container">
 	<div class="row">
-		Category <i class="icon-angle-right"></i> <a href="{{URL::to_action('categories',array($productData->categories[0]->id))}}">{{$productData->categories[0]->description}}</a>
+		Category <i class="icon-angle-right"></i> <a href="{{URL::to_action('categories',array($productData->category_id))}}">{{Category::find($productData->category_id)->description}}</a>
 		<hr />
 	</div>
 	<div class="row">

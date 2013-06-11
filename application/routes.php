@@ -34,7 +34,9 @@
 
 
 
-
+Route::get('/about',function(){
+	return View::make('test.about');
+});
 
 Route::get('/products/(:num?)',array('uses'=>'products@index'));
 Route::get('/events/(:num?)',array('uses'=>'events@index'));

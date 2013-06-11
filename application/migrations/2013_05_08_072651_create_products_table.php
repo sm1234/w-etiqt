@@ -13,6 +13,7 @@ class Create_Products_Table {
 			{
 				$table->create();
 				$table->increments('id');
+				$table->integer('category_id')->unsigned();
 				$table->string('name');
 				$table->string('brand')->nullable();
 				$table->text('tagline')->nullable();

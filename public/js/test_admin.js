@@ -211,11 +211,18 @@ function fnAppendNewEventToUI(eventid)
 				 * If a new category is added, change the button name to 'Save' instead of 'Add' 
 				 * and assign the returned id to the data-id attribute of the save and delete buttons
 				 */
+				if(resp.status == "-1")
+				{
+					alert(resp.message);
+				}
+				else
+				{
 				if(btnClicked.html()=="Add")
 				{
 					btnClicked.html('Save');
 					btnClicked.attr('data-id',resp.message);
 					btnDelete.attr('data-id',resp.message);
+				}
 				}
 			});
 			
@@ -1338,7 +1345,7 @@ function fnAppendNewStoreToUI(storeid)
 
 					
 					//selectProdCategory					
-					$("#selectProdCategory").val(resp.message.categories[0].id);
+					$("#selectProdCategory").val(resp.message.category_id);
 					//txtProdTagline
 					$("#txtProdTagline").val(resp.message.tagline);
 					//txtProdDesc

@@ -13,13 +13,15 @@ class Categories_Controller extends Base_Controller {
 			if($id==null)
 			{
 				$categoryData = Category::where_status('1')->get();
+				return View::make('test/categories')->with('title','All Categories')->with('categoryData',$categoryData);
 			}
 			else
 			{
-				$categoryData = Category::where_status('1')->where_id($id)->get();
+				$categoryData = Category::with(array('products'=>function($query){ $query->where_status('1'); }))->where_status('1')->where_id($id)->first();
+				return View::make('test/categoryProducts')->with('title',$categoryData->description)->with('categoryData',$categoryData);
 			}
 				
-			return View::make('test/categories')->with('title','Category')->with('categoryData',$categoryData);
+			
 		}
 		catch(Exception $ex)
 		{

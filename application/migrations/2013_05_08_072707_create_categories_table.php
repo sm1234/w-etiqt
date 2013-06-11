@@ -13,7 +13,7 @@ class Create_Categories_Table {
 			{
 				$table->create();
 				$table->increments('id');
-				$table->string('description',100);
+				$table->string('description',100)->unique();
 				$table->boolean('status')->default(true);
 				$table->timestamps();
 			});

@@ -9,7 +9,7 @@
 <div class="container">
 	<ul>
 	@foreach($categoryData as $item)
-		<li>{{$item->description}}</li>
+		<li><a href="{{URL::to_action('categories',array($item->id))}}">{{$item->description}}</a></li>
 	@endforeach
 	</ul>
 </div>

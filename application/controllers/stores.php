@@ -12,13 +12,15 @@ class Stores_Controller extends Base_Controller {
 			if($id==null)
 			{
 				$storeData = Store::where_status('1')->get();
+				return View::make('test/stores')->with('title','Stores')->with('storeData',$storeData);
 			}
 			else
 			{
-				$storeData = Stores::where_status('1')->where_id($id)->get();
+				$storeData = Store::with(array('products'=>function($query){ $query->where_status('1'); }))->where_status('1')->where_id($id)->first();
+				return View::make('test/storeProducts')->with('title',$storeData->name)->with('storeData',$storeData);
 			}
 		
-			return View::make('test/stores')->with('title','Stores')->with('storeData',$storeData);
+			
 		}
 		catch(Exception $ex)
 		{

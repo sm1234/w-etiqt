@@ -12,13 +12,15 @@ class Events_Controller extends Base_Controller {
 			if($id==null)
 			{
 				$eventData = Tblevent::where_status('1')->get();
+				return View::make('test/events')->with('title','Events')->with('eventData',$eventData);
 			}
 			else
 			{
-				$eventData = Tblevent::where_status('1')->where_id($id)->get();
+				$eventData = Tblevent::with(array('products'=>function($query){ $query->where_status('1'); }))->where_status('1')->where_id($id)->first();
+				return View::make('test/eventProducts')->with('title',$eventData->name)->with('eventData',$eventData);
 			}
 		
-			return View::make('test/events')->with('title','Events')->with('eventData',$eventData);
+			
 		}
 		catch(Exception $ex)
 		{

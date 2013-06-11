@@ -9,7 +9,7 @@ class Category extends Eloquent
 	/*A category can have many products*/
 	public function products()
 	{
-		return $this->has_many_and_belongs_to('Product','category_product','category_id','product_id');
+		return $this->has_many('Product');
 	}
 
 	public static function getCategoryDetails($id=null)
@@ -47,6 +47,7 @@ class Category extends Eloquent
 			$catName = $input['catName'];
 			/*
 			 * TODO: check if passing the reference in transactions is safe
+			 * TODO: How to handle exceptions raised in DB transaction?
 			 */
 				DB::transaction(function() use ($catId, $catName, &$retVal)
 				{
@@ -62,14 +63,16 @@ class Category extends Eloquent
 					}
 					$category->description = $catName;
 					$category->save();
+					
 					$retVal["message"]=$category->id;
+					
 				});
 			
 		}
 		catch(Exception $ex)
 		{		
 			$retVal["status"]="-1";
-			$retVal["message"]=$ex->getMessage();		
+			$retVal["message"]="There seems to be an existing category with the same name. Please rename this category or use the existing one";		
 		}
 		
 		return json_encode($retVal);
@@ -90,8 +93,8 @@ class Category extends Eloquent
 					
 					foreach($category->products as $prod)
 					{
-						$prod->pivot->category_id = $defaultCategory->id;
-						$prod->pivot->save();
+						$prod->category_id = $defaultCategory->id;
+						$prod->save();
 					}
 					
 					$category->save();

@@ -25,9 +25,9 @@ class Product extends Eloquent
  * A product belongs to a category
  * TODO: Change this relation from pivot to single as a product can belong to only one category
  * */	
-public function categories()
+public function category()
 {
-	return $this->has_many_and_belongs_to('Category','category_product','product_id','category_id');
+	return $this->belongs_to('Category');
 }
 /*
  * A product can get stocked in multiple stores and hence the need for a pivot table product_store
@@ -90,7 +90,7 @@ public static function getProductDetails($id=null)
 			}
 			else
 			{
-				$productData = json_decode(eloquent_to_json(Product::with(array('images'=>function($query){$query->where_status('1');},'categories'))->find($id)));
+				$productData = json_decode(eloquent_to_json(Product::with(array('images'=>function($query){$query->where_status('1');}))->find($id)));
 			}
 			
 			$retVal["message"]=$productData;
@@ -160,11 +160,9 @@ public static function addProduct($input)
 				$prod->price=$prodPrice;
 				$prod->row_num=$maxRowNum;
 				$prod->col_num=$maxColNum;
+				$prod->category_id=$prodCatId;
 				$prod->save();				
-			
-				//save product category
-				$prod->categories()->attach($prodCatId);
-			
+				
 				//attach product to the image
 				//break the delimiter ~ and fetch individual imageIds
 				$ImageURLs = explode(",",$prodImgURLs);
@@ -334,10 +332,9 @@ public static function updateProduct($input)
 				$prod->description=$prodDesc;
 				$prod->location=$prodLocation;
 				$prod->price=$prodPrice;
+				$prod->category_id=$prodCatId;
 				$prod->save();
-			
-				//Update product category, if it is changed
-				$prod->categories()->sync($prodCatId);
+				
 				
 				//attach product to the image
 				//break the delimiter ~ and fetch individual imageIds

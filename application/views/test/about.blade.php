@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-About the team
+<h2>About the team</h2>
 @endsection
 
 @section('footer_script')

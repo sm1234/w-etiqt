@@ -209,6 +209,8 @@ public static function addProduct($input)
 
 /*
  * Function for deleting a product(making its status 0) from the 'products' table and also deleting all the related data from that product
+ * Related data includes following tables: event_product, event_product_promotion,
+ * product_section, product_store, product_store_promotion and product_user
  */
 public static function deleteProduct($delId)
 {

@@ -45,10 +45,12 @@ class Category extends Eloquent
 		{
 			$catId = $input['catId'];
 			$catName = $input['catName'];
+
 			/*
 			 * TODO: check if passing the reference in transactions is safe
 			 * TODO: How to handle exceptions raised in DB transaction?
 			 */
+
 				DB::transaction(function() use ($catId, $catName, &$retVal)
 				{
 					//Case 1 : Edit category

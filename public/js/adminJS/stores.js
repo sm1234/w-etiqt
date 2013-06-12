@@ -370,5 +370,6 @@ function fnAppendNewStoreToUI(storeid)
 		{
 			throw e;
 		}
-	});
-}
+	}
+	);
+});

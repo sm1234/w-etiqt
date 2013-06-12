@@ -58,6 +58,5 @@
 var BASE = "<?php echo URL::base(); ?>";/*Define the BASE URL*/
 </script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-<script id="scriptCurrentTab" src=""></script>
 {{ HTML::script('js/test_admin.js') }}
 @endsection

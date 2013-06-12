@@ -162,5 +162,5 @@ var BASE = "<?php echo URL::base(); ?>";/*Define the BASE URL*/
 </script>
 {{ HTML::script('http://code.jquery.com/ui/1.10.3/jquery-ui.js') }}
 {{ HTML::script('js/test_admin.js') }}
-{{ HTML::script('js/test_adminProduct.js') }}
+{{ HTML::script('js/adminJS/stores.js') }}
 @endsection

@@ -139,3 +139,4 @@
 		</div>
 		</div>
 		@endif
+	{{ HTML::script('js/adminJS/products.js') }}

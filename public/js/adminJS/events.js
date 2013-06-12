@@ -391,4 +391,4 @@ function()
 	 * Invoking the Datepicker jquery UI
 	 */
 	$('.txtDate').datepicker({dateFormat:'dd-mm-yy'});
-}
+});

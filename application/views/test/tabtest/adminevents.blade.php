@@ -100,3 +100,4 @@
 				<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">No</button>
 			</div>
 		</div>
+	{{ HTML::script('js/adminJS/events.js') }}

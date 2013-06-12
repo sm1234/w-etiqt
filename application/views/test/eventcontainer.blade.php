@@ -173,5 +173,5 @@ var BASE = "<?php echo URL::base(); ?>";/*Define the BASE URL*/
 
 <!-- Page specific JS files -->
 {{ HTML::script('js/test_admin.js') }}
-{{ HTML::script('js/test_adminProduct.js') }}
+{{ HTML::script('js/adminJS/events.js') }}
 @endsection

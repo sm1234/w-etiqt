@@ -1,6 +1,21 @@
 $(document).ready(
 function()
 {
+	/*
+	 * Handling the tab clicks
+	 */
+	$('[data-toggle="tabajax"]').click(function(e) {
+	    e.preventDefault();
+	    var targetDiv = $(this);
+	    var loadurl = $(this).attr('href');
+	    var targ = $(this).attr('data-target');
+	    sURL = BASE+'/'+loadurl;
+	    $.get(sURL, function(data) {
+	        $(targ).html(data);
+	    });
+	    $(this).tab('show');
+	});
+
 	
 	function getParameterByName(name) {
 	    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
@@ -165,6 +180,7 @@ function fnAppendNewEventToUI(eventid)
 		$("#addProdModalLabel").html("Add new product");
 		$("#btnAddProduct").html("Add product to etiqt");
 	}
+	
 	/*
 	 *	It handles the adding of new categories and editing of existing categories
 	 *  On clicking the 'Add new Category' button, a row is cloned and inserted into the table of categories

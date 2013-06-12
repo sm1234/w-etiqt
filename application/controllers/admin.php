@@ -5,17 +5,33 @@ use Laravel\Paginator;
 class Admin_Controller extends Base_Controller {
 
 	public function get_index()
+	{	
+		return View::make('test.admin')->with('title','Admin Panel');
+	}
+	
+	public function get_productsTab()
 	{
-
 		$allcategories = Category::with('products')->where_status('1')->order_by('created_at','desc')->get();
-
 		$allProducts = Product::with(array('images'=>function($query){$query->where_status('1')->where_key('1');}))->order_by('row_num','asc')->where_status('1')->order_by('col_num','asc')->get();
-
+		return View::make('test.tabtest.adminproducts')->with('productsData',$allProducts)->with('categoriesData',$allcategories);
+	}
+	
+	public function get_categoriesTab()
+	{
+		$allcategories = Category::with('products')->where_status('1')->order_by('created_at','desc')->get();
+		return View::make('test.tabtest.admincategories')->with('categoriesData',$allcategories);
+	}
+	
+	public function get_eventsTab()
+	{
 		$allEvents = Tblevent::where_status('1')->order_by('created_at','desc')->get();
-		
+		return View::make('test.tabtest.adminevents')->with('eventsData',$allEvents);
+	}
+	
+	public function get_storesTab()
+	{
 		$allStores = Store::where_status('1')->order_by('created_at','desc')->get();
-		
-		return View::make('test.admin')->with('title','Admin Panel')->with('categoriesData',$allcategories)->with('productsData',$allProducts)->with('eventsData',$allEvents)->with('storesData',$allStores);
+		return View::make('test.tabtest.adminstores')->with('storesData',$allStores);
 	}
 	
 	public function get_test()

@@ -70,9 +70,13 @@ class Category extends Eloquent
 			
 		}
 		catch(Exception $ex)
-		{		
+		{
+			/*
+			 * TODO: for different exceptions, return different messages. Eg. for duplicate entry, return "already exists" message and for
+			 * no network, return "network not available"
+			 */ 
 			$retVal["status"]="-1";
-			$retVal["message"]="There seems to be an existing category with the same name. Please rename this category or use the existing one";		
+			$retVal["message"]=$ex->getMessage();		
 		}
 		
 		return json_encode($retVal);

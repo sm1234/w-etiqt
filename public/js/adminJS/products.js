@@ -224,7 +224,7 @@ function()
 						}
 
 					});
-					getProdInfo.success(function(data){
+					getProdInfo.fail(function(data){
 
 					});
 				});
@@ -466,11 +466,15 @@ function()
 			var noOfProductsInRow = prodContainer.siblings('div.divProdHolder').length;
 			if(noOfProductsInRow == 0)
 			{
-				prodContainer.parent('div.row').remove();
+				prodContainer.children().fadeOut('slow',function(){
+					prodContainer.parent('div.row').prev('div.row').attr('data-lastrow','1');
+					prodContainer.parent('div.row').remove();
+				});
+				
 			}
 			else
 			{
-				prodContainer.remove();
+				prodContainer.children().fadeOut('slow');
 			}
 			
 		});

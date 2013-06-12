@@ -23,7 +23,6 @@ class Product extends Eloquent
 		
 /*
  * A product belongs to a category
- * TODO: Change this relation from pivot to single as a product can belong to only one category
  * */	
 public function category()
 {

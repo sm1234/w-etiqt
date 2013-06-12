@@ -229,51 +229,75 @@ function()
 				console.log("Removing following id:"+prod_ids);
 				$.each( prod_ids, function( index, value ){
 					//find the DIV that has to be moved
-					var divToMove = $("div.divEventExistingProdHolder").find("input.chkboxRemoveEventProduct[data-id='"+value+"']").parents(".divEventExistingProdHolder");
-					//find the last row where the product should be added
-					var lastRow = $("div[id='divProductRowNotInEvent'][data-lastRow='1']");
-					var lastRowVal = 0;
-					if(lastRow.length!=0)
+					var divToMoveOriginal = $("div.divEventExistingProdHolder").find("input.chkboxRemoveEventProduct[data-id='"+value+"']").parents(".divEventExistingProdHolder");
+					
+					//Check whether the div was previously moved from the 'Add Products' tab to the 'Existing Products' tab
+					var alreadyExistingButHiddenDiv = $("div#tabAddProductsToEventRowHolder").find("input.chkboxAddEventProduct[data-id='"+value+"']").parents(".divEventNewProdHolder");
+					
+					//If the div was not already present, then clone the div and append it to the 'Add Product' tab
+					if(alreadyExistingButHiddenDiv.length == 0)
 					{
-						lastRowVal = $("div[id='divProductRowNotInEvent'][data-lastRow='1']").attr("data-rowVal");
+						var divToMove = $("div.divEventExistingProdHolder").find("input.chkboxRemoveEventProduct[data-id='"+value+"']").parents(".divEventExistingProdHolder").clone(true);
+					
+						//find the last row where the product should be added
+						var lastRow = $("div[id='divProductRowNotInEvent'][data-lastRow='1']");
+						var lastRowVal = 0;
+						if(lastRow.length!=0)
+						{
+							lastRowVal = $("div[id='divProductRowNotInEvent'][data-lastRow='1']").attr("data-rowVal");
+						}
+	
+						//if lastRow does not exists
+					  	if(lastRow.length==0)
+						{
+						  $("div#tabAddProductsToEventRowHolder").append($("<div class='row' style='margin-left: 20px' id='divProductRowNotInEvent' data-rowVal='"+1+"' data-lastRow='1'></div>"));
+							 
+							  divToMove.removeClass("divEventExistingProdHolder").addClass("divEventNewProdHolder");
+							  var chkSelectProduct = divToMove.find("input:checkbox");
+							  chkSelectProduct.removeClass("chkboxRemoveEventProduct").addClass("chkboxAddEventProduct");
+							  chkSelectProduct.prop("checked",false);
+							  lastRow = $("div[id='divProductRowNotInEvent'][data-lastRow='1']");
+							  lastRow.append(divToMove);
+							  divToMoveOriginal.find("input:checkbox").prop("checked",false);
+							  divToMoveOriginal.children().fadeOut('slow');
+						}
+						else
+						{
+						  if(lastRow.find("div.divEventNewProdHolder").length<4)
+						   {
+							  divToMove.removeClass("divEventExistingProdHolder").addClass("divEventNewProdHolder");
+							  var chkSelectProduct = divToMove.find("input:checkbox");
+							  chkSelectProduct.removeClass("chkboxRemoveEventProduct").addClass("chkboxAddEventProduct");
+							  chkSelectProduct.prop("checked",false);
+							  lastRow.append(divToMove);
+							  divToMoveOriginal.find("input:checkbox").prop("checked",false);
+							  divToMoveOriginal.children().fadeOut('slow');
+						   }
+						  else
+							{
+							  lastRow.attr("data-lastRow","");
+	
+							 $("<div class='row' style='margin-left: 20px' id='divProductRowNotInEvent' data-rowVal="+(parseInt(lastRowVal)+1)+" data-lastRow='1'></div>").insertAfter(lastRow);
+							 
+							  divToMove.removeClass("divEventExistingProdHolder").addClass("divEventNewProdHolder");
+							  var chkSelectProduct = divToMove.find("input:checkbox");
+							  chkSelectProduct.removeClass("chkboxRemoveEventProduct").addClass("chkboxAddEventProduct");
+							  chkSelectProduct.prop("checked",false);
+							  lastRow = $("div[id='divProductRowNotInEvent'][data-lastRow='1']");
+							  lastRow.append(divToMove);
+							  divToMoveOriginal.find("input:checkbox").prop("checked",false);
+							  divToMoveOriginal.children().fadeOut('slow');
+							}
+						}
 					}
-
-				//if lastRow does not exists
-				  	if(lastRow.length==0)
-					{
-					  $("div#tabAddProductsToEventRowHolder").append($("<div class='row' style='margin-left: 20px' id='divProductRowNotInEvent' data-rowVal='"+1+"' data-lastRow='1'></div>"));
-						 
-						  divToMove.removeClass("divEventExistingProdHolder").addClass("divEventNewProdHolder");
-						  var chkSelectProduct = divToMove.find("input:checkbox");
-						  chkSelectProduct.removeClass("chkboxRemoveEventProduct").addClass("chkboxAddEventProduct");
-						  chkSelectProduct.prop("checked",false);
-						  lastRow = $("div[id='divProductRowNotInEvent'][data-lastRow='1']");
-						  lastRow.append(divToMove);
-					}
+					
+					//If the div already exists in the 'Add Product' tab but is hidden, then just display that div and hide the div in the 'Existing Products' tab
 					else
 					{
-					  if(lastRow.find("div.divEventNewProdHolder").length<4)
-					   {
-						  divToMove.removeClass("divEventExistingProdHolder").addClass("divEventNewProdHolder");
-						  var chkSelectProduct = divToMove.find("input:checkbox");
-						  chkSelectProduct.removeClass("chkboxRemoveEventProduct").addClass("chkboxAddEventProduct");
-						  chkSelectProduct.prop("checked",false);
-						  lastRow.append(divToMove);
-					   }
-					  else
-						{
-						  lastRow.attr("data-lastRow","");
-
-						 $("<div class='row' style='margin-left: 20px' id='divProductRowNotInEvent' data-rowVal="+(parseInt(lastRowVal)+1)+" data-lastRow='1'></div>").insertAfter(lastRow);
-						 
-						  divToMove.removeClass("divEventExistingProdHolder").addClass("divEventNewProdHolder");
-						  var chkSelectProduct = divToMove.find("input:checkbox");
-						  chkSelectProduct.removeClass("chkboxRemoveEventProduct").addClass("chkboxAddEventProduct");
-						  chkSelectProduct.prop("checked",false);
-						  lastRow = $("div[id='divProductRowNotInEvent'][data-lastRow='1']");
-						  lastRow.append(divToMove);
-						  
-						}
+						divToMoveOriginal.find("input:checkbox").prop("checked",false);
+						divToMoveOriginal.children().fadeOut('slow');
+						alreadyExistingButHiddenDiv.find("input:checkbox").prop("checked",false);
+						alreadyExistingButHiddenDiv.children().fadeIn('slow');
 					}
 
 				});						    
@@ -321,7 +345,16 @@ function()
 			postReq.success(function(data){
 					resp = JSON.parse(data);
 					$.each( resp.message.Ids, function( index, value ) {
-						  var divToMove = $("div.divEventNewProdHolder").find("input.chkboxAddEventProduct[data-id='"+value+"']").parents(".divEventNewProdHolder");
+					  var divToMoveOriginal = $("div.divEventNewProdHolder").find("input.chkboxAddEventProduct[data-id='"+value+"']").parents(".divEventNewProdHolder");
+					  
+					  //Check whether the div was previously moved from the 'Existing Products' tab to the 'Add Products' tab
+						var alreadyExistingButHiddenDiv = $("div#tabExistingEventProductsRowHolder").find("input.chkboxRemoveEventProduct[data-id='"+value+"']").parents(".divEventExistingProdHolder");
+						
+						//If the div was not already present, then clone the div and append it to the 'Add Product' tab
+						if(alreadyExistingButHiddenDiv.length == 0)
+						{
+					
+						  var divToMove = $("div.divEventNewProdHolder").find("input.chkboxAddEventProduct[data-id='"+value+"']").parents(".divEventNewProdHolder").clone(true);
 						  
 						  
 						  var lastRow = $("div[id='divEventProductRow'][data-lastRow='1']");
@@ -341,6 +374,8 @@ function()
 								  chkSelectProduct.prop("checked",false);
 								  lastRow = $("div[id='divEventProductRow'][data-lastRow='1']");
 								  lastRow.append(divToMove);
+								  divToMoveOriginal.find("input:checkbox").prop("checked",false);
+								  divToMoveOriginal.children().fadeOut('slow');
 								  $("div#divNoProductsFound").addClass("hide");
 							  }
 						  else
@@ -352,6 +387,8 @@ function()
 								  chkSelectProduct.removeClass("chkboxAddEventProduct").addClass("chkboxRemoveEventProduct");
 								  chkSelectProduct.prop("checked",false);
 								  lastRow.append(divToMove);
+								  divToMoveOriginal.find("input:checkbox").prop("checked",false);
+								  divToMoveOriginal.children().fadeOut('slow');
 							   }
 							  else
 								{
@@ -364,9 +401,20 @@ function()
 								  chkSelectProduct.prop("checked",false);
 								  lastRow = $("div[id='divEventProductRow'][data-lastRow='1']");
 								  lastRow.append(divToMove);
-								  
+								  divToMoveOriginal.find("input:checkbox").prop("checked",false);
+								  divToMoveOriginal.children().fadeOut('slow');
 								}							  
 							  }
+							}
+							
+							//If the div already exists in the 'Existing Products' tab but is hidden, then just display that div and hide the div in the 'Add Products' tab
+							else
+							{
+								divToMoveOriginal.find("input:checkbox").prop("checked",false);
+								divToMoveOriginal.children().fadeOut('slow');
+								alreadyExistingButHiddenDiv.find("input:checkbox").prop("checked",false);
+								alreadyExistingButHiddenDiv.children().fadeIn('slow');
+							}
 
 						  
 						});

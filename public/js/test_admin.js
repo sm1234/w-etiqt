@@ -29,6 +29,7 @@ function()
 		{
 		var param = getParameterByName('ShowTab');
 		var liParam = "li#listTab"+param;
+		var aParam = "a#aTab"+param;
 		var divParam = "div#tab"+param;
 		var liElement = $(liParam);
 		var divElement = $(divParam);
@@ -40,12 +41,14 @@ function()
 			
 			liElement.addClass("active");
 			divElement.addClass("active");
+
+			$(aParam).click();			
 		}
 
 		}
-	
-	
-
-
+		else
+		{
+			$("#aTabProducts").click();			
+		}
 }
 );

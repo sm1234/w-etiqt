@@ -12,10 +12,10 @@
 <div class="container">
 <div class="tabbable tabs-left">
 	<ul class="nav nav-tabs">
-	  <li id="listTabProducts"><a href="admin/productsTab" data-target="#tabProducts" data-toggle="tabajax">Products</a></li>
-	  <li id="listTabCategories"><a href="admin/categoriesTab" data-target="#tabCategories" data-toggle="tabajax">Categories</a></li>	  
-	  <li id="listTabEvents"><a href="admin/eventsTab" data-target="#tabEvents" data-toggle="tabajax">Events</a></li>
-	  <li id="listTabStores"><a href="admin/storesTab" data-target="#tabStores" data-toggle="tabajax">Stores</a></li>
+	  <li id="listTabProducts"><a id="aTabProducts" href="admin/productsTab" data-target="#tabProducts" data-toggle="tabajax">Products</a></li>
+	  <li id="listTabCategories"><a id="aTabCategories" href="admin/categoriesTab" data-target="#tabCategories" data-toggle="tabajax">Categories</a></li>	  
+	  <li id="listTabEvents"><a id="aTabEvents" href="admin/eventsTab" data-target="#tabEvents" data-toggle="tabajax">Events</a></li>
+	  <li id="listTabStores"><a id="aTabStores" href="admin/storesTab" data-target="#tabStores" data-toggle="tabajax">Stores</a></li>
 	</ul>
 	<div class="tab-content">
 

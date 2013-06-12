@@ -34,11 +34,29 @@
 			</div>
 			<div class="row-fluid fieldline">
 				<div class="span4 offset4" id="divNewAttachmentHolder">
-					<div class="hide" id="divAttachmentTemplate">
-						<input type="checkbox" id="chkIncludeFile" data-id="" data-name="" data-url=""></input>
-						<span id="spanIncludeFileName">File Name</span>    	
-						{{HTML::image('img/ajax-loader.gif', "uploading", array('id'=>'imgUploaderTemplate'))}}
-					</div>
+					<table class="hide" id="tableImgAttachmentHolder">
+						<thead>
+							<tr>
+								<th>Include</th>
+								<th>Name</th>
+								<th>Key</th>								
+							</tr>
+						</thead>
+						<tbody id="tBodyImgAttachmentHolder">
+
+						</tbody>	
+					</table>
+					<table class="hide">
+					<tr id="trImgAttachmentTemplate">
+						<td><input type="checkbox" id="chkIncludeFile" data-id="" data-name="" data-url=""></input></td>
+						<td>
+							<span id="spanIncludeFileName">File Name</span>    	
+							{{HTML::image('img/ajax-loader.gif', "uploading", array('id'=>'imgUploaderTemplate'))}}
+						</td>
+						<td><input type="radio" id="radioKeyImage"></input></td>
+					</tr>
+					</table>
+
 				</div>			
 			</div>			
 			<div class="row-fluid fieldline">
@@ -106,7 +124,28 @@
 					@if(count($productsData)>4*$r+$c)
 						<div class="span2 divProdHolder">
 							<div>
-							<img id="imgKeyProd" src="{{$productsData[4*$r+$c]->images[0]->url}}">
+							<?php 
+							$keyImg=false;
+							foreach($productsData[4*$r+$c]->images as $prodImage){?>
+
+							@if($prodImage->pivot->is_key=="1")
+								<img id="imgKeyProd" src="{{$prodImage->url}}">
+								
+								<?php $keyImg=true;?>
+								<?php break;?>
+							@endif
+							<?php }
+							if($keyImg!=true && count($productsData[4*$r+$c]->images)>0)
+							{?>
+								<img id="imgKeyProd" src="{{$productsData[4*$r+$c]->images[0]->url}}">
+							<?php
+							}
+							elseif($keyImg!=true)
+							{?>
+								<img id="imgKeyProd" src="">
+							<?php
+							}
+							?>
 							</div>
 							<div class="productInfo">
 							<input type="checkbox" class="product" data-id="{{$productsData[4*$r+$c]->id}}"/>

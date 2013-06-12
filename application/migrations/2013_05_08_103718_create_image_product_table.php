@@ -17,7 +17,7 @@ class Create_Image_Product_Table {
 			$table->integer('image_id')->unsigned();
 			$table->integer('product_id')->unsigned();
 			$table->boolean('status')->default(true);
-			$table->boolean('key')->default(false);
+			$table->boolean('is_key')->default(false);
 			$table->timestamps();
 		});
 	}

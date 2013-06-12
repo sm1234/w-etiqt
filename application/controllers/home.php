@@ -34,16 +34,12 @@ class Home_Controller extends Base_Controller {
 
 	public function get_index()
 	{
-		$allProducts = Product::with(array('images'=>function($query){$query->where_status('1')->where_key('1');}))->where_status('1')->order_by('row_num','asc')->order_by('col_num','asc')->paginate(12);
+		$allProducts = Product::with(array('images'=>function($query){$query->where_status('1')->where_is_key('1');}))->where_status('1')->order_by('row_num','asc')->order_by('col_num','asc')->paginate(12);
 		return View::make('home.default')->with('title','etiqt homepage')->with('productsData',$allProducts);
 	}
 	
 	public function get_test()
 	{
-		//$allProducts = Product::with(array('images'=>function($query){$query->where_status('1')->where_key('1');}))->order_by('row_num','asc')->order_by('col_num','asc')->take(16)->get();
-		//$allProducts = DB::table('products')->get();
-		
-		//Request::foundation()->query->set('page', 2);
 		
 		$allProducts = DB::table('products')->paginate(8);
 						

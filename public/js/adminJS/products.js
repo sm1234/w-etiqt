@@ -12,10 +12,13 @@ function()
 		$("#txtProductName").val('');
 		//set the data id attribute to empty
 		$("#txtProductName").attr("data-id","");
-		
-		$("div[id^='divAttachmentNewProdImg']").each(function(index){
+
+		$("tr[id^='trAttachmentNewProdImg']").each(function(index){
 			$(this).remove();
 		});
+
+		$("#tableImgAttachmentHolder").addClass("hide");
+
 		//selectProdCategory
 		$("#selectProdCategory").val(-1);
 		//txtProdTagline
@@ -39,8 +42,6 @@ function()
 			$(this).prop('checked',false);
 		})
 	}
-	
-	
 	
 	/*
 	* Prevent the user from checking more than two products for swapping
@@ -173,13 +174,23 @@ function()
 					
 					getProdInfo.success(function(data){
 						resp = JSON.parse(data);
+						
 						//check if the product was updated by searching for id
 						//if found then update this information
 						var infoUpdated=false;
 						$("input.product[data-id='"+resp.message.id+"']").each(function(){
 						infoUpdated=true;
 						$(this).siblings("#spanProdName").html(resp.message.name);
-						$(this).parents(".divProdHolder").find("#imgKeyProd").attr("src",resp.message.images[0].url);
+						var prodImgHolder = $(this).parents(".divProdHolder").find("#imgKeyProd");
+						$.each(resp.message.images, function(key,value){
+							if(value.pivot.is_key=="1")
+							{
+								prodImgHolder.attr("src",value.url);
+								return false;								
+							}
+						});
+
+						
 						});
 						//if info is updated then
 						if(!infoUpdated)
@@ -283,7 +294,7 @@ function()
 					newName=fOriginal+"~#~"+fLoaded;
 					spanWithImgInfo = $("span[id='spanIncludeFileName']:contains('"+fOriginal+"')");
 					spanWithImgInfo.siblings("img[id='imgUploader']").addClass("hide");
-					siblingCheckBox = spanWithImgInfo.siblings("input[id='chkIncludeFile']");
+					siblingCheckBox = spanWithImgInfo.parents("#trAttachmentNewProdImg").find("input[id='chkIncludeFile']");
 					siblingCheckBox.attr("data-name",fOriginal);
 					siblingCheckBox.attr("data-url",fLoaded);
 					fnCheckAndEnableAddProductButton();
@@ -318,15 +329,26 @@ function()
 		else
 		{	fName = fileName;	}
 		
-		divNewAttachmentClone = $("#divAttachmentTemplate").clone();
-		divNewAttachmentClone.attr("id","divAttachmentNewProdImg");
-		divNewAttachmentClone.find("#spanIncludeFileName").text(fName);
-		divNewAttachmentClone.find("#imgUploaderTemplate").attr("id","imgUploader");
-		divNewAttachmentClone.find("#chkIncludeFile").prop("checked",true);
+		trNewAttachmentClone = $("#trImgAttachmentTemplate").clone();
+		trNewAttachmentClone.attr("id","trAttachmentNewProdImg");
+		trNewAttachmentClone.find("#spanIncludeFileName").text(fName);
+		trNewAttachmentClone.find("#imgUploaderTemplate").attr("id","imgUploader");
+		trNewAttachmentClone.find("#chkIncludeFile").prop("checked",true);
+
+		trNewAttachmentClone.find("#radioKeyImage").on("change",function(event){
+		if($("input[id='radioKeyImage']:checked").length>1)
+		{
+			$("input[id='radioKeyImage']").each(function(index){
+				$(this).prop('checked',false);
+			});
+			$(this).prop('checked',true);
+		}
+		});
 		
 		
-		divNewAttachmentClone.removeClass("hide");
-		divNewAttachmentClone.prependTo("#divNewAttachmentHolder");
+
+		$("#tableImgAttachmentHolder").removeClass("hide");
+		trNewAttachmentClone.prependTo("#tBodyImgAttachmentHolder");
 		
 		$('#btnAddProduct').attr('disabled','disabled');
 		
@@ -337,10 +359,14 @@ function()
 	function fnGetAssociatedProdURLs()
 	{
 		var retVal="";		
-		$("#divAttachmentNewProdImg input:checked").each(function(index){
-			if($(this).attr("data-url")!="")
-			{retVal+=$(this).attr("data-id")+"~#~"+$(this).attr("data-name")+"~#~"+$(this).attr("data-url")+","}
+		$("#trAttachmentNewProdImg input:checked").each(function(index){
+			if($(this).attr("data-url")!="" && $(this).attr("data-url")!=undefined)
+			{
+				var isKey = $(this).parents("#trAttachmentNewProdImg").find("#radioKeyImage").prop('checked')?"1":"0";
+				retVal+=$(this).attr("data-id")+"~#~"+$(this).attr("data-name")+"~#~"+$(this).attr("data-url")+ "~#~" + isKey +",";
+			}
 			});
+
 		return retVal;
 	}
 	
@@ -394,21 +420,43 @@ function()
 					for(var imgIndex=0;imgIndex<resp.message.images.length;imgIndex++)
 					{
 						
-						divNewAttachmentClone = $("#divAttachmentTemplate").clone();
-						divNewAttachmentClone.attr("id","divAttachmentNewProdImg");
-						divNewAttachmentClone.find("#spanIncludeFileName").text(resp.message.images[imgIndex].name);
-						divNewAttachmentClone.find("#imgUploaderTemplate").addClass("hide");						
-						divNewAttachmentClone.removeClass("hide");
+						
+						trNewAttachmentClone = $("#trImgAttachmentTemplate").clone();
+						trNewAttachmentClone.attr("id","trAttachmentNewProdImg");
+						trNewAttachmentClone.find("#spanIncludeFileName").text(resp.message.images[imgIndex].name);
+						trNewAttachmentClone.find("#imgUploaderTemplate").addClass("hide");						
 
 						//add information to checkbox as well
 
-						imgCheckBox = divNewAttachmentClone.find("input[id='chkIncludeFile']");
+						imgCheckBox = trNewAttachmentClone.find("input[id='chkIncludeFile']");
 						imgCheckBox.attr("data-name",resp.message.images[imgIndex].name);
 						imgCheckBox.attr("data-url",resp.message.images[imgIndex].url);
 						imgCheckBox.attr("data-id",resp.message.images[imgIndex].id);
 						imgCheckBox.prop("checked",true);
 
-						divNewAttachmentClone.prependTo("#divNewAttachmentHolder");						
+
+						radioIsKey = trNewAttachmentClone.find("input[id='radioKeyImage']");
+						if(resp.message.images[imgIndex].pivot.is_key=="1")
+						{
+							radioIsKey.prop("checked",true);							
+						}
+
+						trNewAttachmentClone.prependTo("#tBodyImgAttachmentHolder");
+
+
+						trNewAttachmentClone.find("#radioKeyImage").on("change",function(event){
+						if($("input[id='radioKeyImage']:checked").length>1)
+						{
+							$("input[id='radioKeyImage']").each(function(index){
+								$(this).prop('checked',false);
+							});
+							$(this).prop('checked',true);
+						}
+						});
+
+
+
+						$("#tableImgAttachmentHolder").removeClass("hide");
 					}
 
 					

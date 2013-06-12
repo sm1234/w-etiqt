@@ -48,7 +48,7 @@ public function tags()
  * */
 public function images()
 {
-	return $this->has_many_and_belongs_to('Image','image_product','product_id','image_id')->with('key');
+	return $this->has_many_and_belongs_to('Image','image_product','product_id','image_id')->with('is_key');
 }
 
 /*
@@ -85,7 +85,7 @@ public static function getProductDetails($id=null)
 			$productData = "";
 			if($id==null)
 			{
-				$productData = json_decode(eloquent_to_json(Product::where_status('1')->get()));
+				$productData = json_decode(eloquent_to_json(Product::with(array('images'=>function($query){$query->where_status('1');}))->where_status('1')->get()));
 			}
 			else
 			{
@@ -175,7 +175,7 @@ public static function addProduct($input)
 						$img->url=$ImageDet[2];
 						$img->save();
 						//save product image
-						$prod->images()->attach($img->id,array("key"=>1));						
+						$prod->images()->attach($img->id,array("is_key"=>$ImageDet[3]));
 					}
 				}
 				$retVal["message"] = array("productId"=>$prod->id);
@@ -337,10 +337,13 @@ public static function updateProduct($input)
 				$prod->save();
 				
 				
+
+				/*TODO: This should be changed to sync*/
+				$prod->images()->delete();				
 				//attach product to the image
 				//break the delimiter ~ and fetch individual imageIds
 				$ImageURLs = explode(",",$prodImgIds);
-				$ImgIds = array();
+
 				foreach ($ImageURLs as $url)
 				{
 					if($url!="")
@@ -352,22 +355,21 @@ public static function updateProduct($input)
 							$img->name=$ImageDet[1];
 							$img->url=$ImageDet[2];
 							$img->save();
-							//$ImgIds[$img->id] = array('key' =>1);
-							array_push($ImgIds, $img->id);
-							//save product image																					
+							
+							$prod->images()->attach($img->id,array("is_key"=>$ImageDet[3]));
+							//save product image
 						}
 						else 
 						{
 							//create a new 
-							array_push($ImgIds, $ImageDet[0]);
+							$prod->images()->attach($ImageDet[0],array("is_key"=>$ImageDet[3]));
 						}
 						
 					}
 				}
-				/*TODO: This should be changed to sync*/
-				$prod->images()->delete();
-				foreach($ImgIds as $prodImg)
-				$prod->images()->attach($prodImg,array("key"=>1));
+
+				
+				
 
 				$retVal["message"] = array("productId"=>$prod->id);
 				

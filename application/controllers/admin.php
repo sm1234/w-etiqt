@@ -12,7 +12,7 @@ class Admin_Controller extends Base_Controller {
 	public function get_productsTab()
 	{
 		$allcategories = Category::with('products')->where_status('1')->order_by('created_at','desc')->get();
-		$allProducts = Product::with(array('images'=>function($query){$query->where_status('1')->where_key('1');}))->order_by('row_num','asc')->where_status('1')->order_by('col_num','asc')->get();
+		$allProducts = Product::with(array('images'=>function($query){$query->where_status('1');}))->order_by('row_num','asc')->where_status('1')->order_by('col_num','asc')->get();
 		return View::make('test.tabtest.adminproducts')->with('productsData',$allProducts)->with('categoriesData',$allcategories);
 	}
 	
